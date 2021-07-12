@@ -17,10 +17,10 @@ def custom_exception_handler(exc, context):
     if isinstance(exc, NotAuthenticated):
         request = context['request']
         return Response({"You are not logged in!": {
-            "register": f"{request.build_absolute_uri()}api/register/",
-            "login": f"{request.build_absolute_uri()}api/login/",
-            "facebook": f"{request.build_absolute_uri()}api/facebook/",
-            "google": f"{request.build_absolute_uri()}api/google/",
+            "register": f"{request.build_absolute_uri()}auth/register/",
+            "login": f"{request.build_absolute_uri()}auth/login/",
+            "facebook": f"{request.build_absolute_uri()}auth/facebook/",
+            "google": f"{request.build_absolute_uri()}auth/google/",
         }}, status=401)
 
     return exception_handler(exc, context)
@@ -39,9 +39,9 @@ class APIRoot(routers.APIRootView):
                     "workouts": f"{request.build_absolute_uri()}workouts/",
                     "tasks": f"{request.build_absolute_uri()}tasks/",
                     "bmi": f"{request.build_absolute_uri()}bmi/",
-                    "documentation": f"{request.build_absolute_uri()}api/docs/",
-                    "schema": f"{request.build_absolute_uri()}api/schema/",
-                    "logout": f"{request.build_absolute_uri()}api/logout/",
+                    "documentation": f"{request.build_absolute_uri()}docs/",
+                    "schema": f"{request.build_absolute_uri()}schema/",
+                    "logout": f"{request.build_absolute_uri()}auth/logout/",
                 }
             })
 
@@ -65,12 +65,12 @@ urlpatterns = [
     path('', include(router.urls)),
     url(r'^accounts/', include('allauth.urls'), name='socialaccount_signup'),
     url(r'^auth/', include('rest_framework_social_oauth2.urls')),
-    path('api/', include('rest_auth.urls')),
-    path('api/register/', include('rest_auth.registration.urls')),
-    path('api/facebook/', views.FacebookLogin.as_view(), name='fb_login'),
-    path('api/google/', views.GoogleLogin.as_view(), name='google_login'),
-    path('api/docs/', include_docs_urls(title=API_TITLE, description=API_DESCRIPTION)), 
-    path('api/schema/', schema_view),
+    path('auth/', include('rest_auth.urls')),
+    path('auth/register/', include('rest_auth.registration.urls')),
+    path('auth/facebook/', views.FacebookLogin.as_view(), name='fb_login'),
+    path('auth/google/', views.GoogleLogin.as_view(), name='google_login'),
+    path('docs/', include_docs_urls(title=API_TITLE, description=API_DESCRIPTION)), 
+    path('schema/', schema_view),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
