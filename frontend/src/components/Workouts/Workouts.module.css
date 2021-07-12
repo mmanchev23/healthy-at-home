@@ -1,0 +1,15 @@
+.parrent {
+    max-width: 1000px;
+    width: 100%;
+    margin: 30px auto;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 20px;
+    grid-column: 3;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.button {
+    color: #fff;
+}
