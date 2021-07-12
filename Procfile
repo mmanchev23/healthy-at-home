@@ -1,0 +1,1 @@
+web: gunicorn healthy-at-home2.backend.backend.wsgi
