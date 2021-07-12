@@ -22,7 +22,7 @@ const Task = () => {
             </div>
         );
     } else if(tasks.length === 0) {
-        fetch('https://healthy-at-home2.herokuapp.com/tasks/', {
+        fetch('http://127.0.0.1:8000/api/v1/tasks/', {
             method: "GET",
             headers: {
                 'Authorization': `Token ${sessionStorage.getItem("key")}`

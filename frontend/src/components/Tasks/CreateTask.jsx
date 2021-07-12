@@ -28,7 +28,7 @@ const EditWorkout = () => {
             redirect: 'follow'
         };
 
-        fetch(`https://healthy-at-home2.herokuapp.com/tasks/`, requestOptions)
+        fetch(`http://127.0.0.1:8000/api/v1/tasks/`, requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));

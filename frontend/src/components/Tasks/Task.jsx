@@ -8,7 +8,7 @@ const Task = (props) => {
     const history = useHistory();
 
     if (task.length === 0) {
-        fetch(`https://healthy-at-home2.herokuapp.com/tasks/${id}`, {
+        fetch(`http://127.0.0.1:8000/api/v1/tasks/${id}`, {
             method: "GET",
             headers: {
                 'Authorization': `Token ${sessionStorage.getItem("key")}`

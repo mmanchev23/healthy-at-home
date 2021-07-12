@@ -10,7 +10,7 @@ const DeleteWorkout = (props) => {
     const handleDelete = (e) => {
         e.preventDefault();
 
-        fetch(`https://healthy-at-home2.herokuapp.com/workouts/${id}`, {
+        fetch(`http://127.0.0.1:8000/api/v1/workouts/${id}`, {
             method: "DELETE",
             headers: {
                 'Authorization': `Token ${sessionStorage.getItem("key")}`
