@@ -18,7 +18,7 @@ const EditWorkout = (props) => {
     if (workout === undefined) {
         return "Something went wrong!";
     } else if (workout.length === 0) {
-        fetch(`https://healthy-at-home2.herokuapp.com/workouts/${id}`, {
+        fetch(`http://127.0.0.1:8000/api/v1/workouts/${id}`, {
             method: "GET",
             headers: {
                 'Authorization': `Token ${sessionStorage.getItem("key")}`
@@ -49,7 +49,7 @@ const EditWorkout = (props) => {
             redirect: 'follow'
         };
 
-        fetch(`https://healthy-at-home2.herokuapp.com/workouts/${id}/`, requestOptions)
+        fetch(`http://127.0.0.1:8000/api/v1/workouts/${id}/`, requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));

@@ -7,7 +7,7 @@ const GoogleLogInButton = () => {
   const history = useHistory();
 
   const googleLogin = async response => {
-    await axios.post("https://healthy-at-home2.herokuapp.com/api/google/", { access_token: response.accessToken })
+    await axios.post("http://127.0.0.1:8000/api/v1/auth/google/", { access_token: response.accessToken })
     .then(response => {
       sessionStorage.setItem("key", response.data.key);
 

@@ -16,7 +16,7 @@ const Register = () => {
         e.preventDefault();
         setLoading(true);
     
-        await axios.post("https://healthy-at-home2.herokuapp.com/api/register/", { username, password1, password2 })
+        await axios.post("http://127.0.0.1:8000/api/v1/auth/register/", { username, password1, password2 })
         .then(response => {
             sessionStorage.setItem("key", response.data.key);
             setLoading(false);

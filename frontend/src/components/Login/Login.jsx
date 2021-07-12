@@ -17,8 +17,8 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    // await axios.post("http://127.0.0.1:8000/api/login/", { username, password })
-    await axios.post("https://healthy-at-home2.herokuapp.com/api/login/", { username, password })
+    // await axios.post("http://127.0.0.1:8000/api/v1/api/login/", { username, password })
+    await axios.post("http://127.0.0.1:8000/api/v1/auth/login/", { username, password })
     .then(response => {
       sessionStorage.setItem("key", response.data.key);
       setLoading(false);
