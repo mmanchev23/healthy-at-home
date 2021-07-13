@@ -17,7 +17,6 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    // await axios.post("http://127.0.0.1:8000/api/v1/api/login/", { username, password })
     await axios.post("http://127.0.0.1:8000/api/v1/auth/login/", { username, password })
     .then(response => {
       sessionStorage.setItem("key", response.data.key);
@@ -61,8 +60,8 @@ const Login = () => {
               </FormGroup>
           </ModalBody>
           <ModalFooter>
-            <FacebookLogInButton/>
-            <GoogleLogInButton/>
+            {/* <FacebookLogInButton/>
+            <GoogleLogInButton/> */}
             <Button color="success" type="submit" onClick={handleLogin} disabled={!(username && password)}>{loading ? <Spinner color="primary"/> : "Log in"}</Button>
             <Button color="danger" type="submit" onClick={goBack}> No, bring me back </Button>
             <ToastContainer/>
