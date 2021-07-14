@@ -18,7 +18,7 @@ const EditWorkout = (props) => {
     if (workout === undefined) {
         return "Something went wrong!";
     } else if (workout.length === 0) {
-        fetch(`http://127.0.0.1:8000/api/v1/workouts/${id}`, {
+        fetch(`http://127.0.0.1:8000/workouts/${id}`, {
             method: "GET",
             headers: {
                 'Authorization': `Token ${sessionStorage.getItem("key")}`
@@ -96,8 +96,7 @@ const EditWorkout = (props) => {
                 <Input type="text" onChange={(e) => setExercises(e.target.value)} placeholder={workout.exercises}/>
             </FormGroup>
             <FormGroup>
-                <Label>Public: </Label>
-                <Input type="checkbox" onChange={(e) => setPublic(e.target.value)} checked={workout.is_public}/>
+                <Input type="checkbox" onChange={(e) => setPublic(e.target.value)} checked={workout.is_public}/>Public
             </FormGroup>
             <ToastContainer/>
             </Form>

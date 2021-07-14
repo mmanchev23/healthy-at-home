@@ -8,7 +8,7 @@ const Workout = (props) => {
     const history = useHistory();
 
     if (workout.length === 0) {
-        fetch(`http://127.0.0.1:8000/api/v1/workouts/${id}`, {
+        fetch(`http://127.0.0.1:8000/workouts/${id}`, {
             method: "GET",
             headers: {
                 'Authorization': `Token ${sessionStorage.getItem("key")}`

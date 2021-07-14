@@ -22,7 +22,7 @@ const Workouts = () => {
             </div>
         );
     } else if(workouts.length === 0) {
-        fetch('http://127.0.0.1:8000/api/v1/workouts/', {
+        fetch('http://127.0.0.1:8000/workouts/', {
             method: "GET",
             headers: {
                 'Authorization': `Token ${sessionStorage.getItem("key")}`

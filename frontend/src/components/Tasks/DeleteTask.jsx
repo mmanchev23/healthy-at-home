@@ -10,7 +10,7 @@ const DeleteTask = (props) => {
     const handleDelete = (e) => {
         e.preventDefault();
 
-        fetch(`http://127.0.0.1:8000/api/v1/tasks/${id}`, {
+        fetch(`http://127.0.0.1:8000/tasks/${id}`, {
             method: "DELETE",
             headers: {
                 'Authorization': `Token ${sessionStorage.getItem("key")}`

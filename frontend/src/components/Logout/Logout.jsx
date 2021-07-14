@@ -7,12 +7,7 @@ const Logout = () => {
 
     const handleLogout = () => {
         sessionStorage.clear();
-        history.push({
-            pathname: "/",
-            state: {
-              message: "You have logged out successfully!"
-            }
-        });
+        history.push("/");
         window.location.reload();
     }
 

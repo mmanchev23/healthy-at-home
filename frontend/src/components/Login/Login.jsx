@@ -5,7 +5,7 @@ import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GoogleLogInButton from '../Google/GoogleLogInButton';
 import FacebookLogInButton from '../Facebook/FacebookLogInButton';
-import { Button, Form, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input, Spinner } from "reactstrap";
+import { Button, Form, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input } from "reactstrap";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -17,17 +17,12 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    await axios.post("http://127.0.0.1:8000/api/v1/auth/login/", { username, password })
+    await axios.post("http://127.0.0.1:8000/api/login/", { username, password })
     .then(response => {
       sessionStorage.setItem("key", response.data.key);
       setLoading(false);
     
-      history.push({
-        pathname: "/",
-        state: {
-          message: "You have logged in successfully!"
-        }
-      });
+      history.push("/");
       
       window.location.reload();
     })
@@ -62,8 +57,8 @@ const Login = () => {
           <ModalFooter>
             {/* <FacebookLogInButton/>
             <GoogleLogInButton/> */}
-            <Button color="success" type="submit" onClick={handleLogin} disabled={!(username && password)}>{loading ? <Spinner color="primary"/> : "Log in"}</Button>
-            <Button color="danger" type="submit" onClick={goBack}> No, bring me back </Button>
+            <Button color="success" type="submit" onClick={handleLogin} disabled={!(username && password)}>Log in</Button>
+            <Button color="danger" type="submit" onClick={goBack}>No, bring me back</Button>
             <ToastContainer/>
           </ModalFooter>
         </Form>

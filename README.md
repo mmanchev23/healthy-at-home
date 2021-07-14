@@ -1,11 +1,13 @@
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/mmanchev23/healthy-at-home2/blob/master/LICENSE)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/mmanchev23/healthy-at-home2/graphs/commit-activity)
 
-# Healthy at Home 2
+# **Healthy at Home 2**
 
-## Healthy at Home 2 is the second (reworked) version </br> of the main project and idea [Healthy at Home](https://github.com/mmanchev23/healthy-at-home).
+## Second version of the main project [Healthy at Home](https://github.com/mmanchev23/healthy-at-home).
 
-### Technologies
+<br/>
+
+### **Technologies**
 <ul>
     <li>
         Programming Languages - Python, Javascript, HTML5, CSS3

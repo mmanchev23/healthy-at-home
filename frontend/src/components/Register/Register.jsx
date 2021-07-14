@@ -16,17 +16,12 @@ const Register = () => {
         e.preventDefault();
         setLoading(true);
     
-        await axios.post("http://127.0.0.1:8000/api/v1/auth/register/", { username, password1, password2 })
+        await axios.post("http://127.0.0.1:8000/api/register/", { username, password1, password2 })
         .then(response => {
             sessionStorage.setItem("key", response.data.key);
             setLoading(false);
         
-            history.push({
-                pathname: "/",
-                state: {
-                    message: "You have registered successfully!"
-                }
-            });
+            history.push("/");
             window.location.reload();
         })
         .catch(() => {
