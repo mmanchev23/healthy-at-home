@@ -16,6 +16,7 @@ import Task from './components/Tasks/Task';
 import EditTask from './components/Tasks/EditTask';
 import CreateTask from './components/Tasks/CreateTask';
 import DeleteTask from './components/Tasks/DeleteTask';
+import CalorieCounter from './components/Profile/CalorieCounter';
 
 const App = () => {
   return (
@@ -53,6 +54,8 @@ const App = () => {
           <Route exact path="/logout" component={Logout} />
 
           <Route exact path="/profile" component={Profile} />
+
+          <Route exact path="/calorie-counter" component={CalorieCounter}/>
         </Switch>
       </Router>
     </div>
