@@ -49,7 +49,7 @@ const EditWorkout = (props) => {
             redirect: 'follow'
         };
 
-        fetch(`http://127.0.0.1:8000/api/v1/workouts/${id}/`, requestOptions)
+        fetch(`http://127.0.0.1:8000/workouts/${id}/`, requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));

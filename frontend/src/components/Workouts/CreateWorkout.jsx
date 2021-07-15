@@ -1,38 +1,62 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Button, Form, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input } from "reactstrap";
 
 const CreateWorkout = () => {
+  const history = useHistory();
   const [title, setTitle] = useState("");
   const [workout_image, setWorkoutImage] = useState("");
   const [video_url, setVideoURL] = useState("");
   const [description, setDescription] = useState("");
   const [exercises, setExercises] = useState("");
   const [is_public, setPublic] = useState(false);
-  const history = useHistory();
-  const [hoverImage, setHoverImage] = useState(false);
-  const [hoverVideo, setHoverVideo] = useState(false);
 
-  const onHoverImage = () => {
-    setHoverImage(true);
-  };
-
-  const onLeaveImage = () => {
-    setHoverImage(false);
-  };
-
-  const onHoverVideo = () => {
-    setHoverVideo(true);
-  };
-
-  const onLeaveVideo = () => {
-    setHoverVideo(false);
-  };
-
-  const handleCreate = (e) => {
+  const handleCreate = async e => {
     e.preventDefault();
+
+    // await axios.post("http://127.0.0.1:8000/workouts/",
+    // {
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': `Token ${sessionStorage.getItem("key")}`
+    //   },
+    //   body: {
+    //     "title": title,
+    //     "workout_image": workout_image,
+    //     "video_url": video_url,
+    //     "description": description,
+    //     "exercises": exercises,
+    //     "video_url": video_url,
+    //     "public": is_public
+    //   },
+    //   redirect: 'follow'
+    // })
+    // .then(response => {
+    //   console.log(response);
+
+    //   toast.success("Workout created successfully...", {
+    //       transition: Slide,
+    //       position: "top-right",
+    //       autoClose: 2500
+    //   });
+
+    //   setTimeout(() => {
+    //       history.push("/workouts");
+    //       window.location.reload();
+    //   }, 2500);
+    // })
+    // .catch(error => {
+    //   console.log(error);
+      
+    //   toast.error("An error occured! Please try again...", {
+    //     transition: Slide,
+    //     position: "top-right",
+    //     autoClose: 2500
+    //   });
+    // });
 
     var myHeaders = new Headers();
     myHeaders.append("Authorization", `Token ${sessionStorage.getItem("key")}`);
@@ -55,19 +79,27 @@ const CreateWorkout = () => {
 
     fetch("http://127.0.0.1:8000/workouts/", requestOptions)
     .then(response => response.text())
-    .then(result => console.log(result))
-    .catch(error => console.log('error', error));
-
-    setTimeout(() => {
-        history.push("/workouts");
-        window.location.reload();
-    }, 2500);
-
-    toast.success("Workout created successfully...", {
+    .then(result => {
+      console.log(result);
+      toast.success("Workout created successfully...", {
         transition: Slide,
         position: "top-right",
         autoClose: 2500
+      });
+    
+      setTimeout(() => {
+        history.push("/workouts");
+        window.location.reload();
+      }, 2500);
     })
+    .catch(error => {
+      console.log(error);
+      toast.error("An error occured! Please try again...", {
+        transition: Slide,
+        position: "top-right",
+        autoClose: 2500
+      });
+    });
   }
 
   const handleBack = (e) => {
@@ -85,13 +117,11 @@ const CreateWorkout = () => {
             <Input type="text" onChange={(e) => setTitle(e.target.value)} placeholder="Enter title"/>
           </FormGroup>
           <FormGroup>
-            <Input type="file" onChange={(e) => setWorkoutImage(e.target.value)} placeholder="Enter Image file" onMouseEnter={onHoverImage} onMouseLeave={onLeaveImage}/>
-            
+            <Input type="file" onChange={(e) => setWorkoutImage(e.target.value)} placeholder="If you don't have an image, we will provide a default one for you."/>
           </FormGroup>
           <FormGroup>
             <Label>Video</Label>
-            <Input type="link" onChange={(e) => setVideoURL(e.target.value)} placeholder="Enter Video link" onMouseEnter={onHoverVideo} onMouseLeave={onLeaveVideo}/>
-            
+            <Input type="link" onChange={(e) => setVideoURL(e.target.value)} placeholder="If you don't have a video, we will provide a default one for you."/>
           </FormGroup>
           <FormGroup>
             <Label>Description</Label>
@@ -103,23 +133,13 @@ const CreateWorkout = () => {
           </FormGroup>
           <FormGroup>
             <Input type="checkbox" onChange={(e) => setPublic(e.target.value)}/>
-            <Label> Public</Label>
-          </FormGroup>
-          <FormGroup>
-            {hoverImage && <div style={{
-              textAlign: "center",
-              color: "red",
-            }}>Notice! <br></br> If you don't have an image file, <br></br> we will provide default one for you!</div>}
-            {hoverVideo && <div style={{
-              textAlign: "center",
-              color: "red",
-            }}>Notice! <br></br> If you don't have a video url, <br></br> we will provide default one for you!</div>}
+            <Label>Public</Label>
           </FormGroup>
           <ToastContainer/>
         </Form>
       </ModalBody>
       <ModalFooter>
-        <Button color="success" type="submit" onClick={handleCreate} disabled={!(title && description && exercises)}> Create Workout </Button>
+        <Button color="success" type="submit" onClick={handleCreate} disabled={!(title && description && exercises)}>Create Workout</Button>
         <Button color="danger" type="submit" onClick={handleBack}> Bring me back </Button>
         <ToastContainer/>
       </ModalFooter>

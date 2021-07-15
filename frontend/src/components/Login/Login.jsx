@@ -3,35 +3,45 @@ import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import { ToastContainer, toast, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import GoogleLogInButton from '../Google/GoogleLogInButton';
-import FacebookLogInButton from '../Facebook/FacebookLogInButton';
+// import GoogleLogInButton from '../Google/GoogleLogInButton';
+// import FacebookLogInButton from '../Facebook/FacebookLogInButton';
 import { Button, Form, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input } from "reactstrap";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   const handleLogin = async e => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
 
     await axios.post("http://127.0.0.1:8000/api/login/", { username, password })
     .then(response => {
       sessionStorage.setItem("key", response.data.key);
-      setLoading(false);
-    
-      history.push("/");
-      
-      window.location.reload();
+      // setLoading(false);
+
+      toast.success("You have logged in successfully!", {
+        transition: Slide,
+        position: "top-right",
+        autoClose: 5000
+      });
+
+      setInterval(() => {
+        history.push("/");
+        window.location.reload();
+      }, 5000);
     })
-    .catch(error => 
+    .catch(error => {
+      console.log(error);
+      
       toast.error("Invalid credentials!", {
         transition: Slide,
         position: "top-right",
         autoClose: 5000
-    }));
+      })
+    });
   }
 
   const goBack = (e) => {
