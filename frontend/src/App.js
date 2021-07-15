@@ -1,3 +1,5 @@
+import './App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import HomePage from './components/HomePage/HomePage'
 import Workouts from './components/Workouts/Workouts';
 import Workout from './components/Workouts/Workout';
@@ -7,8 +9,6 @@ import Login from './components/Login/Login';
 import Logout from './components/Logout/Logout';
 import Profile from './components/Profile/Profile';
 import Navbar from './components/Navbar/Navbar';
-import './App.css';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import DeleteWorkout from './components/Workouts/DeleteWorkout';
 import CreateWorkout from './components/Workouts/CreateWorkout';
 import EditWorkout from './components/Workouts/EditWorkout';
@@ -22,8 +22,11 @@ const App = () => {
   return (
     <div className="App">
       <Router>
+
+        {/* Navbar component */}
         <Navbar/>
 
+        {/* Routing */}
         <Switch>
           <Route exact path="/" component={HomePage} />
 
