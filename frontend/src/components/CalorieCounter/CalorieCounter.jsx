@@ -22,7 +22,7 @@ const CalorieCounter = () => {
     }
     
     const addFood = () => {
-        history.push("/food");
+        history.push("/meals");
     }
 
     const goBack = (e) => {
@@ -44,7 +44,7 @@ const CalorieCounter = () => {
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" type="submit" onClick={calculateBMI}>Calculate BMI</Button>
-                    <Button color="success" type="submit" onClick={addFood}>Add Food</Button>
+                    <Button color="success" type="submit" onClick={addFood}>Meals</Button>
                     <Button color="danger" type="submit" onClick={goBack}>Bring me back</Button>
                 </ModalFooter>
             </Form>
