@@ -1,11 +1,9 @@
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/mmanchev23/healthy-at-home2/blob/master/LICENSE)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/mmanchev23/healthy-at-home2/graphs/commit-activity)
-[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
-[![made-with-javascript](https://img.shields.io/badge/Made%20with-JavaScript-1f425f.svg)](https://www.javascript.com)
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/mmanchev23/healthy-at-home2)
 
-# **Healthy at Home 2**
+# **Healthy at Home 2** - hobby project
 
-## **Rework of ["Healthy at Home"](https://github.com/mmanchev23/healthy-at-home)**
+## The second version of ["Healthy at Home"](https://github.com/mmanchev23/healthy-at-home), reworked with Django REST Framework and React.js
 
 ### **Technologies**
 <ul>
@@ -22,8 +20,6 @@
         <br/>
         <img alt="Django" src="https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white"/>
         <img alt="React" src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB"/>
-        <img alt="Node.js" src="https://img.shields.io/badge/node.js-%2343853D.svg?style=for-the-badge&logo=node.js&logoColor=white"/>
-        <img alt="NPM" src="https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white"/>
     </li>
     <li>
         API/Testing - Django Rest Framework, Postman
@@ -57,113 +53,27 @@
 </ul>
 
 ### **How to start the backend application locally?**
-<ol>
-    <li>
-        You should install Python in order to run the app.
-        <br/>
-        <code>
-            <u>https://www.python.org/downloads/</u>
-        </code>
-    </li>
-    <li>
-        Open the project in console, IDE or text editor.
-    </li>
-    <li>
-        Install virtual environment (if you haven't already!!!) in the backend folder. My virtual environment of choice is "Pipenv", but feel free to use other as well.
-        <br/>
-        <code>
-            pip install pipenv
-        </code>
-    </li>
-    <li>
-        Open the virtual environment.
-        <br/>
-        <code>
-            pipenv shell
-        </code>
-    </li>
-    <li>
-        Install the required packages:
-        <br/>
-        <code>
-            pipenv install -r requirements.py
-        </code>
-    </li>
-    <li>
-        Run the following commands:
-        <br/>
-        <code>
-            1. python manage.py makemigrations
-        </code>
-        <br/>
-        <code>
-            2. python manage.py migrate
-        </code>
-        <br/>
-        <code>
-            3. python manage.py runserver
-        </code>
-    </li>
-    <li>
-        Open the following link:
-        <br/>
-        <code>
-            <u>http://127.0.0.1:8000/</u>
-        </code>
-    </li>
-</ol>
+1. Install [Python](https://www.python.org/downloads/)
+2. Open the folder with the project inside and install the required packages in a virtual environment:
+   - `pip install -r requirements.txt`
+3. Run the following commands:
+   1. `python manage.py makemigrations`
+   2. `python manage.py migrate`
+   3. `python manage.py runserver`
 
 ### **How to start the frontend application locally?**
-<ol>
-    <li>
-        You should install Node.js in order to run the app.
-        <br/>
-        <code>
-            <u>https://nodejs.org/en/download/</u>
-        </code>
-    </li>
-    <li>
-        Navigate to the frontend folder
-        <br/>
-        <code>
-            cd frontend
-        </code>
-    </li>
-    <li>
-        Run the following commands:
-        <br/>
-        <code>
-            1. npm install
-        </code>
-        <br/>
-        <code>
-            2. npm start
-        </code>
-    </li>
-    <li>
-        Open the following link:
-        <br/>
-        <code>
-            <u>http://localhost:3000/</u>
-        </code>
-    </li>
-</ol>
+1. Install [Node.js](https://nodejs.org/en/download/)
+2. Open the folder with the project inside and run the following commands:
+   1. `npm install`
+   2. `npm start`
 
 ### **Files & Directories**
-- `backend` - backend application folder
-  - `api` - app folder
-  - `backend` - project folder
-  - `db.sqlite3` - the database
-  - `manage.py` - the startpoint file
-  - `Pipfile` - the virtual environment
-  - `Pipfile.lock` - the lock for the virtual environment
-  - `Procfile` - the main deployment file
-  - `requirements.txt` - the file container for all the necessery packages
-- `frontend` - frontend application folder
-  - `public` - static files folder
-  - `src` - components folder
-  - `.gitignore` - git ignore file
-  - `package-lock.json` - lock for the node.js and npm environment
-  - `package.json` - node.js and npm environment
-- `LICENSE` - license file
-- `README.md` - documentation file
+- `api` - python/django application folder
+- `backend` - python/django project folder
+- `public` - javascript/react static files folder
+- `src` - javascript/react component files folder
+- `.gitignore` - git ignore file
+- `manage.py` - python/django project start-point file
+- `package-lock.json` - virtual environment lock for the javascript/react project
+- `package.json` - virtual environment for the javascript/react project
+- `requirements.txt` - file containing the required packages for the python/django project
