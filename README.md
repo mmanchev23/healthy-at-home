@@ -1,9 +1,7 @@
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/mmanchev23/healthy-at-home2/blob/master/LICENSE)
 [![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/mmanchev23/healthy-at-home2)
 
-# **Healthy at Home 2** - Hobby project
-
-## Fitness-oriented at-home-conditions web application. Hobby project, made with Django REST Framework and React.js
+## **Healthy at Home 2** - Hobby project
 
 ### **Technologies**
 <ul>
@@ -55,10 +53,8 @@
 
 ### **How to start the backend application locally?**
 1. Install [Python](https://www.python.org/downloads/)
-2. Open the folder with the project inside and install the required packages in a virtual environment:
-   - `pip install -r requirements.txt`
-3. Run the following commands:
-   1. `python manage.py makemigrations`
+2. Open the folder with the project inside and run the following commands in a virtual environment: 
+   1. `pip install -r requirements.txt`
    2. `python manage.py migrate`
    3. `python manage.py runserver`
 
@@ -67,16 +63,3 @@
 2. Open the folder with the project inside and run the following commands:
    1. `npm install`
    2. `npm start`
-
-### **Files & Directories**
-- `api` - python/django application folder
-- `backend` - python/django project folder
-- `public` - javascript/react static files folder
-- `src` - javascript/react component files folder
-- `.gitignore` - git ignore file
-- `manage.py` - python/django project start-point file
-- `package-lock.json` - virtual environment lock for the javascript/react project
-- `package.json` - virtual environment for the javascript/react project
-- `Pipfile` - virtual environment for the python3/django project
-- `Pipfile.lock` - virtual environment lock for the python3/django project
-- `requirements.txt` - file containing the required packages for the python/django project
