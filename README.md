@@ -1,12 +1,14 @@
-[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/mmanchev23/healthy-at-home2/blob/master/LICENSE)
-[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/mmanchev23/healthy-at-home2)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/mmanchev23/healthy-at-home/blob/master/LICENSE)
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/mmanchev23/healthy-at-home)
 
-## **Healthy at Home 2** - Hobby project
+# Healthy at Home
+
+## Fitness-oriented at-home-conditions web application. This is the final project for Harvard's CS50's Web Programming with Python and JavaScript.
 
 ### **Technologies**
 <ul>
     <li>
-        Programming Languages - Python, Javascript, HTML5, CSS3
+        Programming Languages - Python, Javascript, HTML 5, CSS 3
         <br/>
         <img alt="Python" src="https://img.shields.io/badge/python-%2314354C.svg?style=for-the-badge&logo=python&logoColor=white"/>
         <img alt="JavaScript" src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/>
@@ -14,25 +16,15 @@
         <img alt="CSS3" src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white"/>
     </li>
     <li>
-        Frameworks, Platforms and Libraries - Django, React.js, NPM, Node.js
+        Framework and Database - Django and SQLite 3
         <br/>
         <img alt="Django" src="https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white"/>
-        <img alt="React" src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB"/>
-        <img alt="NPM" src="https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white"/>
-        <img alt="Node.js" src="https://img.shields.io/badge/node.js-%2343853D.svg?style=for-the-badge&logo=node.js&logoColor=white"/>
-    </li>
-    <li>
-        API, API Testing and Database - Django Rest Framework, Postman, SQLite 3
-        <br/>
-        <img alt="DjangoREST" src="https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray"/>
-        <img alt="Postman" src="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=red" />
         <img alt="SQLite" src ="https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white"/>
     </li>
     <li>
-        Deployment and Version Controll Systems - Heroku, Vercel, Git and Github
+        Deployment and Version Controll Systems - Heroku, Git and Github
         <br/>
         <img alt="Heroku" src="https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white"/>
-        <img alt="Vercel" src="https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white"/>
         <img alt="Git" src="https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white"/>
         <img alt="GitHub" src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white"/>
     </li>
@@ -57,9 +49,3 @@
    1. `pip install -r requirements.txt`
    2. `python manage.py migrate`
    3. `python manage.py runserver`
-
-### **How to start the frontend application locally?**
-1. Install [Node.js](https://nodejs.org/en/download/)
-2. Open the folder with the project inside and run the following commands:
-   1. `npm install`
-   2. `npm start`

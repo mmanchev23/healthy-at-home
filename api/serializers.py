@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.db.models import Sum
-from .models import *
+from app.models import *
 from decimal import Decimal
 
 

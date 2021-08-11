@@ -1,0 +1,49 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" id="logo" href="{% url 'index' %}">Healthy at Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        {% if user.is_authenticated %}
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa fa-home"></i> Home
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a style="text-align: center;" class="dropdown-item" href="{% url 'calorie_counters' %}"><i class="fa fa-heartbeat"></i> Calorie Counter</a></li>
+                  <li><a style="text-align: center;" class="dropdown-item" href="{% url 'bmis' %}"><i class="fa fa-calculator"></i> BMI Calculator</a></li>
+                  <li><a style="text-align: center;" class="dropdown-item" href="{% url 'tasks' %}"><i class="fa fa-check-square-o"></i> Tasks List</a></li>
+                  <li><a style="text-align: center;" class="dropdown-item" href="{% url 'workouts' %}"><i class="fa fa-trophy"></i> Workouts</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{ request.user.profile_picture.url }}" alt="Image not found..." id="profile-picture">
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                <li><a style="text-align: center;" class="dropdown-item" href="{% url 'profile' request.user.username %}"><i class="fa fa-address-card" aria-hidden="true"></i> {{ user.username }}</a></li>
+                {% if request.user.is_superuser %}
+                  <li><a style="text-align: center;" class="dropdown-item" href="{% url 'admin:index' %}"><i class="fa fa-cog"></i> Admin Panel</a></li>
+                {% endif %}
+                <li><a style="text-align: center;" class="dropdown-item" href="/api/"><i class="fa fa-file-code-o" aria-hidden="true"></i> API</a></li>
+                <li><a style="text-align: center;" class="dropdown-item" href="{% url 'logout' %}" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out"></i> Log out</a></li>
+              </ul>
+            </li>
+          </ul>
+        {% else %}
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a style="text-align: center;" class="nav-link" href="{% url 'register' %}" data-toggle="modal" data-target="#registerModal"><i class="fa fa-user-plus"></i> Register</a>
+            </li>
+            <li class="nav-item">
+              <a style="text-align: center;" class="nav-link" href="{% url 'login' %}" data-toggle="modal" data-target="#loginModal"><i class="fa fa-sign-in"></i> Log in</a>
+            </li>
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+</nav>
