@@ -6,9 +6,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
 
-    # API routing
-    path("api/", include("api.urls")),
-
     # Authentication routing
     path("", views.index_view, name="index"),
     path("admin/", admin.site.urls, name="admin"),

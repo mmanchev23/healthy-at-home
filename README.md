@@ -8,7 +8,7 @@
 ### **Technologies**
 <ul>
     <li>
-        Programming Languages - Python, Javascript, HTML 5, CSS 3
+        Programming Languages - Python 3, Javascript, HTML 5, CSS 3
         <br/>
         <img alt="Python" src="https://img.shields.io/badge/python-%2314354C.svg?style=for-the-badge&logo=python&logoColor=white"/>
         <img alt="JavaScript" src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E"/>
@@ -16,10 +16,16 @@
         <img alt="CSS3" src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white"/>
     </li>
     <li>
-        Framework and Database - Django and SQLite 3
+        Frameworks - Django, Django REST Framework
         <br/>
         <img alt="Django" src="https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white"/>
-        <img alt="SQLite" src ="https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white"/>
+        <img alt="Django REST Framework" src="https://img.shields.io/badge/DJANGO-REST-ff1709?style=for-the-badge&logo=django&logoColor=white&color=ff1709&labelColor=gray"/>
+    </li>
+    <li>
+        API Testing and Database - Postman and SQLite 3
+        <br/>
+        <img alt="Postman" src ="https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=red"/>
+        <img alt="SQLite3" src ="https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white"/>
     </li>
     <li>
         Deployment and Version Controll Systems - Heroku, Git and Github
