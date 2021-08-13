@@ -19,7 +19,6 @@ def register_view(request):
 def register_submit(request):
     if request.method == "POST":
         username = request.POST["username"]
-        email = request.POST["email"]
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
 
@@ -37,10 +36,6 @@ def register_submit(request):
 
         if not username:
             messages.error(request, "The 'Username' field can not be empty!")
-            return render(request, "app/index.html")
-
-        if not email:
-            messages.error(request, "The 'Email' field can not be empty!")
             return render(request, "app/index.html")
 
         if not password:
@@ -76,7 +71,7 @@ def register_submit(request):
             return render(request, "app/index.html")
 
         try:
-            user = Customer.objects.create_user(username, email, password)
+            user = Customer.objects.create_user(username, password)
             user.save()
             login(request, user)
             messages.success(request, "You have registered successfully!")
@@ -133,27 +128,7 @@ def profile_view(request, username):
         user = Customer.objects.get(username=username)
 
         context = {
-            "username": user.username,
-            "first_name": user.first_name,
-            "last_name": user.last_name,
-            "email": user.email,
-            "profile_picture": user.profile_picture,
-            "city": user.city,
-            "state": user.state,
-            "country": user.country,
-            "job": user.job,
-            "phone_number": user.phone_number,
-            "mobile_number": user.mobile_number,
-            "website": user.website,
-            "facebook": user.facebook,
-            "instagram": user.instagram,
-            "twitter": user.twitter,
-            "github": user.github,
-            "public": user.public,
-            "total_calories": user.total_calories,
-            "total_fat": user.total_fat,
-            "total_protein": user.total_protein,
-            "total_carbs": user.total_carbs,
+            "user": user
         }
 
         return render(request, "app/profile.html", context)
@@ -166,29 +141,8 @@ def profile_edit_view(request, username):
     user = Customer.objects.get(username=username)
 
     context = {
-        "username": user.username,
-        "first_name": user.first_name,
-        "last_name": user.last_name,
-        "email": user.email,
-        "password": user.password,
         "join_date": user.date_joined.date(),
-        "profile_picture": user.profile_picture,
-        "city": user.city,
-        "state": user.state,
-        "country": user.country,
-        "job": user.job,
-        "phone_number": user.phone_number,
-        "mobile_number": user.mobile_number,
-        "website": user.website,
-        "facebook": user.facebook,
-        "instagram": user.instagram,
-        "twitter": user.twitter,
-        "github": user.github,
-        "public": user.public,
-        "total_calories": user.total_calories,
-        "total_fat": user.total_fat,
-        "total_protein": user.total_protein,
-        "total_carbs": user.total_carbs,
+        "user": user
     }
 
     return render(request, "app/profile-edit.html", context)
