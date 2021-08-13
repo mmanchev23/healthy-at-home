@@ -7,68 +7,74 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
 <div class="container">
-    <form class="form" novalidate="">
-        <div class="row flex-lg-nowrap">
-            <div class="col">
-                <div class="row">
-                    <div class="col mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="e-profile">
-                                    <div class="row">
-                                        <div class="col-12 col-sm-auto mb-3">
-                                            <div class="mx-auto" style="width: 140px;">
-                                                <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px;">
-                                                    <img src="{{ request.user.profile_picture.url }}" alt="Admin" class="rounded-circle" width="130">
-                                                </div>
+    <div class="row flex-lg-nowrap">
+        <div class="col">
+            <div class="row">
+                <div class="col mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="e-profile">
+                                <div class="row">
+                                    <div class="col-12 col-sm-auto mb-3">
+                                        <div class="mx-auto" style="width: 140px;">
+                                            <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px;">
+                                                <img src="{{ request.user.profile_picture.url }}" alt="Admin" class="rounded-circle" width="130">
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
-                                            <div class="text-center text-sm-left mb-2 mb-sm-0">
-                                                <a href="{% url 'profile' request.user.username %}">
-                                                    <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{ user.first_name }} {{ user.last_name }}</h4>
-                                                </a>
-                                                <p class="mb-0">{{ user.username }}</p>
-                                                <div class="mt-2">
-                                                    <button class="btn btn-primary" type="button">
-                                                        <i class="fa fa-fw fa-camera"></i>
-                                                        <span>Change Photo</span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="text-center text-sm-right">
+                                    <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                        <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                            <a href="{% url 'profile' request.user.username %}">
+                                                <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{ user.first_name }} {{ user.last_name }}</h4>
+                                            </a>
+                                            <div class="text-center">
                                                 {% if request.user.is_superuser %}
                                                     <span class="badge rounded-pill badge-warning">Administrator</span>
                                                 {% else %}
                                                     <span class="badge rounded-pill badge-primary">Customer</span>
                                                 {% endif %}
+
                                                 <div class="text-muted"><small>{{ join_date }}</small></div>
                                             </div>
+                                            <div class="mt-2 text-sm-center">
+                                                <button class="btn btn-primary" type="button">
+                                                    <i class="fa fa-fw fa-camera"></i>
+                                                    <span>Change Photo</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="text-center text-sm-right">
+                                            <a class="btn btn-primary" href="{% url 'back' %}"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
+                                            <a class="btn btn-success" type="submit"><i class="fa fa-file" aria-hidden="true"></i> Save Changes</a>
+                                            <a class="btn btn-danger" href="{% url 'delete-profile' request.user.username %}"><i class="fa fa-trash" aria-hidden="true"></i> Delete Profile</a>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <div class="row">
+                                    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">Profile</button>
+                                            <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true"><i class="fa fa-user" aria-hidden="true"></i> Profile</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password" type="button" role="tab" aria-controls="password" aria-selected="false">Change Password</button>
+                                            <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password" type="button" role="tab" aria-controls="password" aria-selected="false"><i class="fa fa-unlock-alt" aria-hidden="true"></i> Change Password</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address" type="button" role="tab" aria-controls="address" aria-selected="false">Address</button>
+                                            <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address" type="button" role="tab" aria-controls="address" aria-selected="false"><i class="fa fa-map-marker" aria-hidden="true"></i> Address</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false">Social Platforms</button>
+                                            <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false"><i class="fa fa-globe" aria-hidden="true"></i> Social Platforms</button>
                                         </li>
                                         <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="job-tab" data-bs-toggle="tab" data-bs-target="#job" type="button" role="tab" aria-controls="job" aria-selected="false">Job & Numbers</button>
+                                            <button class="nav-link" id="job-tab" data-bs-toggle="tab" data-bs-target="#job" type="button" role="tab" aria-controls="job" aria-selected="false"><i class="fa fa-briefcase" aria-hidden="true"></i> Job & Numbers</button>
                                         </li>
                                     </ul>
 
                                     <div class="tab-content" id="myTabContent">
                                         <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                             <div class="col">
+                                                <br>
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="form-group">
@@ -102,15 +108,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="row">
-                                                <div class="col d-flex justify-content-end">
-                                                    <button class="btn btn-primary" type="submit">Save Changes</button>
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
                                             <div class="col">
+                                                <br>
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="form-group">
@@ -136,15 +137,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="row">
-                                                <div class="col d-flex justify-content-end">
-                                                    <button class="btn btn-primary" type="submit">Save Changes</button>
-                                                </div>
-                                            </div>
                                         </div>
+
                                         <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
                                             <div class="col">
+                                                <br>
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="form-group">
@@ -170,16 +167,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        
-                                            <div class="row">
-                                                <div class="col d-flex justify-content-end">
-                                                    <button class="btn btn-primary" type="submit">Save Changes</button>
-                                                </div>
-                                            </div>
                                         </div>
 
                                         <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="social-tab">
                                             <div class="col">
+                                                <br>
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="form-group">
@@ -221,15 +213,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="row">
-                                                <div class="col d-flex justify-content-end">
-                                                    <button class="btn btn-primary" type="submit">Save Changes</button>
-                                                </div>
-                                            </div>
                                         </div>
                                         <div class="tab-pane fade" id="job" role="tabpanel" aria-labelledby="job-tab">
                                             <div class="col">
+                                                <br>
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="form-group">
@@ -255,12 +242,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="row">
-                                                <div class="col d-flex justify-content-end">
-                                                    <button class="btn btn-primary" type="submit">Save Changes</button>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -270,7 +251,7 @@
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 </div>
 
 {% endblock %}

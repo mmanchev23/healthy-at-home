@@ -8,6 +8,11 @@ from django.contrib.auth import authenticate, login, logout
 
 
 # Authentication Views
+def back(request):
+    next = request.POST.get('next', '/')
+    return HttpResponseRedirect(next)
+
+
 def index_view(request):
     return render(request, "app/index.html")
 
@@ -124,20 +129,16 @@ def logout_submit(request):
 
 # Profile Views
 def profile_view(request, username):
-    if request.method == "GET":
-        user = Customer.objects.get(username=username)
+    user = Customer.objects.get(username=username)
 
-        context = {
-            "user": user
-        }
+    context = {
+        "user": user
+    }
 
-        return render(request, "app/profile.html", context)
-    else:
-        messages.error(request, "Something went wrong! Please try again later...")
-        return render(request, "app/profile.html")
+    return render(request, "app/profile.html", context)
 
 
-def profile_edit_view(request, username):
+def profile_settings_view(request, username):
     user = Customer.objects.get(username=username)
 
     context = {
@@ -145,11 +146,12 @@ def profile_edit_view(request, username):
         "user": user
     }
 
-    return render(request, "app/profile-edit.html", context)
+    return render(request, "app/settings.html", context)
 
 
 def profile_edit_submit(request, username):
     pass
+
 
 def profile_delete_view(request, username):
     pass

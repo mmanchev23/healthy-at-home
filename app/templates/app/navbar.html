@@ -11,10 +11,9 @@
           <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  <i class="fa fa-home"></i> Home
+                <i class="fa fa-heartbeat"></i> Features
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                  <li><a style="text-align: center;" class="dropdown-item" href="{% url 'calorie_counters' %}"><i class="fa fa-heartbeat"></i> Calorie Counter</a></li>
                   <li><a style="text-align: center;" class="dropdown-item" href="{% url 'bmis' %}"><i class="fa fa-calculator"></i> BMI Calculator</a></li>
                   <li><a style="text-align: center;" class="dropdown-item" href="{% url 'tasks' %}"><i class="fa fa-check-square-o"></i> Tasks List</a></li>
                   <li><a style="text-align: center;" class="dropdown-item" href="{% url 'workouts' %}"><i class="fa fa-trophy"></i> Workouts</a></li>
@@ -25,11 +24,12 @@
                 <img src="{{ request.user.profile_picture.url }}" alt="Image not found..." id="profile-picture">
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
-                <li><a style="text-align: center;" class="dropdown-item" href="{% url 'profile' request.user.username %}"><i class="fa fa-address-card" aria-hidden="true"></i> {{ user.username }}</a></li>
+                <li><a style="text-align: center;" class="dropdown-item" href="{% url 'profile' request.user.username %}"><i class="fa fa-address-card" aria-hidden="true"></i> {{ user.first_name }} {{ user.last_name }}</a></li>
                 {% if request.user.is_superuser %}
                   <li><a style="text-align: center;" class="dropdown-item" href="{% url 'admin:index' %}"><i class="fa fa-cog"></i> Admin Panel</a></li>
                 {% endif %}
-                <li><a style="text-align: center;" class="dropdown-item" href="/api/"><i class="fa fa-file-code-o" aria-hidden="true"></i> API</a></li>
+                <li><a style="text-align: center;" class="dropdown-item" href="/api/"><i class="fa fa-file-code-o" aria-hidden="true"></i> Use API</a></li>
+                <li><a style="text-align: center;" class="dropdown-item" href="{% url 'settings' request.user.username %}"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a></li>
                 <li><a style="text-align: center;" class="dropdown-item" href="{% url 'logout' %}" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out"></i> Log out</a></li>
               </ul>
             </li>

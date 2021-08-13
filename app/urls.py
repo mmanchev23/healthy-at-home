@@ -7,7 +7,9 @@ from django.conf.urls.static import static
 urlpatterns = [
 
     # Authentication routing
+    path("api/", include("api.urls")),
     path("", views.index_view, name="index"),
+    path("back/", views.back, name="back"),
     path("admin/", admin.site.urls, name="admin"),
     path("register/", views.register_view, name="register"),
     path("register-submit/", views.register_submit, name="register-submit"),
@@ -17,11 +19,11 @@ urlpatterns = [
     path("logout-submit/", views.logout_submit, name="logout-submit"),
 
     # Profile routing
-    path("profile/<username>/", views.profile_view, name="profile"),
-    path("profile/<username>/edit/", views.profile_edit_view, name="edit-profile"),
-    path("profile/<username>/edit-submit/", views.profile_edit_submit, name="edit-profile-submit"),
-    path("profile/<username>/delete/", views.profile_delete_view, name="delete-profile"),
-    path("profile/<username>/delete-submit/", views.profile_delete_submit, name="delete-profile-submit"),
+    path("<username>/", views.profile_view, name="profile"),
+    path("<username>/settings/", views.profile_settings_view, name="settings"),
+    path("<username>/edit-profile-submit/", views.profile_edit_submit, name="edit-profile-submit"),
+    path("<username>/delete/", views.profile_delete_view, name="delete-profile"),
+    path("<username>/delete-profile-submit/", views.profile_delete_submit, name="delete-profile-submit"),
 
     # Workouts routing
     path("workouts/", views.workouts, name="workouts"),

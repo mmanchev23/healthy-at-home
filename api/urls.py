@@ -12,11 +12,13 @@ from rest_framework.views import exception_handler
 from rest_framework.exceptions import NotAuthenticated
 from rest_framework.response import Response
 from django.conf.urls import url
+from django.contrib.sites.shortcuts import get_current_site
 
 def custom_exception_handler(exc, context):
     if isinstance(exc, NotAuthenticated):
         request = context['request']
         return Response({"You are not logged in!": {
+            "home page": f"{request.scheme}://{request.get_host()}/",
             "register": f"{request.build_absolute_uri()}auth/register/",
             "login": f"{request.build_absolute_uri()}auth/login/",
         }}, status=401)
@@ -32,6 +34,7 @@ class APIRoot(routers.APIRootView):
         if request.user.is_authenticated == True:
             return Response({
                 f"Logged in as {request.user.username}": {
+                    "home page": f"{request.scheme}://{request.get_host()}/",
                     f"{request.user.username}": f"{request.build_absolute_uri()}credentials/",
                     "food": f"{request.build_absolute_uri()}food/",
                     "workouts": f"{request.build_absolute_uri()}workouts/",

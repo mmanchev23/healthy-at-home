@@ -198,15 +198,15 @@
                   <div class="card h-100">
                     <div class="card-body">
                       <h3 class="d-flex align-items-center mb-3">Other features</h3>
-                        <a class="btn btn-success" href="{% url 'edit-profile' request.user.username %}">Edit Profile</a>
-                        <a class="btn btn-danger" href="{% url 'delete-profile' request.user.username %}">Delete Profile</a>
+                        <a class="btn btn-success" href="{% url 'settings' request.user.username %}"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a>
                         <hr>
-                        <a class="btn btn-secondary" href="{% url 'bmis' %}">BMI Calculators</a>
-                        <a class="btn btn-secondary" href="{% url 'workouts' %}">Workouts</a>
-                        <a class="btn btn-secondary" href="{% url 'tasks' %}">Tasks</a>
+                        <a class="btn btn-secondary" href="{% url 'bmis' %}"><i class="fa fa-calculator"></i> BMI Calculators</a>
+                        <a class="btn btn-secondary" href="{% url 'workouts' %}"><i class="fa fa-trophy"></i> Workouts</a>
+                        <a class="btn btn-secondary" href="{% url 'tasks' %}"><i class="fa fa-check-square-o"></i> Tasks</a>
                     </div>
                   </div>
                 </div>
+                
               </div>
             </div>
           </div>
