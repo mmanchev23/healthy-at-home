@@ -9,7 +9,6 @@ urlpatterns = [
     # Authentication routing
     path("api/", include("api.urls")),
     path("", views.index_view, name="index"),
-    path("back/", views.back, name="back"),
     path("admin/", admin.site.urls, name="admin"),
     path("register/", views.register_view, name="register"),
     path("register-submit/", views.register_submit, name="register-submit"),

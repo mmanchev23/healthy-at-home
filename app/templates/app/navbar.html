@@ -25,12 +25,12 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                 <li><a style="text-align: center;" class="dropdown-item" href="{% url 'profile' request.user.username %}"><i class="fa fa-address-card" aria-hidden="true"></i> {{ user.first_name }} {{ user.last_name }}</a></li>
+                <li><a style="text-align: center;" class="dropdown-item" href="{% url 'settings' request.user.username %}"><i class="fa fa-cogs" aria-hidden="true"></i> Profile Settings</a></li>
                 {% if request.user.is_superuser %}
                   <li><a style="text-align: center;" class="dropdown-item" href="{% url 'admin:index' %}"><i class="fa fa-cog"></i> Admin Panel</a></li>
                 {% endif %}
-                <li><a style="text-align: center;" class="dropdown-item" href="/api/"><i class="fa fa-file-code-o" aria-hidden="true"></i> Use API</a></li>
-                <li><a style="text-align: center;" class="dropdown-item" href="{% url 'settings' request.user.username %}"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a></li>
                 <li><a style="text-align: center;" class="dropdown-item" href="{% url 'logout' %}" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out"></i> Log out</a></li>
+                <li><a style="text-align: center;" class="dropdown-item" href="/api/"><i class="fa fa-file-code-o" aria-hidden="true"></i> Use API</a></li>
               </ul>
             </li>
           </ul>

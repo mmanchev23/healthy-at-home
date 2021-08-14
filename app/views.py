@@ -8,11 +8,6 @@ from django.contrib.auth import authenticate, login, logout
 
 
 # Authentication Views
-def back(request):
-    next = request.POST.get('next', '/')
-    return HttpResponseRedirect(next)
-
-
 def index_view(request):
     return render(request, "app/index.html")
 
@@ -130,9 +125,17 @@ def logout_submit(request):
 # Profile Views
 def profile_view(request, username):
     user = Customer.objects.get(username=username)
+    total_calories = Food.objects.filter(customer=user).aggregate(Sum('calories'))['calories__sum'] or Decimal('0.00')
+    total_fat = Food.objects.filter(customer=user).aggregate(Sum('fat'))['fat__sum'] or Decimal('0.00')
+    total_protein = Food.objects.filter(customer=user).aggregate(Sum('protein'))['protein__sum'] or Decimal('0.00')
+    total_carbs = Food.objects.filter(customer=user).aggregate(Sum('carbs'))['carbs__sum'] or Decimal('0.00')
 
     context = {
-        "user": user
+        "user": user,
+        "total_calories": str(round(total_calories, 2)),
+        "total_fat": str(round(total_fat, 2)),
+        "total_protein": str(round(total_protein, 2)),
+        "total_carbs": str(round(total_carbs, 2)),
     }
 
     return render(request, "app/profile.html", context)
@@ -143,7 +146,7 @@ def profile_settings_view(request, username):
 
     context = {
         "join_date": user.date_joined.date(),
-        "user": user
+        "user": user,
     }
 
     return render(request, "app/settings.html", context)
