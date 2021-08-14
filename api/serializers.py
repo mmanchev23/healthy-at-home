@@ -12,7 +12,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Customer
-        fields = ("id", "username", "first_name", "last_name", "email", "profile_picture", "public", "total_calories", "total_fat", "total_proteins", "total_carbs")
+        fields = ("id", "username", "first_name", "last_name", "email", "profile_picture", "total_calories", "total_fat", "total_proteins", "total_carbs")
 
     def get_total_calories(self, obj):
         totalcalories = Food.objects.filter(customer=self.context['request'].user).aggregate(total_calories=Sum('calories'))
@@ -61,4 +61,4 @@ class FoodSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Food
-        fields = ("customer", "id", "name", "calories", "fat", "protein", "carbs", "category", "date_eaten")
+        fields = ("customer", "id", "name", "calories", "fat", "protein", "carbs", "date_eaten")

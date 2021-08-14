@@ -21,7 +21,7 @@
         {% if messages %} 
             {% for message in messages %}
             <div aria-live="polite" aria-atomic="true">
-                <div class="toast-container position-absolute top-0 start-50 translate-middle-x">
+                <div class="toast-container position-absolute top-0 end-0">
                     {% if message.tags == 'success'%}
                         <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
                             <div class="d-flex">
@@ -42,7 +42,7 @@
                         </div>
                     {% endif %}
                 </div>
-              </div>
+            </div>
             {% endfor %}
         {% endif %}
 
@@ -58,6 +58,8 @@
                 $(".toast").toast('show');
             });
         </script>
+
+        <script src="{% static 'app/js/login.js' %}"></script>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

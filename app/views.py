@@ -2,7 +2,7 @@ from .models import *
 from django.urls import reverse
 from django.contrib import messages
 from django.db import IntegrityError
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 
@@ -87,25 +87,42 @@ def login_view(request):
     return render(request, "app/login.html")
 
 
+# def login_submit(request):
+#     if request.method == "POST":
+#         username = request.POST["username"]
+#         password = request.POST["password"]
+        
+#         if not username:
+#             messages.error(request, "The 'Username' field can not be empty!")
+#             return render(request, "app/index.html")
+#         if not password:
+#             messages.error(request, "The 'Password' field can not be empty!")
+#             return render(request, "app/index.html")
+
+#         user = authenticate(request, username=username, password=password)
+
+#         if user is not None:
+#             login(request, user)
+#             messages.success(request, "You have logged in successfully!")
+#             return HttpResponseRedirect(reverse("index"))
+#         else:
+#             messages.error(request, "Invalid username and/or password.")
+#             return render(request, "app/index.html")
+#     else:
+#         return render(request, "app/index.html")
+
 def login_submit(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
         
-        if not username:
-            messages.error(request, "The 'Username' field can not be empty!")
-            return render(request, "app/index.html")
-        if not password:
-            messages.error(request, "The 'Password' field can not be empty!")
-            return render(request, "app/index.html")
-
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
+        try:
+            user = authenticate(username=username, password=password)
             login(request, user)
+
             messages.success(request, "You have logged in successfully!")
             return HttpResponseRedirect(reverse("index"))
-        else:
+        except:
             messages.error(request, "Invalid username and/or password.")
             return render(request, "app/index.html")
     else:
