@@ -33,7 +33,6 @@
                     {% endif %}
                   </a>
                 </li>
-                <li><a style="text-align: center;" class="dropdown-item" href="{% url 'settings' request.user.username %}"><i class="fa fa-cogs" aria-hidden="true"></i> Profile Settings</a></li>
                 {% if request.user.is_superuser %}
                   <li><a style="text-align: center;" class="dropdown-item" href="{% url 'admin:index' %}"><i class="fa fa-cog"></i> Admin Panel</a></li>
                 {% endif %}

@@ -6,238 +6,241 @@
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
-<div class="container">
-    <div class="row flex-lg-nowrap">
-        <div class="col">
-            <div class="row">
-                <div class="col mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="e-profile">
-                                <div class="row">
-                                    <div class="col-12 col-sm-auto mb-3">
-                                        <div class="mx-auto" style="width: 140px;">
-                                            <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px;">
-                                                <img src="{{ request.user.profile_picture.url }}" alt="Admin" class="rounded-circle" width="130">
+<form method="POST" action="{% url 'edit-profile-submit' request.user.username %}">
+    {% csrf_token %}
+    <div class="container">
+        <div class="row flex-lg-nowrap">
+            <div class="col">
+                <div class="row">
+                    <div class="col mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="e-profile">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-auto mb-3">
+                                            <div class="mx-auto" style="width: 140px;">
+                                                <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px;">
+                                                    <img src="{{ request.user.profile_picture.url }}" alt="Admin" class="rounded-circle" width="130">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                            <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                                <a href="{% url 'profile' request.user.username %}">
+                                                    <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{ user.first_name }} {{ user.last_name }}</h4>
+                                                </a>
+                                                <div class="text-center">
+                                                    {% if request.user.is_superuser %}
+                                                        <span class="badge rounded-pill badge-warning">Administrator</span>
+                                                    {% else %}
+                                                        <span class="badge rounded-pill badge-primary">Customer</span>
+                                                    {% endif %}
+
+                                                    <div class="text-muted"><small>{{ join_date }}</small></div>
+                                                </div>
+                                                <div class="mt-2 text-sm-center">
+                                                    <button class="btn btn-primary" type="button">
+                                                        <i class="fa fa-fw fa-camera"></i>
+                                                        <span>Change Photo</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="text-center text-sm-right">
+                                                <a class="btn btn-primary" href="{% url 'profile' request.user.username %}"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
+                                                <input type="submit" class="btn btn-success" value="Save Changes">
+                                                <a class="btn btn-danger" href="{% url 'delete-profile' request.user.username %}"><i class="fa fa-trash" aria-hidden="true"></i> Delete Profile</a>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
-                                        <div class="text-center text-sm-left mb-2 mb-sm-0">
-                                            <a href="{% url 'profile' request.user.username %}">
-                                                <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{ user.first_name }} {{ user.last_name }}</h4>
-                                            </a>
-                                            <div class="text-center">
-                                                {% if request.user.is_superuser %}
-                                                    <span class="badge rounded-pill badge-warning">Administrator</span>
-                                                {% else %}
-                                                    <span class="badge rounded-pill badge-primary">Customer</span>
-                                                {% endif %}
+                                    <div class="row">
+                                        <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true"><i class="fa fa-user" aria-hidden="true"></i> Profile</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password" type="button" role="tab" aria-controls="password" aria-selected="false"><i class="fa fa-unlock-alt" aria-hidden="true"></i> Change Password</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address" type="button" role="tab" aria-controls="address" aria-selected="false"><i class="fa fa-map-marker" aria-hidden="true"></i> Address</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false"><i class="fa fa-globe" aria-hidden="true"></i> Social Platforms</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="job-tab" data-bs-toggle="tab" data-bs-target="#job" type="button" role="tab" aria-controls="job" aria-selected="false"><i class="fa fa-briefcase" aria-hidden="true"></i> Job & Numbers</button>
+                                            </li>
+                                        </ul>
 
-                                                <div class="text-muted"><small>{{ join_date }}</small></div>
+                                        <div class="tab-content" id="myTabContent">
+                                            <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                                <div class="col">
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Username</label>
+                                                                <input class="form-control" type="text" placeholder="Username" value="{{ user.username }}" name="username">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Email</label>
+                                                                <input class="form-control" type="email" placeholder="Email" value="{{ user.email }}" name="email">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>First Name</label>
+                                                                <input class="form-control" type="text" placeholder="First Name" value="{{ user.first_name }}" name="first_name">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Last Name</label>
+                                                                <input class="form-control" type="text" placeholder="Last Name" value="{{ user.last_name }}" name="last_name">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="mt-2 text-sm-center">
-                                                <button class="btn btn-primary" type="button">
-                                                    <i class="fa fa-fw fa-camera"></i>
-                                                    <span>Change Photo</span>
-                                                </button>
+                                            <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
+                                                <div class="col">
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Current Password</label>
+                                                                <input class="form-control" type="password" placeholder="Current Password" name="current_password">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>New Password</label>
+                                                                <input class="form-control" type="password" placeholder="New Password" name="new_password">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Confirm Password</label>
+                                                                <input class="form-control" type="password" placeholder="Confirm Password" name="confirm_password">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="text-center text-sm-right">
-                                            <a class="btn btn-primary" href="{% url 'index' %}"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
-                                            <a class="btn btn-success" type="submit"><i class="fa fa-file" aria-hidden="true"></i> Save Changes</a>
-                                            <a class="btn btn-danger" href="{% url 'delete-profile' request.user.username %}"><i class="fa fa-trash" aria-hidden="true"></i> Delete Profile</a>
-                                        </div>
-                                    </div>
-                                </div>
 
-                                <div class="row">
-                                    <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true"><i class="fa fa-user" aria-hidden="true"></i> Profile</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="password-tab" data-bs-toggle="tab" data-bs-target="#password" type="button" role="tab" aria-controls="password" aria-selected="false"><i class="fa fa-unlock-alt" aria-hidden="true"></i> Change Password</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address" type="button" role="tab" aria-controls="address" aria-selected="false"><i class="fa fa-map-marker" aria-hidden="true"></i> Address</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false"><i class="fa fa-globe" aria-hidden="true"></i> Social Platforms</button>
-                                        </li>
-                                        <li class="nav-item" role="presentation">
-                                            <button class="nav-link" id="job-tab" data-bs-toggle="tab" data-bs-target="#job" type="button" role="tab" aria-controls="job" aria-selected="false"><i class="fa fa-briefcase" aria-hidden="true"></i> Job & Numbers</button>
-                                        </li>
-                                    </ul>
+                                            <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+                                                <div class="col">
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>City</label>
+                                                                <input class="form-control" type="text" placeholder="City" value="{{ user.city }}" name="city">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>State</label>
+                                                                <input class="form-control" type="text" placeholder="State" value="{{ user.state }}" name="state">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Country</label>
+                                                                <input class="form-control" type="text" placeholder="Country" value="{{ user.country }}" name="country">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                    <div class="tab-content" id="myTabContent">
-                                        <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                            <div class="col">
-                                                <br>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>Username</label>
-                                                            <input class="form-control" type="text" placeholder="Username" value="{{ user.username }}">
+                                            <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="social-tab">
+                                                <div class="col">
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Website</label>
+                                                                <input class="form-control" type="text" placeholder="Website" value="{{ user.website }}" name="website">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>Email</label>
-                                                            <input class="form-control" type="email" placeholder="Email" value="{{ user.email }}">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Facebook</label>
+                                                                <input class="form-control" type="text" placeholder="Facebook" value="{{ user.facebook }}" name="facebook">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>First Name</label>
-                                                            <input class="form-control" type="text" placeholder="First Name" value="{{ user.first_name }}">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Instagram</label>
+                                                                <input class="form-control" type="text" placeholder="Instagram" value="{{ user.instagram }}" name="instagram">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>Last Name</label>
-                                                            <input class="form-control" type="text" placeholder="Last Name" value="{{ user.last_name }}">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Twitter</label>
+                                                                <input class="form-control" type="text" placeholder="Twitter" value="{{ user.twitter }}" name="twitter">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
-                                            <div class="col">
-                                                <br>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>Current Password</label>
-                                                            <input class="form-control" type="password" placeholder="Current Password">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>New Password</label>
-                                                            <input class="form-control" type="password" placeholder="New Password">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>Confirm Password</label>
-                                                            <input class="form-control" type="password" placeholder="Confirm Password">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Github</label>
+                                                                <input class="form-control" type="text" placeholder="Github" value="{{ user.github }}" name="github">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
-                                            <div class="col">
-                                                <br>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>City</label>
-                                                            <input class="form-control" type="text" placeholder="City" value="{{ user.city }}">
+                                            <div class="tab-pane fade" id="job" role="tabpanel" aria-labelledby="job-tab">
+                                                <div class="col">
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Current Job Possition</label>
+                                                                <input class="form-control" type="text" name="name" placeholder="Current Job Possition" value="{{ user.job }}" name="job">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>State</label>
-                                                            <input class="form-control" type="text" placeholder="State" value="{{ user.state }}">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Phone Number</label>
+                                                                <input class="form-control" type="text" name="name" placeholder="Phone Number" value="{{ user.phone_number }}" name="phone_number">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>Country</label>
-                                                            <input class="form-control" type="text" placeholder="Country" value="{{ user.country }}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="tab-pane fade" id="social" role="tabpanel" aria-labelledby="social-tab">
-                                            <div class="col">
-                                                <br>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>Website</label>
-                                                            <input class="form-control" type="text" placeholder="Website" value="{{ user.website }}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>Facebook</label>
-                                                            <input class="form-control" type="text" placeholder="Facebook" value="{{ user.facebook }}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>Instagram</label>
-                                                            <input class="form-control" type="text" placeholder="Instagram" value="{{ user.instagram }}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>Twitter</label>
-                                                            <input class="form-control" type="text" placeholder="Twitter" value="{{ user.twitter }}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>Github</label>
-                                                            <input class="form-control" type="text" placeholder="Github" value="{{ user.github }}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="job" role="tabpanel" aria-labelledby="job-tab">
-                                            <div class="col">
-                                                <br>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>Current Job Possition</label>
-                                                            <input class="form-control" type="text" name="name" placeholder="Current Job Possition" value="{{ user.job }}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>Phone Number</label>
-                                                            <input class="form-control" type="text" name="name" placeholder="Phone Number" value="{{ user.phone_number }}">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            <label>Mobile Number</label>
-                                                            <input class="form-control" type="text" name="name" placeholder="Mobile Number" value="{{ user.mobile_number }}">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Mobile Number</label>
+                                                                <input class="form-control" type="text" name="name" placeholder="Mobile Number" value="{{ user.mobile_number }}" name="mobile_phone">
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -252,6 +255,6 @@
             </div>
         </div>
     </div>
-</div>
+</form>
 
 {% endblock %}
