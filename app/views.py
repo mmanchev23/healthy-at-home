@@ -189,67 +189,90 @@ def profile_edit_submit(request, username):
             user = None
 
         # Profile Credentials
-        username = request.POST["username"]
-        email = request.POST["email"]
-        first_name = request.POST["first_name"]
-        last_name = request.POST["last_name"]
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+
+        if "img" in request.FILES:
+            profile_picture = request.FILES["img"]
+        else:
+            profile_picture = user.profile_picture
 
         # Password Credentials
-        current_password = request.POST["current_password"]
-        new_password = request.POST["new_password"]
-        confirm_password = request.POST["confirm_password"]
+        current_password = request.POST.get("current_password")
+        new_password = request.POST.get("new_password")
+        confirm_password = request.POST.get("confirm_password")
 
         # Address Credentials
-        city = request.POST["city"]
-        state = request.POST["state"]
-        country = request.POST["country"]
+        city = request.POST.get("city")
+        state = request.POST.get("state")
+        country = request.POST.get("country")
 
         # Social Platforms Credentials
-        website = request.POST["website"]
-        facebook = request.POST["facebook"]
-        instagram = request.POST["instagram"]
-        twitter = request.POST["twitter"]
-        github = request.POST["github"]
+        website_link = request.POST.get("website_link")
+        facebook = request.POST.get("facebook")
+        instagram = request.POST.get("instagram")
+        twitter = request.POST.get("twitter")
+        github = request.POST.get("github")
 
         # Job & Numbers Credentials
-        job = request.POST.get("job", "Null")
-        phone_number = request.POST.get("phone_number", "Null")
-        mobile_phone = request.POST.get("mobile_phone", "Null")
+        job = request.POST.get("job")
+        phone_number = request.POST.get("phone_number")
+        mobile_number = request.POST.get("mobile_number")
 
         user.username = username
         user.email = email
         user.first_name = first_name
         user.last_name = last_name
+        
+        user.profile_picture = profile_picture
 
-        if current_password and new_password and confirm_password:
-            if user.check_password(current_password):
-                if new_password == confirm_password:
-                    user.set_password(new_password)
+        if current_password:
+            if new_password:
+                if confirm_password:
+                    if user.check_password(current_password):
+                        if new_password == confirm_password:
+                            user.set_password(new_password)
+                            messages.success(request, "Password updated successfully!")
+                            return HttpResponseRedirect(reverse("settings", kwargs={"username": username}))
+                        else:
+                            messages.error(request, "Passwords should match!")
+                            return HttpResponseRedirect(reverse("settings", kwargs={"username": username}))
+                    else:
+                        messages.error(request, "That's not your current password!")
+                        return HttpResponseRedirect(reverse("settings", kwargs={"username": username}))
                 else:
-                    return messages.error(request, "Passwords should match!")
+                    messages.error(request, "'Confirm Password' field can not be empty!")
+                    return HttpResponseRedirect(reverse("settings", kwargs={"username": username}))
             else:
-                return messages.error(request, "That's not your password!")
+                messages.error(request, "'New Password' field can not be empty!")
+                return HttpResponseRedirect(reverse("settings", kwargs={"username": username}))
+        else:
+            pass
+
         
         user.city = city
         user.state = state
         user.country = country
 
-        user.website = website
+        user.website_link = website_link
         user.facebook = facebook
         user.instagram = instagram
         user.twitter = twitter
         user.github = github
+        
         user.job = job
         user.phone_number = phone_number
-        user.mobile_number = mobile_phone
+        user.mobile_number = mobile_number
 
         user.save()
 
         messages.success(request, "Changes saved successfully!")
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("profile", kwargs={"username": username}))
     else:
         messages.error(request, "An error occured!")
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("profile", kwargs={"username": username}))
 
 
 def profile_delete_view(request, username):

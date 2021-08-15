@@ -9,7 +9,7 @@ from django.core.validators import MinValueValidator
 
 class Customer(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    profile_picture = models.ImageField(null=True, blank=True, default='default_profile_picture.png')
+    profile_picture = models.ImageField(default="default_profile_picture.png")
     city = models.CharField(max_length=100, null=True, blank=True)
     state = models.CharField(max_length=100, null=True, blank=True)
     country = models.CharField(max_length=100, null=True, blank=True)
@@ -26,15 +26,22 @@ class Customer(AbstractUser):
     def __str__(self):
         return self.username
 
+    @property
+    def image_url(self):
+        if self.profile_picture and hasattr(self.profile_picture, 'url'):
+            return self.profile_picture.url
+        else:
+            return ""
+
 
 class Workout(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=100)
-    workout_image = models.ImageField(null=True, blank=True, default='default_workout_image.png')
-    video_url = models.CharField(max_length=200, default='https://www.youtube.com/embed/oAPCPjnU1wA')
-    description = models.TextField()
-    exercises = models.TextField()
+    title = models.CharField(max_length=100, null=False, blank=False)
+    workout_image = models.ImageField(default="default_workout_image.png")
+    video_url = models.CharField(max_length=200, default="https://www.youtube.com/embed/oAPCPjnU1wA")
+    description = models.TextField(default="No description yet...")
+    exercises = models.TextField(default="No exercises yet...")
     public = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
@@ -62,8 +69,8 @@ class Workout(models.Model):
 class Task(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=120)
-    description = models.TextField()
+    title = models.CharField(max_length=100, null=False, blank=False)
+    description = models.TextField(default="No description yet...")
     completed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
@@ -75,8 +82,8 @@ class Task(models.Model):
 class BMICalculator(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    height = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
-    weight = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
+    height = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))], null=False, blank=False)
+    weight = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))], null=False, blank=False)
     result = models.DecimalField(max_digits=10, decimal_places=2, editable=False, validators=[MinValueValidator(Decimal('0.00'))])
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
@@ -92,11 +99,11 @@ class BMICalculator(models.Model):
 class Food(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=120)
-    calories = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
-    fat = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
-    protein = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
-    carbs = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))])
+    name = models.CharField(max_length=100, null=False, blank=False)
+    calories = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))], null=False, blank=False)
+    fat = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))], null=False, blank=False)
+    protein = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))], null=False, blank=False)
+    carbs = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))], null=False, blank=False)
     date_eaten = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
