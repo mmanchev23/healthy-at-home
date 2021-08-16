@@ -6,7 +6,9 @@
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
-<form method="POST" action="{% url 'edit-profile-submit' request.user.username %}" enctype="multipart/form-data">
+{% include "app/delete-profile.html" %}
+
+<form method="POST" action="{% url 'edit-profile-submit' username=request.user.username %}" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="container">
         <div class="row flex-lg-nowrap">
@@ -28,7 +30,7 @@
                                         <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                                             <div class="text-center">
                                                 {% if user.first_name and user.last_name %}
-                                                    <a href="{% url 'profile' request.user.username %}">
+                                                    <a href="{% url 'profile' username=request.user.username %}">
                                                         <h4 class="pt-2 pb-1 mb-0 text-nowrap">{{ user.first_name }} {{ user.last_name }}</h4>
                                                     </a>
                                                 {% else %}
@@ -54,9 +56,9 @@
                                                 </div>
                                             </div>
                                             <div class="text-center text-right">
-                                                <a class="btn btn-primary" href="{% url 'profile' request.user.username %}"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
+                                                <a class="btn btn-primary" href="{% url 'profile' username=request.user.username %}"><i class="fa fa-chevron-left" aria-hidden="true"></i></a>
                                                 <input type="submit" class="btn btn-success" value="Save Changes">
-                                                <a class="btn btn-danger" href="{% url 'delete-profile' request.user.username %}"><i class="fa fa-trash" aria-hidden="true"></i> Delete Profile</a>
+                                                <a class="btn btn-danger" href="{% url 'delete-profile' username=request.user.username %}" data-toggle="modal" data-target="#deleteProfileModal"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                             </div>
                                         </div>
                                     </div>

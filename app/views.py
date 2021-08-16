@@ -234,20 +234,21 @@ def profile_edit_submit(request, username):
                     if user.check_password(current_password):
                         if new_password == confirm_password:
                             user.set_password(new_password)
+                            user.save()
                             messages.success(request, "Password updated successfully!")
-                            return HttpResponseRedirect(reverse("settings", kwargs={"username": username}))
+                            return HttpResponseRedirect(reverse("index"))
                         else:
                             messages.error(request, "Passwords should match!")
-                            return HttpResponseRedirect(reverse("settings", kwargs={"username": username}))
+                            return HttpResponseRedirect(reverse("index"))
                     else:
                         messages.error(request, "That's not your current password!")
-                        return HttpResponseRedirect(reverse("settings", kwargs={"username": username}))
+                        return HttpResponseRedirect(reverse("index"))
                 else:
                     messages.error(request, "'Confirm Password' field can not be empty!")
-                    return HttpResponseRedirect(reverse("settings", kwargs={"username": username}))
+                    return HttpResponseRedirect(reverse("index"))
             else:
                 messages.error(request, "'New Password' field can not be empty!")
-                return HttpResponseRedirect(reverse("settings", kwargs={"username": username}))
+                return HttpResponseRedirect(reverse("index"))
         else:
             pass
 
@@ -269,18 +270,35 @@ def profile_edit_submit(request, username):
         user.save()
 
         messages.success(request, "Changes saved successfully!")
-        return HttpResponseRedirect(reverse("profile", kwargs={"username": username}))
+        return HttpResponseRedirect(reverse("index"))
     else:
         messages.error(request, "An error occured!")
-        return HttpResponseRedirect(reverse("profile", kwargs={"username": username}))
+        return HttpResponseRedirect(reverse("index"))
 
 
 def profile_delete_view(request, username):
-    pass
+    return render(request, "app/delete-profile.html")
 
 
 def profile_delete_submit(request, username):
-    pass
+    if request.method == "POST":
+        try:
+            user = Customer.objects.get(username=username)
+        except Customer.DoesNotExist:
+            user = None
+
+        password = request.POST.get("password")
+
+        if user.check_password(password):
+            user.delete()
+            messages.success(request, "Profile deleted successfully!")
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            messages.error(request, "Wrong password!")
+            return HttpResponseRedirect(reverse("index"))
+    else:
+        messages.error(request, "An error occured!")
+        return HttpResponseRedirect(reverse("index"))
 
 
 # Workouts Views

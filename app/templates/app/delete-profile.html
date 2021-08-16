@@ -1,0 +1,26 @@
+<form method="POST" action="{% url 'delete-profile-submit' username=request.user.username %}">
+    {% csrf_token %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="modal fade" id="deleteProfileModal">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h2>Delete Profile?</h2>
+                            </div>
+                            <div class="modal-body">
+                                <label for="password">Password</label>
+                                <input class="form-control" type="password" name="password" placeholder="Password" id="password" required>
+                            </div>
+                            <div class="modal-footer">
+                                <input class="btn btn-danger" type="submit" value="Delete" style="width: 100px;">
+                                <input class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
