@@ -16,10 +16,15 @@
         </div>
         <hr>
         <div class="form-group">
-            <input type="submit" class="btn btn-success" value="Sign In" style="width: 100px;">
-            <a href="{% url 'index' %}" class="btn btn-primary" style="width: 100px;">Back</a>
+            <input type="submit" class="btn btn-success" value="Sign In" style="width: 170px;">
+            <a href="{% url 'index' %}" class="btn btn-primary" style="width: 170px;">Back</a>
+            <a href="{% url 'register' %}" class="btn btn-secondary" style="width: 170px;">Don't an account?</a>
         </div>
-        <a href="{% url 'register' %}">Don't an account?</a>
+        <hr>
+        <div class="form-group">
+            <a href="{% url 'social:begin' 'github' %}" class="btn btn-dark"><i class="fa fa-github"></i> Github</a>
+            <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-primary"><i class="fa fa-facebook"></i> Facebook</a>
+        </div>
     </form>
 </div>
 {% endblock %}

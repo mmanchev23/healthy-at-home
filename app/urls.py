@@ -17,6 +17,8 @@ urlpatterns = [
     path("logout/", views.logout_view, name="logout"),
     path("logout-submit/", views.logout_submit, name="logout-submit"),
 
+    path('oauth/', include('social_django.urls', namespace='social')),
+
     # Profile routing
     path("<username>/", views.profile_view, name="profile"),
     path("<username>/settings/", views.profile_settings_view, name="settings"),

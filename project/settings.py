@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'api',
 
     # Third-party libraries
+    'social_django',
     'corsheaders',
     'rest_framework',
     'rest_auth', 
@@ -50,11 +51,31 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'api.urls.custom_exception_handler'
 }
 
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'index'
+
+SOCIAL_AUTH_GITHUB_KEY = '309d8fe809ebeae905be'
+SOCIAL_AUTH_GITHUB_SECRET = 'c092cf057ab05eb2d6d58dadfd6d2a8d7167c5a0'
+
+SOCIAL_AUTH_FACEBOOK_KEY = '199181522265906'  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = '541b845ae679fd50c39fd5d52451bfac'
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
 
     'corsheaders.middleware.CorsMiddleware',
+
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -76,6 +97,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },

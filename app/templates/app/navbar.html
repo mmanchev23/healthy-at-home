@@ -37,17 +37,17 @@
                   <li><a style="text-align: center;" class="dropdown-item" href="{% url 'admin:index' %}"><i class="fa fa-cog"></i> Admin Panel</a></li>
                 {% endif %}
                 <li><a style="text-align: center;" class="dropdown-item" href="/api/"><i class="fa fa-file-code-o" aria-hidden="true"></i> API</a></li>
-                <li><a style="text-align: center;" class="dropdown-item" href="{% url 'logout' %}" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out"></i> Log out</a></li>
+                <li><a style="text-align: center;" class="dropdown-item" href="{% url 'logout' %}" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out"></i> Sign out</a></li>
               </ul>
             </li>
           </ul>
         {% else %}
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a style="text-align: center;" class="nav-link" href="{% url 'register' %}"><i class="fa fa-user-plus"></i> Register</a>
+              <a style="text-align: center;" class="nav-link" href="{% url 'register' %}"><i class="fa fa-user-plus"></i> Sign Up</a>
             </li>
             <li class="nav-item">
-              <a style="text-align: center;" class="nav-link" href="{% url 'login' %}"><i class="fa fa-sign-in"></i> Log in</a>
+              <a style="text-align: center;" class="nav-link" href="{% url 'login' %}"><i class="fa fa-sign-in"></i> Sign in</a>
             </li>
           </ul>
         {% endif %}
