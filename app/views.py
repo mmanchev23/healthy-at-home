@@ -21,7 +21,7 @@ def register_submit(request):
         username = request.POST["username"]
         email = request.POST["email"]
         password = request.POST["password"]
-        confirmation = request.POST["confirmation"]
+        confirm_password = request.POST["confirm_password"]
 
         has_atleast_eight_characters = False
         has_atleast_one_digit = any(map(str.isdigit, password))
@@ -37,43 +37,43 @@ def register_submit(request):
 
         if not username:
             messages.error(request, "The 'Username' field can not be empty!")
-            return render(request, "app/index.html")
+            return render(request, "app/register.html")
 
         if not email:
             messages.error(request, "The 'Email' field can not be empty!")
-            return render(request, "app/index.html")
+            return render(request, "app/register.html")
 
         if not password:
             messages.error(request, "The 'Password' field can not be empty!")
-            return render(request, "app/index.html")
+            return render(request, "app/register.html")
 
-        if not confirmation:
+        if not confirm_password:
             messages.error(request, "The 'Confirm password' field can not be empty!")
-            return render(request, "app/index.html")
+            return render(request, "app/register.html")
 
-        if password != confirmation:
+        if password != confirm_password:
             messages.error(request, "Passwords must match!")
-            return render(request, "app/index.html")
+            return render(request, "app/register.html")
 
         if not has_atleast_eight_characters:
             messages.error(request, "The password can not contain less than 8 characters!")
-            return render(request, "app/index.html", )
+            return render(request, "app/register.html", )
 
         if not has_atleast_one_digit:
             messages.error(request, "The password should contains atleast one digit!")
-            return render(request, "app/index.html")
+            return render(request, "app/register.html")
 
         if not has_atleast_one_upper:
             messages.error(request, "The password should contains atleast one upper character!")
-            return render(request, "app/index.html")
+            return render(request, "app/register.html")
 
         if not has_atleast_one_lower:
             messages.error(request, "The password should contains atleast one lower character!")
-            return render(request, "app/index.html")
+            return render(request, "app/register.html")
 
         if not has_no_forbidden:
             messages.error(request, "The password should not contains '!', '$', '#' or '%'!")
-            return render(request, "app/index.html")
+            return render(request, "app/register.html")
 
         try:
             user = Customer.objects.create_user(username, email, password)
@@ -83,38 +83,14 @@ def register_submit(request):
             return HttpResponseRedirect(reverse("index"))
         except IntegrityError:
             messages.error(request, "Username already taken.")
-            return render(request, "app/index.html")
+            return render(request, "app/register.html")
     else:
-        return render(request, "app/index.html")
+        return render(request, "app/register.html")
 
 
 def login_view(request):
     return render(request, "app/login.html")
 
-
-# def login_submit(request):
-#     if request.method == "POST":
-#         username = request.POST["username"]
-#         password = request.POST["password"]
-        
-#         if not username:
-#             messages.error(request, "The 'Username' field can not be empty!")
-#             return render(request, "app/index.html")
-#         if not password:
-#             messages.error(request, "The 'Password' field can not be empty!")
-#             return render(request, "app/index.html")
-
-#         user = authenticate(request, username=username, password=password)
-
-#         if user is not None:
-#             login(request, user)
-#             messages.success(request, "You have logged in successfully!")
-#             return HttpResponseRedirect(reverse("index"))
-#         else:
-#             messages.error(request, "Invalid username and/or password.")
-#             return render(request, "app/index.html")
-#     else:
-#         return render(request, "app/index.html")
 
 def login_submit(request):
     if request.method == "POST":
@@ -129,9 +105,9 @@ def login_submit(request):
             return HttpResponseRedirect(reverse("index"))
         except:
             messages.error(request, "Invalid username and/or password.")
-            return render(request, "app/index.html")
+            return render(request, "app/login.html")
     else:
-        return render(request, "app/index.html")
+        return render(request, "app/login.html")
 
 
 def logout_view(request):

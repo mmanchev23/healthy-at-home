@@ -1,36 +1,33 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="modal fade" id="registerModal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h2>Register</h2>
-                        </div>
-                        <form action="{% url 'register-submit' %}" method="post">
-                            {% csrf_token %}
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <input class="form-control" autofocus type="text" name="username" placeholder="Username">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="text" name="email" placeholder="Email">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="password" name="password" placeholder="Password">
-                                </div>
-                                <div class="form-group">
-                                    <input class="form-control" type="password" name="confirmation" placeholder="Confirm Password">
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <input class="btn btn-success" type="submit" value="Register">
-                                <input class="btn btn-primary" type="submit" data-dismiss="modal" value="Close">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+{% extends "app/layout.html" %}
+
+{% block body %}
+<div id="register-form">
+    <form action="{% url 'register-submit' %}" method="POST" id="register">
+        {% csrf_token %}
+        <h2>Sign Up</h2>
+        <hr>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" minlength="8" aria-describedby="username" placeholder="Enter username" name="username" required>
         </div>
-    </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" aria-describedby="email" placeholder="Enter email" name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" minlength="8" aria-describedby="password" placeholder="Enter password" name="password" required>
+        </div>
+        <div class="form-group">
+            <label for="confirm_password">Confirm Password</label>
+            <input type="password" class="form-control" minlength="8" aria-describedby="confirm_password" placeholder="Confirm password" name="confirm_password" required>
+        </div>
+        <hr>
+        <div class="form-group">
+            <input type="submit" class="btn btn-success" value="Sign Up" style="width: 100px;">
+            <a href="{% url 'index' %}" class="btn btn-primary" style="width: 100px;">Back</a>
+        </div>
+        <a href="{% url 'login' %}">Already have an account?</a>
+    </form>
 </div>
+{% endblock %}

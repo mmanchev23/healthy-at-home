@@ -1,0 +1,15 @@
+#login-form {
+    display: block;
+    text-align: center;
+}
+
+#login {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 50px;
+    text-align: center;
+    background-color: white;
+    padding: 50px 100px 50px 100px;
+    border-radius: 20px;
+}

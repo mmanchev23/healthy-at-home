@@ -7,7 +7,9 @@
         <title>{% block title %} Healthy At Home {% endblock %}</title>
         <link rel="stylesheet" href="{% static 'app/css/index.css' %}"/>
         <link rel="stylesheet" href="{% static 'app/css/layout.css' %}"/>
+        <link rel="stylesheet" href="{% static 'app/css/login.css' %}"/>
         <link rel="stylesheet" href="{% static 'app/css/profile.css' %}"/>
+        <link rel="stylesheet" href="{% static 'app/css/register.css' %}"/>
         <link rel="stylesheet" href="{% static 'app/css/settings.css' %}"/>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"/>
@@ -50,8 +52,6 @@
         {% block body %}
         {% endblock %}
 
-        {% include "app/register.html" %}
-        {% include "app/login.html" %}
         {% include "app/logout.html" %}
 
         <script>
