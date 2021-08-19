@@ -10,6 +10,23 @@
     margin: 50px;
     text-align: center;
     background-color: white;
-    padding: 50px 100px 50px 100px;
+    padding: 50px 70px 50px 70px;
     border-radius: 20px;
+}
+
+h5 {
+    display: flex;
+    flex-direction: row;
+}
+h5:before, h5:after{
+    content: "";
+    flex: 1 1;
+    border-bottom: 1px solid;
+    margin: auto;
+}
+h5:before {
+    margin-right: 10px;
+}
+h5:after {
+    margin-left: 10px;
 }

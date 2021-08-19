@@ -4,7 +4,7 @@
 <div id="login-form">
     <form action="{% url 'login-submit' %}" method="POST" id="login">
         {% csrf_token %}
-        <h2>Sign In</h2>
+        <h3>Sign In</h3>
         <hr>
         <div class="form-group">
             <label for="username">Username</label>
@@ -14,16 +14,30 @@
             <label for="password">Password</label>
             <input type="password" class="form-control" aria-describedby="password" placeholder="Enter password" name="password" required>
         </div>
-        <hr>
         <div class="form-group">
-            <input type="submit" class="btn btn-success" value="Sign In" style="width: 170px;">
-            <a href="{% url 'index' %}" class="btn btn-primary" style="width: 170px;">Back</a>
-            <a href="{% url 'register' %}" class="btn btn-secondary" style="width: 170px;">Don't an account?</a>
+            <button class="btn btn-primary" type="submit" style="width: 150px;">
+                <i class="fa fa-sign-in" aria-hidden="true"></i> Sign In
+            </button>
+            <!-- <a href="{% url 'index' %}" class="btn btn-primary">
+                <i class="fa fa-undo" aria-hidden="true"></i> Back to Home Page
+            </a> -->
+            <a href="{% url 'register' %}" class="btn btn-primary" style="width: 150px;">
+                <i class="fa fa-user-times" aria-hidden="true"></i> No account?
+            </a>
         </div>
-        <hr>
+        <br>
+        <h5>Sign Up via Social Platforms?</h5>
         <div class="form-group">
-            <a href="{% url 'social:begin' 'github' %}" class="btn btn-dark"><i class="fa fa-github"></i> Github</a>
-            <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-primary"><i class="fa fa-facebook"></i> Facebook</a>
+            <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-light">
+                <!-- <i class="fa fa-facebook-official" aria-hidden="true"></i> -->
+                <img src="../../../images/facebook.png" alt="Sign In via Facebook" width="20px">
+                Sign In via Facebook
+            </a>
+            <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-light">
+                <!-- <i class="fa fa-google" aria-hidden="true"></i> -->
+                <img src="../../../images/google.png" alt="Sign In via Google" width="20px">
+                Sign In via Google
+            </a>
         </div>
     </form>
 </div>

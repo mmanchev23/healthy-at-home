@@ -24,10 +24,29 @@
         </div>
         <hr>
         <div class="form-group">
-            <input type="submit" class="btn btn-success" value="Sign Up" style="width: 100px;">
-            <a href="{% url 'index' %}" class="btn btn-primary" style="width: 100px;">Back</a>
+            <button class="btn btn-primary" type="submit" style="width: 200px;">
+                <i class="fa fa-user-plus" aria-hidden="true"></i> Sign Up
+            </button>
+            <a href="{% url 'login' %}" class="btn btn-primary" style="width: 200px;">
+                <i class="fa fa-user-circle" aria-hidden="true"></i> Have an account?
+            </a>
         </div>
-        <a href="{% url 'login' %}">Already have an account?</a>
+        <br>
+        <h5>Sign Up via Social Platforms?</h5>
+        <div class="form-group">
+            <div class="form-group">
+                <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-light">
+                    <!-- <i class="fa fa-facebook-official" aria-hidden="true"></i> -->
+                    <img src="../../../images/facebook.png" alt="Sign In via Facebook" width="20px">
+                    Sign In via Facebook
+                </a>
+                <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-light">
+                    <!-- <i class="fa fa-google" aria-hidden="true"></i> -->
+                    <img src="../../../images/google.png" alt="Sign In via Google" width="20px">
+                    Sign In via Google
+                </a>
+            </div>
+        </div>
     </form>
 </div>
 {% endblock %}
