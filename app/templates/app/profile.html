@@ -14,7 +14,7 @@
                       {% if user.first_name and user.last_name %}
                         {{ user.first_name }} {{ user.last_name }}
                       {% else %}
-                        No information
+                        {{ user.username }}
                       {% endif %}
                     </h4>
                     <h5>

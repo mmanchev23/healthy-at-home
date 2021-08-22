@@ -50,14 +50,11 @@ class Workout(models.Model):
         return f"{self.title}"
 
     @property
-    def imageURL(self):
-
-        try:
-            url = self.image.url
-        except:
-            url = ''
-
-        return url
+    def image_url(self):
+        if self.workout_image and hasattr(self.workout_image, 'url'):
+            return self.workout_image.url
+        else:
+            return ""
 
     def save(self, *args, **kwargs):
         url = self.video_url

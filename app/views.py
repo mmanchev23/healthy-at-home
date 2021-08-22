@@ -5,6 +5,8 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.db.models import Q 
+import os
 
 
 # Authentication Views
@@ -110,7 +112,6 @@ def sign_out(request):
     messages.success(request, "You have logged out successfully!")
     return HttpResponseRedirect(reverse("index"))
 
-# Profile Views
 def profile(request):
     try:
         user = Customer.objects.get(pk=request.user.pk)
@@ -270,7 +271,6 @@ def profile_delete_submit(request):
         messages.error(request, "An error occured!")
         return HttpResponseRedirect(reverse("profile_edit", kwargs=context))
 
-# Tasks Views
 def tasks(request):
     user = Customer.objects.get(pk=request.user.pk)
     tasks = Task.objects.filter(customer=user)
@@ -295,30 +295,157 @@ def task_create(request):
 def task_edit(request, id):
     if request.method == "POST":
         task = Task.objects.get(pk=id)
-        title = request.POST.get("title")
-        description = request.POST.get("description")
-        completed = request.POST.get("completed")
+        if task.customer == request.user:
+            title = request.POST.get("title")
+            description = request.POST.get("description")
+            completed = request.POST.get("completed")
 
-        task.title = title
-        task.description = description
+            task.title = title
+            task.description = description
 
-        if completed == "on":
-            task.completed = True
+            if completed == "on":
+                task.completed = True
+            else:
+                task.completed = False
+
+            task.save()
+
+            messages.success(request, "Task updated successfully!")
+            return HttpResponseRedirect(reverse("tasks"))
         else:
-            task.completed = False
-
-        task.save()
-
-        messages.success(request, "Task updated successfully!")
-        return HttpResponseRedirect(reverse("tasks"))
+            messages.error(request, "No such rights!")
+            return HttpResponseRedirect(reverse("tasks"))
     else:
         return render(request, "app/tasks.html")
 
 def task_delete(request, id):
     if request.method == "POST":
         task = Task.objects.get(pk=id)
-        task.delete()
-        messages.success(request, "Task deleted successfully!")
-        return HttpResponseRedirect(reverse("tasks"))
+        if task.customer == request.user:
+            task.delete()
+            messages.success(request, "Task deleted successfully!")
+            return HttpResponseRedirect(reverse("tasks"))
+        else:
+            messages.error(request, "No such rights!")
+            return HttpResponseRedirect(reverse("tasks"))
     else:
         return render(request, "app/tasks.html")
+
+def workouts(request):
+    user = Customer.objects.get(pk=request.user.pk)
+    workouts = Workout.objects.filter(Q(customer=user) | Q(public=True))
+
+    context = {
+        "user": user,
+        "workouts": workouts,
+    }
+
+    return render(request, "app/workouts.html", context)
+
+def workout_create(request):
+    if request.method == "POST":
+        user = Customer.objects.get(pk=request.user.pk)
+
+        title = request.POST.get("title")
+
+        if "workout_image" in request.FILES:
+            workout_image = request.FILES["workout_image"]
+        else:
+            workout_image = os.path.basename("default_workout_image.png")
+        
+        video_url = request.POST.get("video_url")
+        if video_url:
+            video_url = request.POST.get("video_url")
+        else:
+            video_url = "https://www.youtube.com/embed/oAPCPjnU1wA"
+
+        description = request.POST.get("description")
+        if description:
+            description = request.POST.get("description")
+        else:
+            description = "No description yet..."
+
+        exercises = request.POST.get("exercises")
+        if exercises:
+            exercises = request.POST.get("exercises")
+        else:
+            exercises = "No exercises yet..."
+
+        public = request.POST.get("public")
+        if public == "on":
+            public = True
+        else:
+            public = False
+        
+        workout = Workout.objects.create(
+            customer=user,
+            title=title,
+            workout_image=workout_image,
+            video_url=video_url,
+            description=description,
+            exercises=exercises,
+            public=public,
+        )
+        
+        messages.success(request, "Workout created successfully!")
+        return HttpResponseRedirect(reverse("workouts"))
+    else:
+        return render(request, "app/workouts.html")
+
+def workout(request, id):
+    workout = Workout.objects.get(pk=id)
+
+    context = {
+        "workout": workout,
+    }
+
+    return render(request, "app/workout.html", context)
+
+def workout_edit(request, id):
+    if request.method == "POST":
+        workout = Workout.objects.get(pk=id)
+        if workout.customer == request.user:
+            if "workout_image" in request.FILES:
+                workout_image = request.FILES["workout_image"]
+            else:
+                workout_image = workout.workout_image
+
+            title = request.POST.get("title")
+            video_url = request.POST.get("video_url")
+            description = request.POST.get("description")
+            exercises = request.POST.get("exercises")
+            public = request.POST.get("public")
+
+            workout.title = title
+            workout.workout_image = workout_image
+            workout.video_url = video_url
+            workout.exercises = exercises
+            workout.description = description
+
+            if public == "on":
+                workout.public = True
+            else:
+                workout.public = False
+
+            workout.save()
+
+            messages.success(request, "Workout updated successfully!")
+            return HttpResponseRedirect(reverse("workouts"))
+        else:
+            messages.error(request, "No such rights!")
+            return HttpResponseRedirect(reverse("workouts"))
+    else:
+        return render(request, "app/workouts.html")
+
+def workout_delete(request, id):
+    if request.method == "POST":
+        workout = Workout.objects.get(pk=id)
+        if workout.customer == request.user:
+            workout.delete()
+            messages.success(request, "Workout deleted successfully!")
+            return HttpResponseRedirect(reverse("workouts"))
+        else:
+            messages.error(request, "No such rights!")
+            return HttpResponseRedirect(reverse("workouts"))
+    else:
+        return render(request, "app/workouts.html")

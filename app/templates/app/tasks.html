@@ -6,7 +6,12 @@
         <div class="row m-1 p-4">
             <div class="col">
                 <div class="text-center">
-                    <h1>Tasks - {{ user.first_name }} {{ user.last_name }}</h1>
+                    {% if user.first_name and user.last_name %}
+                        <h1>Tasks - {{ user.first_name }} {{ user.last_name }}</h1>
+                    {% else %}
+                        <h1>Tasks - {{ user.username }}</h1>
+                    {% endif %}
+                    
                 </div>
             </div>
         </div>
@@ -79,13 +84,16 @@
                                     </div>
                                     <div class="modal-body">
                                         <div class="form-group">
+                                            <label for="title" class="form-label">Title</label>
                                             <input class="form-control" type="text" name="title" value="{{ task.title }}" placeholder="Enter title">
                                         </div>
                                         <div class="form-group">
-                                            <input class="form-control" type="text" name="description" value="{{ task.description }}" placeholder="Enter description">
+                                            <label for="description" class="form-label">Description</label>
+                                            <textarea class="form-control" type="text" name="description" placeholder="Enter description">{{ task.description }}</textarea>
                                         </div>
                                         <div class="form-group">
-                                            <input  type="checkbox" name="completed" {% if task.completed %}checked{% endif %}> Completed
+                                            <input  type="checkbox" name="completed" {% if task.completed %}checked{% endif %}>
+                                            <label for="completed" class="form-label">Completed</label>
                                         </div>
                                     </div>
                                     <div class="modal-footer">

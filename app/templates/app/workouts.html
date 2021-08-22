@@ -1,0 +1,68 @@
+{% extends "app/layout.html" %}
+
+{% block body %}
+    <div id="workout">
+        <a href="" class="btn btn-success"  data-toggle="modal" data-target="#createWorkoutModal">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>
+        {% for workout in workouts %}
+            <div class="card" style="width: 18rem;">
+                <img src="{{ workout.image_url }}" class="card-img-top" alt="We couldn't load the image...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ workout.title }}</h5>
+                    <p class="card-text">{{ workout.description }}</p>
+                    <a href="{% url 'workout' id=workout.id %}" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        {% empty %}
+            <h1>No workouts yet...</h1>
+        {% endfor %}
+    </div>
+
+    <div class="modal fade" id="createWorkoutModal">
+        <form action="{% url 'workout_create' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Create Workout</h2>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="title" class="form-label">Title</label>
+                            <input class="form-control" type="text" name="title" placeholder="Enter title">
+                        </div>
+                        <div class="form-group">
+                            <label for="workout_image" class="form-label">Image</label>
+                            <input class="form-control" type="file" name="workout_image" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label for="video_url" class="form-label">Video URL</label>
+                            <input class="form-control" type="url" name="video_url" placeholder="Enter Video URL">
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" type="text" name="description" placeholder="Enter description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="exercises" class="form-label">Exercises</label>
+                            <textarea class="form-control" type="text" name="exercises" placeholder="Enter exercises"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input  type="checkbox" name="public">
+                            <label for="public" class="form-label">Public</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-success" type="submit" style="width: 100px;">
+                            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                        </button>
+                        <button class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
+                            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

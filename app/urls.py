@@ -45,6 +45,13 @@ urlpatterns = [
     path("task/create/", task_create, name="task_create"),
     path("task/<id>/edit/", task_edit, name="task_edit"),
     path("task/<id>/delete/", task_delete, name="task_delete"),
+
+    # Workouts routing
+    path("workouts/", workouts, name="workouts"),
+    path("workout/create/", workout_create, name="workout_create"),
+    path("workout/<id>/", workout, name="workout"),
+    path("workout/<id>/edit/", workout_edit, name="workout_edit"),
+    path("workout/<id>/delete/", workout_delete, name="workout_delete"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
