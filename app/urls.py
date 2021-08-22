@@ -14,17 +14,15 @@ urlpatterns = [
     path("register-submit/", views.register_submit, name="register-submit"),
     path("login/", views.login_view, name="login"),
     path("login-submit/", views.login_submit, name="login-submit"),
-    path("logout/", views.logout_view, name="logout"),
     path("logout-submit/", views.logout_submit, name="logout-submit"),
-
     path('oauth/', include('social_django.urls', namespace='social')),
 
     # Profile routing
-    path("<username>/", views.profile_view, name="profile"),
-    path("<username>/settings/", views.profile_settings_view, name="settings"),
-    path("<username>/edit-profile-submit/", views.profile_edit_submit, name="edit-profile-submit"),
-    path("<username>/delete/", views.profile_delete_view, name="delete-profile"),
-    path("<username>/delete-profile-submit/", views.profile_delete_submit, name="delete-profile-submit"),
+    path("profile/", views.profile_view, name="profile"),
+    path("profile/settings/", views.profile_settings_view, name="settings"),
+    path("profile/edit-profile-submit/", views.profile_edit_submit, name="edit-profile-submit"),
+    path("profile/delete/", views.profile_delete_view, name="delete-profile"),
+    path("profile/delete-profile-submit/", views.profile_delete_submit, name="delete-profile-submit"),
 
     # Workouts routing
     path("workouts/", views.workouts, name="workouts"),
@@ -38,13 +36,9 @@ urlpatterns = [
 
     # Tasks routing
     path("tasks/", views.tasks, name="tasks"),
-    path("task/<id>/", views.task, name="task"),
-    path("task/create/", views.task_create, name="create_task"),
-    path("task/create-submit/", views.task_create_submit, name="create-task-submit"),
-    path("task/<id>/edit/", views.task_edit, name="edit_task"),
-    path("task/<id>/edit-submit/", views.task_edit_submit, name="edit-task-submit"),
-    path("task/<id>/delete/", views.task_delete, name="delete_task"),
-    path("task/<id>/delete-submit/", views.task_delete_submit, name="delete-task-submit"),
+    path("task/create/", views.task_create, name="task-create"),
+    path("task/<id>/edit/", views.task_edit, name="task-edit"),
+    path("task/<id>/delete/", views.task_delete, name="task-delete"),
 
     # BMIs Routing
     path("bmis/", views.bmis, name="bmis"),

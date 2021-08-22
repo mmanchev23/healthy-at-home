@@ -11,10 +11,8 @@ from django.contrib.auth import authenticate, login, logout
 def index_view(request):
     return render(request, "app/index.html")
 
-
 def register_view(request):
     return render(request, "app/register.html")
-
 
 def register_submit(request):
     if request.method == "POST":
@@ -87,10 +85,8 @@ def register_submit(request):
     else:
         return render(request, "app/register.html")
 
-
 def login_view(request):
     return render(request, "app/login.html")
-
 
 def login_submit(request):
     if request.method == "POST":
@@ -109,21 +105,15 @@ def login_submit(request):
     else:
         return render(request, "app/login.html")
 
-
-def logout_view(request):
-    return render(request, "app/logout.html")
-
-
 def logout_submit(request):
     logout(request)
     messages.success(request, "You have logged out successfully!")
     return HttpResponseRedirect(reverse("index"))
 
-
 # Profile Views
-def profile_view(request, username):
+def profile_view(request):
     try:
-        user = Customer.objects.get(username=username)
+        user = Customer.objects.get(pk=request.user.pk)
     except Customer.DoesNotExist:
         user = None
 
@@ -142,10 +132,9 @@ def profile_view(request, username):
 
     return render(request, "app/profile.html", context)
 
-
-def profile_settings_view(request, username):
+def profile_settings_view(request):
     try:
-        user = Customer.objects.get(username=username)
+        user = Customer.objects.get(pk=request.user.pk)
     except Customer.DoesNotExist:
         user = None
 
@@ -156,11 +145,10 @@ def profile_settings_view(request, username):
 
     return render(request, "app/settings.html", context)
 
-
-def profile_edit_submit(request, username):
+def profile_edit_submit(request):
     if request.method == "POST":
         try:
-            user = Customer.objects.get(username=username)
+            user = Customer.objects.get(pk=request.user.pk)
         except Customer.DoesNotExist:
             user = None
 
@@ -197,7 +185,7 @@ def profile_edit_submit(request, username):
         phone_number = request.POST.get("phone_number")
         mobile_number = request.POST.get("mobile_number")
 
-        user.username = username
+        user.user.pkname = username
         user.email = email
         user.first_name = first_name
         user.last_name = last_name
@@ -212,19 +200,19 @@ def profile_edit_submit(request, username):
                             user.set_password(new_password)
                             user.save()
                             messages.success(request, "Password updated successfully!")
-                            return HttpResponseRedirect(reverse("index"))
+                            return HttpResponseRedirect(reverse("profile", kwargs={ "user": user }))
                         else:
                             messages.error(request, "Passwords should match!")
-                            return HttpResponseRedirect(reverse("index"))
+                            return HttpResponseRedirect(reverse("settings", kwargs={ "user": user }))
                     else:
                         messages.error(request, "That's not your current password!")
-                        return HttpResponseRedirect(reverse("index"))
+                        return HttpResponseRedirect(reverse("settings", kwargs={ "user": user }))
                 else:
                     messages.error(request, "'Confirm Password' field can not be empty!")
-                    return HttpResponseRedirect(reverse("index"))
+                    return HttpResponseRedirect(reverse("settings", kwargs={ "user": user }))
             else:
                 messages.error(request, "'New Password' field can not be empty!")
-                return HttpResponseRedirect(reverse("index"))
+                return HttpResponseRedirect(reverse("settings", kwargs={ "user": user }))
         else:
             pass
 
@@ -251,15 +239,13 @@ def profile_edit_submit(request, username):
         messages.error(request, "An error occured!")
         return HttpResponseRedirect(reverse("index"))
 
-
-def profile_delete_view(request, username):
+def profile_delete_view(request):
     return render(request, "app/delete-profile.html")
 
-
-def profile_delete_submit(request, username):
+def profile_delete_submit(request):
     if request.method == "POST":
         try:
-            user = Customer.objects.get(username=username)
+            user = Customer.objects.get(pk=request.user.pk)
         except Customer.DoesNotExist:
             user = None
 
@@ -271,78 +257,88 @@ def profile_delete_submit(request, username):
             return HttpResponseRedirect(reverse("index"))
         else:
             messages.error(request, "Wrong password!")
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("settings", kwargs={ "user": user }))
     else:
         messages.error(request, "An error occured!")
-        return HttpResponseRedirect(reverse("index"))
-
+        return HttpResponseRedirect(reverse("settings", kwargs={ "user": user }))
 
 # Workouts Views
 def workouts(request):
     pass
 
-
 def workout(request, id):
     pass
-
 
 def workout_create(request):
     pass
 
-
 def workout_create_submit(request):
     pass
-
 
 def workout_edit(request, id):
     pass
 
-
 def workout_edit_submit(request, id):
     pass
-
 
 def workout_delete(request, id):
     pass
 
-
 def workout_delete_submit(request, id):
     pass
 
-
 # Tasks Views
 def tasks(request):
-    pass
+    user = Customer.objects.get(pk=request.user.pk)
+    tasks = Task.objects.filter(customer=user)
 
+    context = {
+        "user": user,
+        "tasks": tasks,
+    }
 
-def task(request, id):
-    pass
-
+    return render(request, "app/tasks.html", context)
 
 def task_create(request):
-    pass
-
-
-def task_create_submit(request):
-    pass
-
+    if request.method == "POST":
+        user = Customer.objects.get(pk=request.user.pk)
+        title = request.POST.get("title")
+        task = Task.objects.create(customer=user, title=title)
+        messages.success(request, "Task created successfully!")
+        return HttpResponseRedirect(reverse("tasks"))
+    else:
+        return render(request, "app/tasks.html")
 
 def task_edit(request, id):
-    pass
+    if request.method == "POST":
+        task = Task.objects.get(pk=id)
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        completed = request.POST.get("completed")
 
+        task.title = title
+        task.description = description
 
-def task_edit_submit(request, id):
-    pass
+        if completed == "on":
+            task.completed = True
+        else:
+            task.completed = False
 
+        task.save()
+
+        messages.success(request, "Task updated successfully!")
+        return HttpResponseRedirect(reverse("tasks"))
+    else:
+        return render(request, "app/tasks.html")
 
 def task_delete(request, id):
-    pass
-
-
-def task_delete_submit(request, id):
-    pass
-
-
+    if request.method == "POST":
+        task = Task.objects.get(pk=id)
+        task.delete()
+        messages.success(request, "Task deleted successfully!")
+        return HttpResponseRedirect(reverse("tasks"))
+    else:
+        return render(request, "app/tasks.html")
 
 # BMIs Views
 def bmis(request):

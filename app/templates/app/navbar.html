@@ -25,7 +25,7 @@
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                 <li>
-                  <a style="text-align: center;" class="dropdown-item" href="{% url 'profile' user.username %}"><i class="fa fa-address-card" aria-hidden="true"></i>
+                  <a style="text-align: center;" class="dropdown-item" href="{% url 'profile' %}"><i class="fa fa-address-card" aria-hidden="true"></i>
                     {% if user.first_name and user.last_name %}
                       {{ user.first_name }} {{ user.last_name }}
                     {% else %}
@@ -37,7 +37,7 @@
                   <li><a style="text-align: center;" class="dropdown-item" href="{% url 'admin:index' %}"><i class="fa fa-cog"></i> Admin Panel</a></li>
                 {% endif %}
                 <li><a style="text-align: center;" class="dropdown-item" href="/api/"><i class="fa fa-file-code-o" aria-hidden="true"></i> API</a></li>
-                <li><a style="text-align: center;" class="dropdown-item" href="{% url 'logout' %}" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out"></i> Sign out</a></li>
+                <li><a style="text-align: center;" class="dropdown-item" href="" data-toggle="modal" data-target="#logoutModal"><i class="fa fa-sign-out"></i> Sign out</a></li>
               </ul>
             </li>
           </ul>
