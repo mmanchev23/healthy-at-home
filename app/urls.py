@@ -33,8 +33,8 @@ urlpatterns = [
     path("profile/", profile, name="profile"),
 
     # Profile Settings Routes
-    path("settings/", profile_edit, name="profile_edit"),
-    path("settings/submit/", profile_edit_submit, name="profile_edit_submit"),
+    path("profile/settings/", profile_edit, name="profile_edit"),
+    path("profile/settings/submit/", profile_edit_submit, name="profile_edit_submit"),
     
     # Profile Delete Routes
     path("profile/delete/", profile_delete, name="profile_delete"),

@@ -38,24 +38,6 @@
                         No information
                       {% endif %}
                     </p>
-                    <hr>
-                    <p>
-                      <a class="btn btn-primary" href="{% url 'index' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page">
-                        <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                      </a>
-                      <a class="btn btn-primary" href="{% url 'profile_edit' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Profile Settings">
-                        <i class="fa fa-cogs" aria-hidden="true"></i>
-                      </a>
-                      <a class="btn btn-primary" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="BMI Calculator">
-                        <i class="fa fa-calculator"></i>
-                      </a>
-                      <a class="btn btn-primary" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Workouts">
-                        <i class="fa fa-trophy"></i>
-                      </a>
-                      <a class="btn btn-primary" href="{% url 'tasks' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="To-do List">
-                        <i class="fa fa-check-square-o"></i>
-                      </a>
-                    </p>
                   </div>
                 </div>
               </div>
@@ -118,8 +100,6 @@
           <div class="col-md-8">
             <div class="card mb-3">
               <div class="card-body">
-                <h3>Personal Information</h3>
-                <hr>
                 <div class="row">
                   <div class="col-sm-3">
                     <h6 class="mb-0">Full Name</h6>
@@ -127,6 +107,19 @@
                   <div class="col-sm-9 text-secondary">
                     {% if user.first_name and user.last_name %}
                       {{ user.first_name }} {{ user.last_name }}
+                    {% else %}
+                      No information
+                    {% endif %}
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Username</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    {% if user.username %}
+                      {{ user.username }}
                     {% else %}
                       No information
                     {% endif %}
@@ -171,111 +164,55 @@
                     {% endif %}
                   </div>
                 </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">Address</h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    {% if user.city and user.state and user.country %}
-                      {{ user.city }}, {{ user.state }}, {{ user.country }}
-                    {% else %}
-                      No information
-                    {% endif %}
-                  </div>
-                </div>
-                <hr>
-                <h3>Daily Intake</h3>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">Calories</h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    {% if total_calories %}
-                      {{ total_calories }}
-                    {% else %}
-                      No information
-                    {% endif %}
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">Fat</h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    {% if total_fat %}
-                      {{ total_fat }}
-                    {% else %}
-                      No information
-                    {% endif %}
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">Protein</h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    {% if total_protein %}
-                      {{ total_protein }}
-                    {% else %}
-                      No information
-                    {% endif %}
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">Carbs</h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    {% if total_carbs %}
-                      {{ total_carbs }}
-                    {% else %}
-                      No information
-                    {% endif %}
-                  </div>
-                </div>
               </div>
             </div>
 
-            <!-- <div class="row gutters-sm">
+            <div class="row gutters-sm">
               <div class="col-sm-6 mb-3">
                 <div class="card h-100">
                   <div class="card-body">
-                    <h3 class="d-flex align-items-center mb-3">Daily Intake</h3>
+                    <h5 class="d-flex align-items-center mb-3">Daily Intake</h5>
                     <div>
-                      Calories - {{ total_calories }}
+                      <h6>Calories - {{ total_calories }}</h6>
                     </div>
                     <hr>
                     <div>
-                      Fat - {{ total_fat }}
+                      <h6>Fat - {{ total_fat }}</h6>
                     </div>
                     <hr>
                     <div>
-                      Protein - {{ total_protein }}
+                      <h6>Protein - {{ total_protein }}</h6>
                     </div>
                     <hr>
                     <div>
-                      Carbs - {{ total_carbs }}
+                      <h6>Carbs - {{ total_carbs }}</h6>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div class="col-sm-6 mb-3">
-                <div class="card h-100">
-                  <div class="card-body">
-                    <h3 class="d-flex align-items-center mb-3">Other features</h3>
-                      <a class="btn btn-primary" href="{% url 'profile_edit'  %}"><i class="fa fa-cogs" aria-hidden="true"></i></a>
-                      <a class="btn btn-primary" href="#"><i class="fa fa-calculator"></i></a>
-                      <a class="btn btn-primary" href="#"><i class="fa fa-trophy"></i></a>
-                      <a class="btn btn-primary" href="#"><i class="fa fa-check-square-o"></i></a>
+                <div class="card">
+                  <div class="card-body text-center" style="padding: 5%;">
+                    <h3 class="text-center">Other features</h3>
+                    <a class="btn btn-primary" href="{% url 'index' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page">
+                      <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                    </a>
+                    <a class="btn btn-primary" href="{% url 'profile_edit' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Profile Settings">
+                      <i class="fa fa-cogs" aria-hidden="true"></i>
+                    </a>
+                    <a class="btn btn-primary" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="BMI Calculator">
+                      <i class="fa fa-calculator"></i>
+                    </a>
+                    <a class="btn btn-primary" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Workouts">
+                      <i class="fa fa-trophy"></i>
+                    </a>
+                    <a class="btn btn-primary" href="{% url 'tasks' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Tasks">
+                      <i class="fa fa-check-square-o"></i>
+                    </a>
                   </div>
                 </div>
-              </div> -->
+              </div>
               
           </div>
         </div>
