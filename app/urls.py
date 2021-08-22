@@ -1,4 +1,4 @@
-from . import views
+from .views import *
 from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
@@ -6,59 +6,45 @@ from django.conf.urls.static import static
 
 urlpatterns = [
 
-    # Authentication routing
+    # API Route
     path("api/", include("api.urls")),
-    path("", views.index_view, name="index"),
+
+    # Index Route
+    path("", index, name="index"),
+
+    # Admin Route
     path("admin/", admin.site.urls, name="admin"),
-    path("register/", views.register_view, name="register"),
-    path("register-submit/", views.register_submit, name="register-submit"),
-    path("login/", views.login_view, name="login"),
-    path("login-submit/", views.login_submit, name="login-submit"),
-    path("logout-submit/", views.logout_submit, name="logout-submit"),
-    path('oauth/', include('social_django.urls', namespace='social')),
 
-    # Profile routing
-    path("profile/", views.profile_view, name="profile"),
-    path("profile/settings/", views.profile_settings_view, name="settings"),
-    path("profile/edit-profile-submit/", views.profile_edit_submit, name="edit-profile-submit"),
-    path("profile/delete/", views.profile_delete_view, name="delete-profile"),
-    path("profile/delete-profile-submit/", views.profile_delete_submit, name="delete-profile-submit"),
+    # Register Routes
+    path("sign-up/", sign_up, name="sign_up"),
+    path("sign-up/submit/", sign_up_submit, name="sign_up_submit"),
 
-    # Workouts routing
-    path("workouts/", views.workouts, name="workouts"),
-    path("workout/<id>/", views.workout, name="workout"),
-    path("workout/create/", views.workout_create, name="create_workout"),
-    path("workout/create-submit/", views.workout_create_submit, name="create-workout-submit"),
-    path("workout/<id>/edit/", views.workout_edit, name="edit_workout"),
-    path("workout/<id>/edit-submit/", views.workout_edit_submit, name="edit-workout-submit"),
-    path("workout/<id>/delete/", views.workout_delete, name="delete_workout"),
-    path("workout/<id>/delete-submit/", views.workout_delete_submit, name="delete-workout-submit"),
+    # Log In Routes
+    path("sign-in/", sign_in, name="sign_in"),
+    path("sign-in/submit/", sign_in_submit, name="sign_in_submit"),
+
+    # Log Out Routes
+    path("sign-out/submit/", sign_out, name="sign_out"),
+
+    # Social Log In Route
+    path("oauth/", include("social_django.urls", namespace="social")),
+
+    # Profile Route
+    path("profile/", profile, name="profile"),
+
+    # Profile Settings Routes
+    path("settings/", profile_edit, name="profile_edit"),
+    path("settings/submit/", profile_edit_submit, name="profile_edit_submit"),
+    
+    # Profile Delete Routes
+    path("profile/delete/", profile_delete, name="profile_delete"),
+    path("profile/delete/submit/", profile_delete_submit, name="profile_delete_submit"),
 
     # Tasks routing
-    path("tasks/", views.tasks, name="tasks"),
-    path("task/create/", views.task_create, name="task-create"),
-    path("task/<id>/edit/", views.task_edit, name="task-edit"),
-    path("task/<id>/delete/", views.task_delete, name="task-delete"),
-
-    # BMIs Routing
-    path("bmis/", views.bmis, name="bmis"),
-    path("bmi/<id>/", views.bmi, name="bmi"),
-    path("bmi/create/", views.bmi_create, name="create_bmi"),
-    path("bmi/create-submit/", views.bmi_create_submit, name="create-bmi-submit"),
-    path("bmi/<id>/edit/", views.bmi_edit, name="edit_bmi"),
-    path("bmi/<id>/edit-submit/", views.bmi_edit_submit, name="edit-bmi-submit"),
-    path("bmi/<id>/delete/", views.bmi_delete, name="delete_bmi"),
-    path("bmi/<id>/delete-submit/", views.bmi_delete_submit, name="delete-bmi-submit"),
-
-    # Calorie Counters Routing
-    path("calorie-counters/", views.calorie_counters, name="calorie_counters"),
-    path("calorie-counter/<id>/", views.calorie_counter, name="calorie_counter"),
-    path("calorie-counter/create/", views.calorie_counter_create, name="create-calorie-counter"),
-    path("calorie-counter/create-submit/", views.calorie_counter_create_submit, name="create-calorie-counter-submit"),
-    path("calorie-counter/<id>/edit/", views.calorie_counter_edit, name="edit-calorie-counter"),
-    path("calorie-counter/<id>/edit-submit/", views.calorie_counter_edit_submit, name="edit-calorie-counter-submit"),
-    path("calorie-counter/<id>/delete/", views.calorie_counter_delete, name="delete-calorie-counter"),
-    path("calorie-counter/<id>/delete-submit/", views.calorie_counter_delete_submit, name="delete-calorie-counter-submit"),
+    path("tasks/", tasks, name="tasks"),
+    path("task/create/", task_create, name="task_create"),
+    path("task/<id>/edit/", task_edit, name="task_edit"),
+    path("task/<id>/delete/", task_delete, name="task_delete"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

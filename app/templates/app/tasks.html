@@ -11,7 +11,7 @@
             </div>
         </div>
         <!-- Create todo section -->
-        <form action="{% url 'task-create' %}" method="POST">
+        <form action="{% url 'task_create' %}" method="POST">
             {% csrf_token %}
             <div class="row m-1 p-3">
                 <div class="col col-11 mx-auto">
@@ -70,7 +70,7 @@
                     </div>
                     <hr>
                     <div class="modal fade" id="editTaskModal">
-                        <form action="{% url 'task-edit' id=task.id %}" method="POST">
+                        <form action="{% url 'task_edit' id=task.id %}" method="POST">
                             {% csrf_token %}
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -102,7 +102,7 @@
                     </div>
 
                     <div class="modal fade" id="deleteTaskModal">
-                        <form action="{% url 'task-delete' id=task.id %}" method="POST">
+                        <form action="{% url 'task_delete' id=task.id %}" method="POST">
                             {% csrf_token %}
                             <div class="modal-dialog">
                                 <div class="modal-content">

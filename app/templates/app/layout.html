@@ -4,7 +4,7 @@
 <html lang="en">
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %} Healthy At Home {% endblock %}</title>
+        <title>{% block title %}Healthy At Home{% endblock %}</title>
         <link rel="stylesheet" href="{% static 'app/css/index.css' %}"/>
         <link rel="stylesheet" href="{% static 'app/css/layout.css' %}"/>
         <link rel="stylesheet" href="{% static 'app/css/login.css' %}"/>
@@ -24,36 +24,36 @@
 
         {% if messages %} 
             {% for message in messages %}
-            <div aria-live="polite" aria-atomic="true">
-                <div class="toast-container position-absolute top-0 end-0">
-                    {% if message.tags == 'success'%}
-                        <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                            <div class="d-flex">
-                                <div class="toast-body">
-                                    {{ message }}
+                <div aria-live="polite" aria-atomic="true">
+                    <div class="toast-container position-absolute top-0 end-0">
+                        {% if message.tags == 'success'%}
+                            <div class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="d-flex">
+                                    <div class="toast-body">
+                                        {{ message }}
+                                    </div>
+                                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                                 </div>
-                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                             </div>
-                        </div>
-                    {% elif message.tags == 'error' %}
-                        <div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
-                            <div class="d-flex">
-                                <div class="toast-body">
-                                    {{ message }}
+                        {% elif message.tags == 'error' %}
+                            <div class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="d-flex">
+                                    <div class="toast-body">
+                                        {{ message }}
+                                    </div>
+                                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                                 </div>
-                                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                             </div>
-                        </div>
-                    {% endif %}
+                        {% endif %}
+                    </div>
                 </div>
-            </div>
             {% endfor %}
         {% endif %}
 
         {% block body %}
         {% endblock %}
 
-        {% include "app/logout.html" %}
+        {% include "app/sign_out.html" %}
 
         <script>
             $(document).ready(function() {
@@ -61,7 +61,8 @@
             });
         </script>
 
-        <!-- <script src="{% static 'app/js/login.js' %}"></script> -->
+        <script src="{% static 'app/js/login.js' %}"></script>
+        <script src="{% static 'app/js/register.js' %}"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

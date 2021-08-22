@@ -6,9 +6,9 @@
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
-{% include "app/delete-profile.html" %}
+{% include "app/profile_delete.html" %}
 
-<form method="POST" action="{% url 'edit-profile-submit' %}" enctype="multipart/form-data">
+<form method="POST" action="{% url 'profile_edit_submit' %}" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="container">
         <div class="row flex-lg-nowrap">
@@ -62,7 +62,7 @@
                                                 <button type="submit" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Save Changes">
                                                     <i class="fa fa-floppy-o" aria-hidden="true"></i>
                                                 </button>
-                                                <a class="btn btn-danger" href="{% url 'delete-profile' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete Profile" data-toggle="modal" data-target="#deleteProfileModal">
+                                                <a class="btn btn-danger" href="{% url 'profile_delete' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete Profile" data-toggle="modal" data-target="#deleteProfileModal">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                                 </a>
                                             </div>
