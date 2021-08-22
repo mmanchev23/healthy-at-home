@@ -8,15 +8,13 @@ from django.contrib.auth import authenticate, login, logout
 
 
 # Authentication Views
-def index_view(request):
+def index(request):
     return render(request, "app/index.html")
 
+def sign_up(request):
+    return render(request, "app/sign_up.html")
 
-def register_view(request):
-    return render(request, "app/register.html")
-
-
-def register_submit(request):
+def sign_up_submit(request):
     if request.method == "POST":
         username = request.POST["username"]
         email = request.POST["email"]
@@ -37,62 +35,60 @@ def register_submit(request):
 
         if not username:
             messages.error(request, "The 'Username' field can not be empty!")
-            return render(request, "app/register.html")
+            return render(request, "app/sign_up.html")
 
         if not email:
             messages.error(request, "The 'Email' field can not be empty!")
-            return render(request, "app/register.html")
+            return render(request, "app/sign_up.html")
 
         if not password:
             messages.error(request, "The 'Password' field can not be empty!")
-            return render(request, "app/register.html")
+            return render(request, "app/sign_up.html")
 
         if not confirm_password:
             messages.error(request, "The 'Confirm password' field can not be empty!")
-            return render(request, "app/register.html")
+            return render(request, "app/sign_up.html")
 
         if password != confirm_password:
             messages.error(request, "Passwords must match!")
-            return render(request, "app/register.html")
+            return render(request, "app/sign_up.html")
 
         if not has_atleast_eight_characters:
             messages.error(request, "The password can not contain less than 8 characters!")
-            return render(request, "app/register.html", )
+            return render(request, "app/sign_up.html", )
 
         if not has_atleast_one_digit:
             messages.error(request, "The password should contains atleast one digit!")
-            return render(request, "app/register.html")
+            return render(request, "app/sign_up.html")
 
         if not has_atleast_one_upper:
             messages.error(request, "The password should contains atleast one upper character!")
-            return render(request, "app/register.html")
+            return render(request, "app/sign_up.html")
 
         if not has_atleast_one_lower:
             messages.error(request, "The password should contains atleast one lower character!")
-            return render(request, "app/register.html")
+            return render(request, "app/sign_up.html")
 
         if not has_no_forbidden:
             messages.error(request, "The password should not contains '!', '$', '#' or '%'!")
-            return render(request, "app/register.html")
+            return render(request, "app/sign_up.html")
 
         try:
             user = Customer.objects.create_user(username, email, password)
             user.save()
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, "You have registered successfully!")
             return HttpResponseRedirect(reverse("index"))
         except IntegrityError:
             messages.error(request, "Username already taken.")
-            return render(request, "app/register.html")
+            return render(request, "app/sign_up.html")
     else:
-        return render(request, "app/register.html")
+        return render(request, "app/sign_up.html")
 
+def sign_in(request):
+    return render(request, "app/sign_in.html")
 
-def login_view(request):
-    return render(request, "app/login.html")
-
-
-def login_submit(request):
+def sign_in_submit(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
@@ -105,25 +101,19 @@ def login_submit(request):
             return HttpResponseRedirect(reverse("index"))
         except:
             messages.error(request, "Invalid username and/or password.")
-            return render(request, "app/login.html")
+            return render(request, "app/sign_in.html")
     else:
-        return render(request, "app/login.html")
+        return render(request, "app/sign_in.html")
 
-
-def logout_view(request):
-    return render(request, "app/logout.html")
-
-
-def logout_submit(request):
+def sign_out(request):
     logout(request)
     messages.success(request, "You have logged out successfully!")
     return HttpResponseRedirect(reverse("index"))
 
-
 # Profile Views
-def profile_view(request, username):
+def profile(request):
     try:
-        user = Customer.objects.get(username=username)
+        user = Customer.objects.get(pk=request.user.pk)
     except Customer.DoesNotExist:
         user = None
 
@@ -142,10 +132,9 @@ def profile_view(request, username):
 
     return render(request, "app/profile.html", context)
 
-
-def profile_settings_view(request, username):
+def profile_edit(request):
     try:
-        user = Customer.objects.get(username=username)
+        user = Customer.objects.get(pk=request.user.pk)
     except Customer.DoesNotExist:
         user = None
 
@@ -154,13 +143,12 @@ def profile_settings_view(request, username):
         "user": user,
     }
 
-    return render(request, "app/settings.html", context)
+    return render(request, "app/profile_edit.html", context)
 
-
-def profile_edit_submit(request, username):
+def profile_edit_submit(request):
     if request.method == "POST":
         try:
-            user = Customer.objects.get(username=username)
+            user = Customer.objects.get(pk=request.user.pk)
         except Customer.DoesNotExist:
             user = None
 
@@ -204,6 +192,10 @@ def profile_edit_submit(request, username):
         
         user.profile_picture = profile_picture
 
+        context = {
+            "user": user,
+        }
+
         if current_password:
             if new_password:
                 if confirm_password:
@@ -212,19 +204,19 @@ def profile_edit_submit(request, username):
                             user.set_password(new_password)
                             user.save()
                             messages.success(request, "Password updated successfully!")
-                            return HttpResponseRedirect(reverse("index"))
+                            return HttpResponseRedirect(reverse("profile", kwargs=context))
                         else:
                             messages.error(request, "Passwords should match!")
-                            return HttpResponseRedirect(reverse("index"))
+                            return HttpResponseRedirect(reverse("profile_edit", kwargs=context))
                     else:
                         messages.error(request, "That's not your current password!")
-                        return HttpResponseRedirect(reverse("index"))
+                        return HttpResponseRedirect(reverse("profile_edit", kwargs=context))
                 else:
                     messages.error(request, "'Confirm Password' field can not be empty!")
-                    return HttpResponseRedirect(reverse("index"))
+                    return HttpResponseRedirect(reverse("profile_edit", kwargs=context))
             else:
                 messages.error(request, "'New Password' field can not be empty!")
-                return HttpResponseRedirect(reverse("index"))
+                return HttpResponseRedirect(reverse("profile_edit", kwargs=context))
         else:
             pass
 
@@ -251,19 +243,21 @@ def profile_edit_submit(request, username):
         messages.error(request, "An error occured!")
         return HttpResponseRedirect(reverse("index"))
 
+def profile_delete(request):
+    return render(request, "app/profile_delete.html")
 
-def profile_delete_view(request, username):
-    return render(request, "app/delete-profile.html")
-
-
-def profile_delete_submit(request, username):
+def profile_delete_submit(request):
     if request.method == "POST":
         try:
-            user = Customer.objects.get(username=username)
+            user = Customer.objects.get(pk=request.user.pk)
         except Customer.DoesNotExist:
             user = None
 
         password = request.POST.get("password")
+
+        context = {
+            "user": user,
+        }
 
         if user.check_password(password):
             user.delete()
@@ -271,140 +265,60 @@ def profile_delete_submit(request, username):
             return HttpResponseRedirect(reverse("index"))
         else:
             messages.error(request, "Wrong password!")
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("profile_edit", kwargs=context))
     else:
         messages.error(request, "An error occured!")
-        return HttpResponseRedirect(reverse("index"))
-
-
-# Workouts Views
-def workouts(request):
-    pass
-
-
-def workout(request, id):
-    pass
-
-
-def workout_create(request):
-    pass
-
-
-def workout_create_submit(request):
-    pass
-
-
-def workout_edit(request, id):
-    pass
-
-
-def workout_edit_submit(request, id):
-    pass
-
-
-def workout_delete(request, id):
-    pass
-
-
-def workout_delete_submit(request, id):
-    pass
-
+        return HttpResponseRedirect(reverse("profile_edit", kwargs=context))
 
 # Tasks Views
 def tasks(request):
-    pass
+    user = Customer.objects.get(pk=request.user.pk)
+    tasks = Task.objects.filter(customer=user)
 
+    context = {
+        "user": user,
+        "tasks": tasks,
+    }
 
-def task(request, id):
-    pass
-
+    return render(request, "app/tasks.html", context)
 
 def task_create(request):
-    pass
-
-
-def task_create_submit(request):
-    pass
-
+    if request.method == "POST":
+        user = Customer.objects.get(pk=request.user.pk)
+        title = request.POST.get("title")
+        task = Task.objects.create(customer=user, title=title)
+        messages.success(request, "Task created successfully!")
+        return HttpResponseRedirect(reverse("tasks"))
+    else:
+        return render(request, "app/tasks.html")
 
 def task_edit(request, id):
-    pass
+    if request.method == "POST":
+        task = Task.objects.get(pk=id)
+        title = request.POST.get("title")
+        description = request.POST.get("description")
+        completed = request.POST.get("completed")
 
+        task.title = title
+        task.description = description
 
-def task_edit_submit(request, id):
-    pass
+        if completed == "on":
+            task.completed = True
+        else:
+            task.completed = False
 
+        task.save()
+
+        messages.success(request, "Task updated successfully!")
+        return HttpResponseRedirect(reverse("tasks"))
+    else:
+        return render(request, "app/tasks.html")
 
 def task_delete(request, id):
-    pass
-
-
-def task_delete_submit(request, id):
-    pass
-
-
-
-# BMIs Views
-def bmis(request):
-    pass
-
-
-def bmi(request, id):
-    pass
-
-
-def bmi_create(request):
-    pass
-
-
-def bmi_create_submit(request):
-    pass
-
-
-def bmi_edit(request, id):
-    pass
-
-
-def bmi_edit_submit(request, id):
-    pass
-
-
-def bmi_delete(request, id):
-    pass
-
-
-def bmi_delete_submit(request, id):
-    pass
-
-
-# Calorie Counters Views
-def calorie_counters(request):
-    pass
-
-
-def calorie_counter(request, id):
-    pass
-
-
-def calorie_counter_create(request):
-    pass
-
-
-def calorie_counter_create_submit(request):
-    pass
-
-
-def calorie_counter_edit(request, id):
-    pass
-
-
-def calorie_counter_edit_submit(request, id):
-    pass
-
-
-def calorie_counter_delete(request, id):
-    pass
-
-
-def calorie_counter_delete_submit(request, id):
-    pass
+    if request.method == "POST":
+        task = Task.objects.get(pk=id)
+        task.delete()
+        messages.success(request, "Task deleted successfully!")
+        return HttpResponseRedirect(reverse("tasks"))
+    else:
+        return render(request, "app/tasks.html")
