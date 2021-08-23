@@ -1,10 +1,11 @@
 {% extends "app/layout.html" %}
 
 {% block body %}
-    <div id="workout">
-        <a href="" class="btn btn-success"  data-toggle="modal" data-target="#createWorkoutModal">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-        </a>
+    <a href="" style="float: right;" class="btn btn-success" data-toggle="modal" data-target="#createWorkoutModal">
+        <i class="fa fa-plus" aria-hidden="true"></i> Create Workout
+    </a>
+    <br>
+    <div id="parrent">
         {% for workout in workouts %}
             <div class="card" style="width: 18rem;">
                 <img src="{{ workout.image_url }}" class="card-img-top" alt="We couldn't load the image...">
@@ -15,7 +16,7 @@
                 </div>
             </div>
         {% empty %}
-            <h1>No workouts yet...</h1>
+            <h1 id="no">No workouts yet...</h1>
         {% endfor %}
     </div>
 

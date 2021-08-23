@@ -1,6 +1,18 @@
-#workout {
+#no {
+    text-align: center;
+    color: #fff;
+    grid-column: 2;
+    margin-top: 200px;
+}
+
+#parrent {
+    max-width: 1000px;
+    width: 100%;
+    margin: 30px auto;
     display: grid;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
+    grid-gap: 20px;
+    grid-column: 3;
+    grid-template-columns: repeat(3, 1fr);
 }
