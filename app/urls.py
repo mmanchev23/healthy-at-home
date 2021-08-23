@@ -24,7 +24,7 @@ urlpatterns = [
     path("sign-in/submit/", sign_in_submit, name="sign_in_submit"),
 
     # Log Out Routes
-    path("sign-out/submit/", sign_out, name="sign_out"),
+    path("sign-out/", sign_out, name="sign_out"),
 
     # Social Log In Route
     path("oauth/", include("social_django.urls", namespace="social")),

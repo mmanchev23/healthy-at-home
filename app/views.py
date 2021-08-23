@@ -1,12 +1,13 @@
+import os
 from .models import *
+from django.db.models import Q
 from django.urls import reverse
 from django.contrib import messages
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
-from django.db.models import Q 
-import os
 
 
 # Authentication Views
@@ -107,11 +108,13 @@ def sign_in_submit(request):
     else:
         return render(request, "app/sign_in.html")
 
+@login_required(redirect_field_name="sign_in/")
 def sign_out(request):
     logout(request)
     messages.success(request, "You have logged out successfully!")
     return HttpResponseRedirect(reverse("index"))
 
+@login_required(redirect_field_name="sign_in/")
 def profile(request):
     try:
         user = Customer.objects.get(pk=request.user.pk)
@@ -133,6 +136,7 @@ def profile(request):
 
     return render(request, "app/profile.html", context)
 
+@login_required(redirect_field_name="sign_in/")
 def profile_edit(request):
     try:
         user = Customer.objects.get(pk=request.user.pk)
@@ -146,6 +150,7 @@ def profile_edit(request):
 
     return render(request, "app/profile_edit.html", context)
 
+@login_required(redirect_field_name="sign_in/")
 def profile_edit_submit(request):
     if request.method == "POST":
         try:
@@ -244,9 +249,11 @@ def profile_edit_submit(request):
         messages.error(request, "An error occured!")
         return HttpResponseRedirect(reverse("index"))
 
+@login_required(redirect_field_name="sign_in/")
 def profile_delete(request):
     return render(request, "app/profile_delete.html")
 
+@login_required(redirect_field_name="sign_in/")
 def profile_delete_submit(request):
     if request.method == "POST":
         try:
@@ -271,6 +278,7 @@ def profile_delete_submit(request):
         messages.error(request, "An error occured!")
         return HttpResponseRedirect(reverse("profile_edit", kwargs=context))
 
+@login_required(redirect_field_name="sign_in/")
 def tasks(request):
     user = Customer.objects.get(pk=request.user.pk)
     tasks = Task.objects.filter(customer=user)
@@ -282,6 +290,7 @@ def tasks(request):
 
     return render(request, "app/tasks.html", context)
 
+@login_required(redirect_field_name="sign_in/")
 def task_create(request):
     if request.method == "POST":
         user = Customer.objects.get(pk=request.user.pk)
@@ -292,6 +301,7 @@ def task_create(request):
     else:
         return render(request, "app/tasks.html")
 
+@login_required(redirect_field_name="sign_in/")
 def task_edit(request, id):
     if request.method == "POST":
         task = Task.objects.get(pk=id)
@@ -318,6 +328,7 @@ def task_edit(request, id):
     else:
         return render(request, "app/tasks.html")
 
+@login_required(redirect_field_name="sign_in/")
 def task_delete(request, id):
     if request.method == "POST":
         task = Task.objects.get(pk=id)
@@ -331,6 +342,7 @@ def task_delete(request, id):
     else:
         return render(request, "app/tasks.html")
 
+@login_required(redirect_field_name="sign_in/")
 def workouts(request):
     user = Customer.objects.get(pk=request.user.pk)
     workouts = Workout.objects.filter(Q(customer=user) | Q(public=True))
@@ -342,6 +354,7 @@ def workouts(request):
 
     return render(request, "app/workouts.html", context)
 
+@login_required(redirect_field_name="sign_in/")
 def workout_create(request):
     if request.method == "POST":
         user = Customer.objects.get(pk=request.user.pk)
@@ -392,6 +405,7 @@ def workout_create(request):
     else:
         return render(request, "app/workouts.html")
 
+@login_required(redirect_field_name="sign_in/")
 def workout(request, id):
     workout = Workout.objects.get(pk=id)
 
@@ -401,6 +415,7 @@ def workout(request, id):
 
     return render(request, "app/workout.html", context)
 
+@login_required(redirect_field_name="sign_in/")
 def workout_edit(request, id):
     if request.method == "POST":
         workout = Workout.objects.get(pk=id)
@@ -437,6 +452,7 @@ def workout_edit(request, id):
     else:
         return render(request, "app/workouts.html")
 
+@login_required(redirect_field_name="sign_in/")
 def workout_delete(request, id):
     if request.method == "POST":
         workout = Workout.objects.get(pk=id)
