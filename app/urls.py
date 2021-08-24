@@ -52,6 +52,8 @@ urlpatterns = [
     path("workout/<id>/", workout, name="workout"),
     path("workout/<id>/edit/", workout_edit, name="workout_edit"),
     path("workout/<id>/delete/", workout_delete, name="workout_delete"),
+
+    path("meals-and-bmis/", meals_and_bmis, name="meals_and_bmis"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

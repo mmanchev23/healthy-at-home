@@ -1,7 +1,7 @@
 {% extends "app/layout.html" %}
 
 {% block body %}
-    <div id="login-form">
+    <div id="login-form" style="font-family: URW Chancery L, cursive;">
         <form action="{% url 'sign_in_submit' %}" method="POST" id="login">
             {% csrf_token %}
             <h2>Sign In</h2>

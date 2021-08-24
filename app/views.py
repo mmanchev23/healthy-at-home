@@ -465,3 +465,42 @@ def workout_delete(request, id):
             return HttpResponseRedirect(reverse("workouts"))
     else:
         return render(request, "app/workouts.html")
+
+@login_required(redirect_field_name="sign_in/")
+def meals_and_bmis(request):
+    user = Customer.objects.get(pk=request.user.pk)
+    bmis = BMICalculator.objects.filter(customer=user)
+    meals = Food.objects.filter(customer=user)
+
+    average_height = Decimal('0.00')
+    average_weight = Decimal('0.00')
+    average_result = Decimal('0.00')
+
+    for bmi in bmis:
+        average_height += bmi.height
+        average_weight += bmi.weight
+        average_result += bmi.result
+    
+    average_height /= len(bmis)
+    average_weight /= len(bmis)
+    average_result /= len(bmis)
+
+    total_calories = Food.objects.filter(customer=user).aggregate(Sum('calories'))['calories__sum'] or Decimal('0.00')
+    total_fat = Food.objects.filter(customer=user).aggregate(Sum('fat'))['fat__sum'] or Decimal('0.00')
+    total_protein = Food.objects.filter(customer=user).aggregate(Sum('protein'))['protein__sum'] or Decimal('0.00')
+    total_carbs = Food.objects.filter(customer=user).aggregate(Sum('carbs'))['carbs__sum'] or Decimal('0.00')
+
+    context = {
+        "user": user,
+        "bmis": bmis,
+        "meals": meals,
+        "average_height": average_height,
+        "average_weight": average_weight,
+        "average_result": average_result,
+        "total_calories": str(round(total_calories, 2)),
+        "total_fat": str(round(total_fat, 2)),
+        "total_protein": str(round(total_protein, 2)),
+        "total_carbs": str(round(total_carbs, 2)),
+    }
+
+    return render(request, "app/meals&bmi.html", context)
