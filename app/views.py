@@ -502,4 +502,19 @@ def meals_and_bmis(request):
         "total_carbs": str(round(total_carbs, 2)),
     }
 
-    return render(request, "app/meals&bmi.html", context)
+    return render(request, "app/meals_and_bmis.html", context)
+
+@login_required(redirect_field_name="sign_in/")
+def meal_create(request):
+    if request.method == "POST":
+        user = Customer.objects.get(pk=request.user.pk)
+        name = request.POST.get("name")
+        calories = request.POST.get("calories")
+        fat = request.POST.get("fat")
+        carbs = request.POST.get("carbs")
+        protein = request.POST.get("protein")
+        meal = Food.objects.create(customer=user, name=name, calories=calories, fat=fat, carbs=carbs, protein=protein)
+        messages.success(request, "Meal created successfully!")
+        return HttpResponseRedirect(reverse("meals_and_bmis"))
+    else:
+        return render(request, "app/meals_and_bmis.html")

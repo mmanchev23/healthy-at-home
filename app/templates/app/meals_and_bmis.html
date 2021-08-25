@@ -34,9 +34,52 @@
                             <h4 class="mb-0">Daily Intake</h4>
                         </div>
                         <div class="col">
-                            <a class="btn btn-warning" href="#" style="width: 200px; margin: 1px;">
+                            <a class="btn btn-warning" href="#" style="width: 200px; margin: 1px;" data-toggle="modal" data-target="#createMeal">
                                 <i class="fa fa-cutlery" aria-hidden="true"></i> Add Meal
                             </a>
+
+                            <div class="modal fade text-left" id="createMeal">
+                                <form action="{% url 'meal_create' %}" method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h2>Add Meal</h2>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label for="name" class="form-label">Name</label>
+                                                    <input class="form-control" type="text" name="name" placeholder="Enter name">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="calories" class="form-label">Calories</label>
+                                                    <input class="form-control" type="text" name="calories" placeholder="Enter amount of calories">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fat" class="form-label">Fat</label>
+                                                    <input class="form-control" type="text" name="fat" placeholder="Enter amount of fat">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="carbs" class="form-label">Carbs</label>
+                                                    <input class="form-control" type="text" name="carbs" placeholder="Enter amount of carbs">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="protein" class="form-label">Protein</label>
+                                                    <input class="form-control" type="text" name="protein" placeholder="Enter amount of protein">
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-success" type="submit" style="width: 100px;">
+                                                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                                </button>
+                                                <button class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
+                                                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <hr>
