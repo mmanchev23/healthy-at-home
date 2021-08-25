@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import django_on_heroku
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -7,7 +8,7 @@ SECRET_KEY = 'django-insecure-nn24$&0v-08i++cu7(i_fzro&*vel^5zp(5vyfc!z6)oqn6srj
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'healthy-at-home1.herokuapp.com']
 
 AUTH_USER_MODEL = 'app.Customer'
 
@@ -176,3 +177,5 @@ MEDIA_URL = '/images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+django_on_heroku.settings(locals())
