@@ -1,0 +1,15 @@
+#register-form {
+    display: block;
+    text-align: center;
+}
+
+#register {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 50px;
+    text-align: center;
+    background-color: white;
+    padding: 50px 70px 50px 70px;
+    border-radius: 20px;
+}
