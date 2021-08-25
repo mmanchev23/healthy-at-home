@@ -518,3 +518,92 @@ def meal_create(request):
         return HttpResponseRedirect(reverse("meals_and_bmis"))
     else:
         return render(request, "app/meals_and_bmis.html")
+
+@login_required(redirect_field_name="sign_in/")
+def meal_edit(request, id):
+    if request.method == "POST":
+        meal = Food.objects.get(pk=id)
+        if meal.customer == request.user:
+            name = request.POST.get("name")
+            calories = request.POST.get("calories")
+            fat = request.POST.get("fat")
+            carbs = request.POST.get("carbs")
+            protein = request.POST.get("protein")
+
+            meal.name = name
+            meal.calories = calories
+            meal.fat = fat
+            meal.carbs = carbs
+            meal.protein = protein
+
+            meal.save()
+
+            messages.success(request, "Meal updated successfully!")
+            return HttpResponseRedirect(reverse("meals_and_bmis"))
+        else:
+            messages.error(request, "No such rights!")
+            return HttpResponseRedirect(reverse("meals_and_bmis"))
+    else:
+        return render(request, "app/meals_and_bmis.html")
+
+@login_required(redirect_field_name="sign_in/")
+def meal_delete(request, id):
+    if request.method == "POST":
+        meal = Food.objects.get(pk=id)
+        if meal.customer == request.user:
+            meal.delete()
+            messages.success(request, "Meal deleted successfully!")
+            return HttpResponseRedirect(reverse("meals_and_bmis"))
+        else:
+            messages.error(request, "No such rights!")
+            return HttpResponseRedirect(reverse("meals_and_bmis"))
+    else:
+        return render(request, "app/meals_and_bmis.html")
+
+
+@login_required(redirect_field_name="sign_in/")
+def bmi_create(request):
+    if request.method == "POST":
+        user = Customer.objects.get(pk=request.user.pk)
+        height = request.POST.get("height")
+        weight = request.POST.get("weight")
+        bmi = BMICalculator.objects.create(customer=user, height=Decimal(height), weight=Decimal(weight))
+        messages.success(request, "BMI created successfully!")
+        return HttpResponseRedirect(reverse("meals_and_bmis"))
+    else:
+        return render(request, "app/meals_and_bmis.html")
+
+@login_required(redirect_field_name="sign_in/")
+def bmi_edit(request, id):
+    if request.method == "POST":
+        bmi = BMICalculator.objects.get(pk=id)
+        if bmi.customer == request.user:
+            height = request.POST.get("height")
+            weight = request.POST.get("weight")
+
+            bmi.height = Decimal(height)
+            bmi.weight = Decimal(weight)
+
+            bmi.save()
+
+            messages.success(request, "BMI updated successfully!")
+            return HttpResponseRedirect(reverse("meals_and_bmis"))
+        else:
+            messages.error(request, "No such rights!")
+            return HttpResponseRedirect(reverse("meals_and_bmis"))
+    else:
+        return render(request, "app/meals_and_bmis.html")
+
+@login_required(redirect_field_name="sign_in/")
+def bmi_delete(request, id):
+    if request.method == "POST":
+        bmi = BMICalculator.objects.get(pk=id)
+        if bmi.customer == request.user:
+            bmi.delete()
+            messages.success(request, "BMI deleted successfully!")
+            return HttpResponseRedirect(reverse("meals_and_bmis"))
+        else:
+            messages.error(request, "No such rights!")
+            return HttpResponseRedirect(reverse("meals_and_bmis"))
+    else:
+        return render(request, "app/meals_and_bmis.html")

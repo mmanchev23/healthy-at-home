@@ -53,8 +53,14 @@ urlpatterns = [
     path("workout/<id>/edit/", workout_edit, name="workout_edit"),
     path("workout/<id>/delete/", workout_delete, name="workout_delete"),
 
+    # Meals routing
     path("meals-and-bmis/", meals_and_bmis, name="meals_and_bmis"),
-    path("meal/create", meal_create, name="meal_create")
+    path("meal/create/", meal_create, name="meal_create"),
+    path("meal/<id>/edit/", meal_edit, name="meal_edit"),
+    path("meal/<id>/delete/", meal_delete, name="meal_delete"),
+    path("bmi/create/", bmi_create, name="bmi_create"),
+    path("bmi/<id>/edit/", bmi_edit, name="bmi_edit"),
+    path("bmi/<id>/delete/", bmi_delete, name="bmi_delete"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
