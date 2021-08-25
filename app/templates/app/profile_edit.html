@@ -8,7 +8,7 @@
 
 {% include "app/profile_delete.html" %}
 
-<form method="POST" action="{% url 'profile_edit_submit' %}" enctype="multipart/form-data" style="font-family: URW Chancery L, cursive;">
+<form method="POST" action="{% url 'profile_edit_submit' %}" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="container" style="margin-top: 30px;">
         <div class="row flex-lg-nowrap">
@@ -196,14 +196,6 @@
                                                     <div class="row">
                                                         <div class="col">
                                                             <div class="form-group">
-                                                                <label>Website</label>
-                                                                <input class="form-control" type="text" placeholder="Website" value="{% if user.website_link %}{{ user.website_link }}{% endif %}" name="website_link">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <div class="form-group">
                                                                 <label>Facebook</label>
                                                                 <input class="form-control" type="text" placeholder="Facebook" value="{% if user.facebook %}{{ user.facebook }}{% endif %}" name="facebook">
                                                             </div>
@@ -222,14 +214,6 @@
                                                             <div class="form-group">
                                                                 <label>Twitter</label>
                                                                 <input class="form-control" type="text" placeholder="Twitter" value="{% if user.twitter %}{{ user.twitter }}{% endif %}" name="twitter">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <div class="form-group">
-                                                                <label>Github</label>
-                                                                <input class="form-control" type="text" placeholder="Github" value="{% if user.github %}{{ user.github }}{% endif %}" name="github">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -252,14 +236,6 @@
                                                             <div class="form-group">
                                                                 <label>Phone Number</label>
                                                                 <input class="form-control" type="text" placeholder="Phone Number" value="{% if user.phone_number %}{{ user.phone_number }}{% endif %}" name="phone_number">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <div class="form-group">
-                                                                <label>Mobile Number</label>
-                                                                <input class="form-control" type="text" placeholder="Mobile Number" value="{% if user.mobile_number %}{{ user.mobile_number }}{% endif %}" name="mobile_number">
                                                             </div>
                                                         </div>
                                                     </div>

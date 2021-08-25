@@ -180,16 +180,13 @@ def profile_edit_submit(request):
         country = request.POST.get("country")
 
         # Social Platforms Credentials
-        website_link = request.POST.get("website_link")
         facebook = request.POST.get("facebook")
         instagram = request.POST.get("instagram")
         twitter = request.POST.get("twitter")
-        github = request.POST.get("github")
 
         # Job & Numbers Credentials
         job = request.POST.get("job")
         phone_number = request.POST.get("phone_number")
-        mobile_number = request.POST.get("mobile_number")
 
         user.username = username
         user.email = email
@@ -231,15 +228,12 @@ def profile_edit_submit(request):
         user.state = state
         user.country = country
 
-        user.website_link = website_link
         user.facebook = facebook
         user.instagram = instagram
         user.twitter = twitter
-        user.github = github
         
         user.job = job
         user.phone_number = phone_number
-        user.mobile_number = mobile_number
 
         user.save()
 
@@ -481,9 +475,14 @@ def meals_and_bmis(request):
         average_weight += bmi.weight
         average_result += bmi.result
     
-    average_height /= len(bmis)
-    average_weight /= len(bmis)
-    average_result /= len(bmis)
+    if len(bmis) > 0:
+        average_height /= len(bmis)
+        average_weight /= len(bmis)
+        average_result /= len(bmis)
+    else:
+        average_height = Decimal('0.00')
+        average_weight = Decimal('0.00')
+        average_result = Decimal('0.00')
 
     total_calories = Food.objects.filter(customer=user).aggregate(Sum('calories'))['calories__sum'] or Decimal('0.00')
     total_fat = Food.objects.filter(customer=user).aggregate(Sum('fat'))['fat__sum'] or Decimal('0.00')
