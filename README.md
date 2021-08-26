@@ -21,10 +21,9 @@
         <img alt="Bootstrap" src="https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white"/>
     </li>
     <li>
-        Database and Deployment - SQLite 3 and Heroku
+        Databases - SQLite 3
         <br>
         <img alt="SQLite3" src ="https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white"/>
-        <img alt="Heroku" src="https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white"/>
     </li>
     <li>
         Version Controll Systems - Git and Github
