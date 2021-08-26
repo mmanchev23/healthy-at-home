@@ -37,6 +37,8 @@ PyYAML = "==5.4.1"
 social-auth-app-django = "*"
 django-on-heroku = "*"
 gunicorn = "*"
+psycopg2 = "*"
+dj-database-url = "*"
 
 [dev-packages]
 

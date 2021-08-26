@@ -52,11 +52,6 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'api.urls.custom_exception_handler'
 }
 
-# LOGIN_URL = '/auth/login/google-oauth2/'
-
-# LOGIN_REDIRECT_URL = '/'
-# LOGOUT_REDIRECT_URL = '/'
-
 LOGIN_URL = 'sign_in'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_URL = 'logout'
@@ -112,10 +107,18 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'Healthy at Home Database',
+        'USER': 'postgres',
+        'PASSWORD': 'Test@123',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 AUTH_PASSWORD_VALIDATORS = [
     {
