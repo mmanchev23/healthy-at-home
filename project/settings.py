@@ -8,7 +8,7 @@ SECRET_KEY = 'django-insecure-nn24$&0v-08i++cu7(i_fzro&*vel^5zp(5vyfc!z6)oqn6srj
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'healthy-at-home1.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'healthy-at-home-django.herokuapp.com']
 
 AUTH_USER_MODEL = 'app.Customer'
 
@@ -62,35 +62,13 @@ LOGIN_REDIRECT_URL = 'index'
 LOGOUT_URL = 'logout'
 LOGOUT_REDIRECT_URL = 'sign_in'
 
-SOCIAL_AUTH_GITHUB_KEY = '309d8fe809ebeae905be'
-SOCIAL_AUTH_GITHUB_SECRET = 'c092cf057ab05eb2d6d58dadfd6d2a8d7167c5a0'
-
-SOCIAL_AUTH_FACEBOOK_KEY = '523015738982869'
-SOCIAL_AUTH_FACEBOOK_SECRET = '8e9e4285dd0b666a377890375a06fb2c'
-
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link'] # add this
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {       # add this
-  'fields': 'id, name, email, picture.type(large), link'
-}
-SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [                 # add this
-    ('name', 'name'),
-    ('email', 'email'),
-    ('picture', 'picture'),
-    ('link', 'profile_url'),
-]
-
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '668234914218-3q6ijd77l5ptajudm496nalk9r3ktkla.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'OV1d_lahKmZ7qSkqedXkLDqb'
 
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 AUTHENTICATION_BACKENDS = (
-    'social_core.backends.github.GithubOAuth2',
-    'social_core.backends.twitter.TwitterOAuth',
-    'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.google.GoogleOAuth2',
-    'social_core.backends.linkedin.LinkedinOAuth2',
-    'social_core.backends.instagram.InstagramOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
