@@ -7,37 +7,35 @@
         <div class="main-body">
             <div class="card">
                 <div class="card-body">
-                    <div class="row text-center">
+                    <div class="row p-1">
                         <iframe src="{{ workout.video_url }}" frameborder="0" width="100%" height="100%"></iframe>
+                    </div>
+                    <div class="row text-center p-1">
+                        <h1>{{ workout.title }}</h1>
+                    </div>
+                    <div class="row text-center p-1">
+                        {% if workout.exercises %}
+                            <h3>{{ workout.exercises }}</h3>
+                        {% endif %}
+                    </div>
+                    <div class="row text-center p-1">
                         <div class="col">
-                            <div class="row">
-                                <h1>{{ workout.title }}</h1>
-                            </div>
-                            <div class="row">
-                                {% if workout.exercises %}
-                                    <h3>{{ workout.exercises }}</h3>
-                                {% endif %}
-                            </div>
+                            <a class="btn btn-primary" href="{% url 'workouts' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page">
+                                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                            </a>
                         </div>
-                        <div class="col">
-                            <div class="row" style="padding: 5px; width: 200px;">
-                                <a class="btn btn-primary" href="{% url 'workouts' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page">
-                                    <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Workouts
-                                </a>
+                        {% if workout.customer == request.user %}
+                            <div class="col">
+                                <button class="btn btn-success" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" data-toggle="modal" data-target="#editWorkoutModal">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
                             </div>
-                            {% if workout.customer == request.user %}
-                                <div class="row" style="padding: 5px; width: 200px;">
-                                    <button class="btn btn-success" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" data-toggle="modal" data-target="#editWorkoutModal">
-                                        <i class="fa fa-pencil" aria-hidden="true"></i> Edit Workout
-                                    </button>
-                                </div>
-                                <div class="row" style="padding: 5px; width: 200px;">
-                                    <button class="btn btn-danger" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" data-toggle="modal" data-target="#deleteWorkoutModal">
-                                        <i class="fa fa-trash" aria-hidden="true"></i> Delete Workout
-                                    </button>
-                                </div>
-                            {% endif %}
-                        </div>
+                            <div class="col">
+                                <button class="btn btn-danger" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" data-toggle="modal" data-target="#deleteWorkoutModal">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
