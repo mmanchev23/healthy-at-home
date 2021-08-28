@@ -37,32 +37,23 @@
                 <hr>
                 {% for task in tasks %}
                     <div class="row px-3 align-items-center todo-item rounded">
-                        <!-- <div class="col-auto m-1 p-0 d-flex align-items-center">
-                            <h2 class="m-0 p-0">
-                                {% if task.completed %}
-                                    <i class="fa fa-check" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Completed"></i>
-                                {% else %}
-                                    <i class="fa fa-times" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="Not completed"></i>
-                                {% endif %}
-                            </h2>
-                        </div> -->
                         <div class="col px-1 m-1 d-flex align-items-center">
                             <h4 {% if task.completed %}style="text-decoration: line-through;"{% endif %}>{{ task.title }}</h4>
                         </div>
                         <div class="col-auto m-1 p-0 px-3 d-none">
                         </div>
                         <div class="col-auto m-1 p-0 todo-actions">
-                            <div class="row d-flex align-items-center justify-content-end">
-                                <h4 class="m-0 p-0 px-2 text-center">
+                            <div class="row">
+                                <div class="col" style="text-align: right;">
                                     <a href="" data-toggle="modal" data-target="#editTaskModal">
                                         <i class="fa fa-pencil text-info btn m-0 p-0" data-toggle="tooltip" data-placement="bottom" title="Edit todo"></i>
                                     </a>
-                                </h4>
-                                <h4 class="m-0 p-0 px-2 text-center">
+                                </div>
+                                <div class="col" style="text-align: left;">
                                     <a href="" data-toggle="modal" data-target="#deleteTaskModal">
                                         <i class="fa fa-trash-o text-danger btn m-0 p-0" data-toggle="tooltip" data-placement="bottom" title="Delete todo"></i>
                                     </a>
-                                </h4>
+                                </div>
                             </div>
                             <div class="row todo-created-info">
                                 <div class="col-auto d-flex align-items-center pr-2">

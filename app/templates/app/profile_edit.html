@@ -86,7 +86,7 @@
                                                 <button class="nav-link" id="social-tab" data-bs-toggle="tab" data-bs-target="#social" type="button" role="tab" aria-controls="social" aria-selected="false"><i class="fa fa-globe" aria-hidden="true"></i> Social Platforms</button>
                                             </li>
                                             <li class="nav-item" role="presentation">
-                                                <button class="nav-link" id="job-tab" data-bs-toggle="tab" data-bs-target="#job" type="button" role="tab" aria-controls="job" aria-selected="false"><i class="fa fa-briefcase" aria-hidden="true"></i> Job & Numbers</button>
+                                                <button class="nav-link" id="job-tab" data-bs-toggle="tab" data-bs-target="#job" type="button" role="tab" aria-controls="job" aria-selected="false"><i class="fa fa-briefcase" aria-hidden="true"></i> Job & Credentials</button>
                                             </li>
                                         </ul>
 
@@ -99,14 +99,6 @@
                                                             <div class="form-group">
                                                                 <label>Username</label>
                                                                 <input class="form-control" type="text" placeholder="Username" value="{% if user.username %}{{ user.username }}{% endif %}" name="username">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col">
-                                                            <div class="form-group">
-                                                                <label>Email</label>
-                                                                <input class="form-control" type="email" placeholder="Email" value="{% if user.email %}{{ user.email }}{% endif %}" name="email">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -222,6 +214,14 @@
                                             <div class="tab-pane fade" id="job" role="tabpanel" aria-labelledby="job-tab">
                                                 <div class="col">
                                                     <br>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="form-group">
+                                                                <label>Email</label>
+                                                                <input class="form-control" type="email" placeholder="Email" value="{% if user.email %}{{ user.email }}{% endif %}" name="email">
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col">
                                                             <div class="form-group">
