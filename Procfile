@@ -1,4 +1,4 @@
 release: python manage.py makemigrations
 release: python manage.py migrate
 
-web: gunicorn project.wsg
+web: gunicorn project.wsgi
