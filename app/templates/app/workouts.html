@@ -2,26 +2,36 @@
 
 {% block body %}
     <div class="container text-center">
-        <div class="row">
-            <button href="" class="btn btn-success" data-toggle="modal" data-target="#createWorkoutModal">
-                <i class="fa fa-plus" aria-hidden="true"></i> Create Workout
-            </button>
-        </div>
-        <div class="row">
-            {% for workout in workouts %}
-                <div class="col-4 p-5">
-                    <div class="card" style="width: 18rem;">
-                        <img src="{{ workout.image_url }}" class="card-img-top" alt="We couldn't load the image...">
+        <div class="main-body">
+            <div class="row">
+                <div class="col">
+                    <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">{{ workout.title }}</h5>
-                            <p class="card-text">{{ workout.description }}</p>
-                            <a href="{% url 'workout' id=workout.id %}" class="btn btn-primary">Details</a>
+                            <div class="row">
+                                <button href="" class="btn btn-success" data-toggle="modal" data-target="#createWorkoutModal">
+                                    <i class="fa fa-plus" aria-hidden="true"></i> Create Workout
+                                </button>
+                            </div>
+                            <div class="row">
+                                {% for workout in workouts %}
+                                    <div class="col-4 p-5">
+                                        <div class="card" style="width: 18rem;">
+                                            <img src="{{ workout.image_url }}" class="card-img-top" alt="We couldn't load the image...">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ workout.title }}</h5>
+                                                <p class="card-text">{{ workout.description }}</p>
+                                                <a href="{% url 'workout' id=workout.id %}" class="btn btn-primary">Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                    <h1 style="padding-top: 200px; color: #fff;">No workouts yet...</h1>
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                 </div>
-            {% empty %}
-                <h1 style="padding-top: 200px; color: #fff;">No workouts yet...</h1>
-            {% endfor %}
+            </div>
         </div>
     </div>
     
