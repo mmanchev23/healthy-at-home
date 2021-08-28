@@ -8,32 +8,34 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row text-center">
+                        <iframe src="{{ workout.video_url }}" frameborder="0" width="100%" height="100%"></iframe>
                         <div class="col">
-                            <iframe src="{{ workout.video_url }}" frameborder="0" width="100%" height="100%"></iframe>
+                            <div class="row">
+                                <h1>{{ workout.title }}</h1>
+                            </div>
+                            <div class="row">
+                                {% if workout.exercises %}
+                                    <h3>{{ workout.exercises }}</h3>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="col">
-                            <h1>{{ workout.title }}</h1>
-                            <h4>by {{ workout.customer }}</h4>
-                            {% if workout.public %}
-                                —— <span class="badge rounded-pill badge-primary" style="font-size: large;">Public</span> ——
-                            {% else %}
-                                ——<span class="badge rounded-pill badge-danger" style="font-size: large;">Private</span> ——
-                            {% endif %}
-                            {% if workout.exercises %}
-                                <hr>
-                                <h3>{{ workout.exercises }}</h3>
-                            {% endif %}
-                            <hr>
-                            <a class="btn btn-primary" href="{% url 'workouts' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page">
-                                <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                            </a>
+                            <div class="row" style="padding: 5px; width: 200px;">
+                                <a class="btn btn-primary" href="{% url 'workouts' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page">
+                                    <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Workouts
+                                </a>
+                            </div>
                             {% if workout.customer == request.user %}
-                                <a class="btn btn-success" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" data-toggle="modal" data-target="#editWorkoutModal">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                                </a>
-                                <a class="btn btn-danger" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" data-toggle="modal" data-target="#deleteWorkoutModal">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                </a>
+                                <div class="row" style="padding: 5px; width: 200px;">
+                                    <button class="btn btn-success" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" data-toggle="modal" data-target="#editWorkoutModal">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i> Edit Workout
+                                    </button>
+                                </div>
+                                <div class="row" style="padding: 5px; width: 200px;">
+                                    <button class="btn btn-danger" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" data-toggle="modal" data-target="#deleteWorkoutModal">
+                                        <i class="fa fa-trash" aria-hidden="true"></i> Delete Workout
+                                    </button>
+                                </div>
                             {% endif %}
                         </div>
                     </div>

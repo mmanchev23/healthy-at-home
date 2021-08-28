@@ -4,32 +4,9 @@
 <div class="container">
     <div class="main-body">
         <div class="row gutters-sm">
-
-            <!-- Profile Credentials Card -->
-            <div class="col-md-4 mb-3">
-                <div class="card">
-                    <div class="card-body">
-                    <div class="d-flex flex-column align-items-center text-center">
-                        <img src="{{ user.image_url }}" alt="Couldn't load..." class="rounded-circle" width="150">
-                        <div class="mt-3">
-                            <h4>
-                                {% if user.first_name and user.last_name %}
-                                    {{ user.first_name }} {{ user.last_name }}
-                                {% else %}
-                                    {{ user.username }}
-                                {% endif %}
-                            </h4>
-                            <a class="btn btn-primary" href="{% url 'index' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" style="width: 200px; margin: 1px;">
-                                <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Home Page
-                            </a>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-            </div>
-
+            
             <!-- Meals Card -->
-            <div class="col-md-8 text-center">
+            <div class="col text-center">
                 <div class="card mb-3">
                     <div class="card-body">
                         <div class="row">
