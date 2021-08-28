@@ -69,9 +69,8 @@
 1. Install [Python](https://www.python.org/downloads/)
 2. Open the folder with the project inside and run the following commands in a virtual environment: 
    1. `pip install -r requirements.txt`
-   2. `python manage.py makemigrations`
-   3. `python manage.py migrate`
-   4. `python manage.py runserver`
+   2. `python manage.py migrate`
+   3. `python manage.py runserver`
 
 ### **Files & Directories**
 - `api` - application programming interface
