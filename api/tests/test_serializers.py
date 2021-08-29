@@ -1,6 +1,6 @@
 from rest_framework.test import APITestCase
 from decimal import Decimal
-from api.models import *
+from app.models import *
 from api.serializers import *
 
 
@@ -328,7 +328,7 @@ class TestToDoListSerializer(APITestCase):
             'completed': False,
         }
 
-        self.todo = ToDoList.objects.create(**self.todo_attributes)
+        self.todo = Task.objects.create(**self.todo_attributes)
         self.serialized = ToDoListSerializer(instance=self.todo)
 
     

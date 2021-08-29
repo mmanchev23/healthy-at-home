@@ -70,13 +70,13 @@
 2. Open the folder with the project inside and run the following commands in a virtual environment: 
    1. `pip install -r requirements.txt`
    2. `python manage.py migrate`
-   3. `python manage.py runserver`
+   3. `python manage.py runsslserver`
 
 ### **Files & Directories**
 - `api` - application programming interface
 - `app` - main application directory
-- `images` - images directory
 - `project` - main project directory
+- `static` - static files directory
 - `staticfiles` - all the static files for production
 - `.gitignore` - the file, containing the ignored from git files and directories
 - `LICENSE` - license file

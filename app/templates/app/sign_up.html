@@ -1,7 +1,7 @@
 {% extends "app/layout.html" %}
 
 {% block body %}
-<div class="container" style="margin-top: 10%;">
+<div class="container">
     <div class="main-body">
         <div class="row">
             <div class="col">
@@ -42,9 +42,15 @@
                                 </div>
                                 <div class="col text-center">
                                     <div class="form-group">
-                                        <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-info m-1">
-                                            <img src="../../../images/google.png" alt="Sign In via Google" width="20px">
-                                            Google
+                                        <a href="{% url 'social:begin' 'google-oauth2' %}" class="btn btn-warning m-1">
+                                            <i class="fa fa-google" aria-hidden="true"></i> Google
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col text-center">
+                                    <div class="form-group">
+                                        <a href="{% url 'social:begin' 'facebook' %}" class="btn btn-primary m-1">
+                                            <i class="fa fa-facebook" aria-hidden="true"></i> Facebook
                                         </a>
                                     </div>
                                 </div>

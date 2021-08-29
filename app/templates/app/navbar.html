@@ -1,7 +1,9 @@
+{% load static %}
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
       <div class="mx-auto order-0">
-        <a class="navbar-brand mx-auto" id="logo" href="{% url 'index' %}"><img src="../../../images/favicon.ico" alt=""> Healthy at Home</a>
+        <a class="navbar-brand mx-auto" id="logo" href="{% url 'index' %}"><img src="{% static 'images/favicon.ico' %}" alt=""> Healthy at Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>

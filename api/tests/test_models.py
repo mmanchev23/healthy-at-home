@@ -1,5 +1,5 @@
 from django.test import TestCase
-from api.models import *
+from app.models import *
 
 
 class TestCustomerModel(TestCase):

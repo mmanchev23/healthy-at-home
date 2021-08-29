@@ -27,45 +27,22 @@ INSTALLED_APPS = [
     'api',
 
     # Third-party libraries
+    'sslserver',
+
     'social_django',
+
     'corsheaders',
+
     'rest_framework',
-    'rest_auth', 
     'rest_framework.authtoken',
+
+    'rest_auth', 
+    'rest_auth.registration',
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'rest_auth.registration',
 ]
-
-SITE_ID = 1
-
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
-    ),
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
-    'EXCEPTION_HANDLER': 'api.urls.custom_exception_handler'
-}
-
-LOGIN_URL = 'sign_in'
-LOGIN_REDIRECT_URL = 'index'
-LOGOUT_URL = 'logout'
-LOGOUT_REDIRECT_URL = 'sign_in'
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '668234914218-3q6ijd77l5ptajudm496nalk9r3ktkla.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'OV1d_lahKmZ7qSkqedXkLDqb'
-
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.google.GoogleOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
-)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -82,8 +59,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'project.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -97,11 +72,62 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
 
                 'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SITE_ID = 1
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
+
+LOGIN_URL = 'sign_in'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_URL = 'sign_out'
+LOGOUT_REDIRECT_URL = 'sign_in'
+
+
+SOCIAL_AUTH_FACEBOOK_KEY = "2953203704901659"
+SOCIAL_AUTH_FACEBOOK_SECRET = "56439a1f4e2116d94eaa4b39e2e4cd89"
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "668234914218-3q6ijd77l5ptajudm496nalk9r3ktkla.apps.googleusercontent.com"
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "OV1d_lahKmZ7qSkqedXkLDqb"
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
+    ('name', 'name'),
+    ('email', 'email'),
+    ('picture', 'picture'),
+    ('link', 'profile_url'),
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    'EXCEPTION_HANDLER': 'api.urls.custom_exception_handler'
+}
+
+ROOT_URLCONF = 'project.urls'
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
@@ -139,15 +165,15 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'images')
+    os.path.join(BASE_DIR, 'static')
 ]
 
 MEDIA_URL = '/images/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

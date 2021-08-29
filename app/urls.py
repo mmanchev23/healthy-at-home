@@ -27,7 +27,7 @@ urlpatterns = [
     path("sign-out/", sign_out, name="sign_out"),
 
     # Social Log In Route
-    path("oauth/", include("social_django.urls", namespace="social")),
+    path('social-auth/', include('social_django.urls', namespace="social")),
 
     # Profile Route
     path("profile/", profile, name="profile"),
