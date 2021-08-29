@@ -31,6 +31,18 @@ class Customer(AbstractUser):
             return ""
 
 
+class Like(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    customer = models.ForeignKey(Customer, related_name='follows', on_delete=models.CASCADE)
+    profile = models.ForeignKey(Customer, related_name='been_followed', on_delete=models.CASCADE)
+
+
+class Follower(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    customer = models.ForeignKey(Customer, related_name='likes', on_delete=models.CASCADE)
+    profile = models.ForeignKey(Customer, related_name='been_liked', on_delete=models.CASCADE)
+
+
 class Workout(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

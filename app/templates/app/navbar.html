@@ -23,11 +23,11 @@
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle text-center" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{{ user.image_url }}" alt="Image not found..." id="profile-picture">
+                <img src="{{ request.user.image_url }}" alt="Image not found..." id="profile-picture">
               </a>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                 <li>
-                  <a style="text-align: center;" class="dropdown-item" href="{% url 'profile' %}"><i class="fa fa-address-card" aria-hidden="true"></i>
+                  <a style="text-align: center;" class="dropdown-item" href="{% url 'profile' username=request.user.username %}"><i class="fa fa-address-card" aria-hidden="true"></i>
                     {% if user.first_name and user.last_name %}
                       {{ user.first_name }} {{ user.last_name }}
                     {% else %}

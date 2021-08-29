@@ -8,7 +8,7 @@
 
 {% include "app/profile_delete.html" %}
 
-<form method="POST" action="{% url 'profile_edit_submit' %}" enctype="multipart/form-data">
+<form method="POST" action="{% url 'profile_edit_submit' username=request.user.username %}" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="container" style="margin-top: 30px;">
         <div class="row flex-lg-nowrap">
@@ -30,7 +30,7 @@
                                         <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                                             <div class="text-center">
                                                 {% if user.first_name and user.last_name %}
-                                                    <a href="{% url 'profile' %}">
+                                                    <a href="{% url 'profile' username=request.user.username %}">
                                                         <h4 class="pt-2 pb-1 mb-0 text-nowrap">{{ user.first_name }} {{ user.last_name }}</h4>
                                                     </a>
                                                 {% else %}
@@ -60,11 +60,11 @@
                                                     <i class="fa fa-floppy-o" aria-hidden="true"></i> Save Changes
                                                 </button>
                                                 <br>
-                                                <a class="btn btn-danger" href="{% url 'profile_delete' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete Profile" data-toggle="modal" data-target="#deleteProfileModal" style="width: 200px; margin: 3px;">
+                                                <a class="btn btn-danger" href="{% url 'profile_delete' username=request.user.username %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete Profile" data-toggle="modal" data-target="#deleteProfileModal" style="width: 200px; margin: 3px;">
                                                     <i class="fa fa-trash" aria-hidden="true"></i> Delete Profile
                                                 </a>
                                                 <br>
-                                                <a class="btn btn-primary" href="{% url 'profile' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Profile Page" style="width: 200px; margin: 3px;">
+                                                <a class="btn btn-primary" href="{% url 'profile' username=request.user.username %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Profile Page" style="width: 200px; margin: 3px;">
                                                     <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Profile Page
                                                 </a>
                                             </div>

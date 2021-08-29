@@ -18,26 +18,106 @@
                     {% endif %}
                   </h4>
                   <h5>
-                    {% if request.user.is_superuser %}
+                    {% if user.is_superuser %}
                       <span class="badge rounded-pill badge-warning">Administrator</span>
                     {% else %}
                       <span class="badge rounded-pill badge-primary">Customer</span>
                     {% endif %}
                   </h5>
-                  {% if user.job and user.city and user.state and user.country %}
-                    <p class="text-secondary mb-1">
-                        {{ user.job }}
-                    </p>
-                    <p class="text-muted font-size-sm">
-                        {{ user.city }}, {{ user.state }}, {{ user.country }}
-                    </p>
+                  <p class="text-center">
+                    <div class="row">
+                      <div class="col">
+                        <div class="row">
+                          <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Likes">
+                            {{ likes.count }} <i class="fa fa-heart text-danger" aria-hidden="true"></i>
+                          </span>
+                        </div>
+                        <div class="row">
+                          <span><a href="" data-toggle="modal" data-target="#likesModal">Likes</a></span>
+                        </div>
+                        <div class="modal fade" id="likesModal">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h2>People liked this profile</h2>
+                              </div>
+                              <div class="modal-body">
+                                {% for like in likes %}
+                                  <div class="row">
+                                    <a href="{% url 'profile' username=like.profile.username %}"><h5 class=" text-center">{{ like.profile }}</h5></a>
+                                  </div>
+                                {% empty %}
+                                  No likes yet...
+                                {% endfor %}
+                              </div>
+                              <div class="modal-footer">
+                                <input class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="row">
+                          <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Likes">
+                            {{ followers.count }} <i class="fa fa-users text-primary" aria-hidden="true"></i>
+                          </span>
+                        </div>
+                        <div class="row">
+                          <span><a href="" data-toggle="modal" data-target="#followersModal">Followers</a></span>
+                        </div>
+                        <div class="modal fade" id="followersModal">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h2>People following this profile</h2>
+                              </div>
+                              <div class="modal-body">
+                                {% for follower in followers %}
+                                  <div class="row">
+                                    <a href="{% url 'profile' username=follower.profile.username %}"><h5 class=" text-center">{{ follower.profile }}</h5></a>
+                                  </div>
+                                {% empty %}
+                                  No followers yet...
+                                {% endfor %}
+                              </div>
+                              <div class="modal-footer">
+                                <input class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </p>
+                  {% if user == request.user %}
+                    <a class="btn btn-success" href="{% url 'profile_edit' username=request.user.username %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Profile Settings" style="width: 120px; margin: 5px;">
+                      <i class="fa fa-cogs" aria-hidden="true"></i> Edit
+                    </a>
+                    <a class="btn btn-primary" href="{% url 'index' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" style="width: 120px; margin: 5px;">
+                      <i class="fa fa-chevron-left" aria-hidden="true"></i> Back
+                    </a>
+                  {% else %}
+                    {% if like %}
+                      <a class="btn btn-warning" href="{% url 'dislike_profile' username=user.username %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Dislike" style="width: 120px; margin: 5px;">
+                        <i class="fa fa-heart-o" aria-hidden="true"></i> Dislike
+                      </a>
+                    {% else %}
+                      <a class="btn btn-danger" href="{% url 'like_profile' username=user.username %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Like" style="width: 120px; margin: 5px;">
+                        <i class="fa fa-heart" aria-hidden="true"></i> Like
+                      </a>
+                    {% endif %}
+
+                    {% if follower %}
+                      <a class="btn btn-primary" href="{% url 'unfollow_profile' username=user.username %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Dislike" style="width: 120px; margin: 5px;">
+                        <i class="fa fa-user-times" aria-hidden="true"></i> Unfollow
+                      </a>
+                    {% else %}
+                      <a class="btn btn-info" href="{% url 'follow_profile' username=user.username %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Like" style="width: 120px; margin: 5px;">
+                        <i class="fa fa-user-plus" aria-hidden="true"></i> Follow
+                      </a>
+                    {% endif %}
                   {% endif %}
-                  <a class="btn btn-success" href="{% url 'profile_edit' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Profile Settings" style="width: 200px; margin: 5px;">
-                    <i class="fa fa-cogs" aria-hidden="true"></i> Profile Settings
-                  </a>
-                  <a class="btn btn-primary" href="{% url 'index' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" style="width: 200px; margin: 5px;">
-                    <i class="fa fa-chevron-left" aria-hidden="true"></i> Back to Home Page
-                  </a>
                 </div>
               </div>
             </div>
@@ -82,7 +162,20 @@
                   {% if user.email %}
                     {{ user.email }}
                   {% else %}
-                    No email given
+                    No email information given
+                  {% endif %}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-5">
+                  <h6 class="mb-0"><i class="fa fa-map-marker" aria-hidden="true"></i> Address</h6>
+                </div>
+                <div class="col-sm-7 text-secondary">
+                  {% if user.city and user.state and user.country %}
+                    {{ user.city }}, {{ user.state }}, {{ user.country }}
+                  {% else %}
+                    No phone number given
                   {% endif %}
                 </div>
               </div>
@@ -96,6 +189,19 @@
                     {{ user.phone_number }}
                   {% else %}
                     No phone number given
+                  {% endif %}
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-5">
+                  <h6 class="mb-0"><i class="fa fa-briefcase" aria-hidden="true"></i> Job</h6>
+                </div>
+                <div class="col-sm-7 text-secondary">
+                  {% if user.job %}
+                    {{ user.job }}
+                  {% else %}
+                    No job information given
                   {% endif %}
                 </div>
               </div>

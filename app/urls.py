@@ -30,15 +30,19 @@ urlpatterns = [
     path('social-auth/', include('social_django.urls', namespace="social")),
 
     # Profile Route
-    path("profile/", profile, name="profile"),
+    path("profile/<str:username>/", profile, name="profile"),
+    path("profile/<str:username>/like/", like_profile, name="like_profile"),
+    path("profile/<str:username>/dislike/", dislike_profile, name="dislike_profile"),
+    path("profile/<str:username>/follow/", follow_profile, name="follow_profile"),
+    path("profile/<str:username>/unfollow/", unfollow_profile, name="unfollow_profile"),
 
     # Profile Settings Routes
-    path("profile/settings/", profile_edit, name="profile_edit"),
-    path("profile/settings/submit/", profile_edit_submit, name="profile_edit_submit"),
+    path("profile/<str:username>/settings/", profile_edit, name="profile_edit"),
+    path("profile/<str:username>/settings/submit/", profile_edit_submit, name="profile_edit_submit"),
     
     # Profile Delete Routes
-    path("profile/delete/", profile_delete, name="profile_delete"),
-    path("profile/delete/submit/", profile_delete_submit, name="profile_delete_submit"),
+    path("profile/<str:username>/delete/", profile_delete, name="profile_delete"),
+    path("profile/<str:username>/delete/submit/", profile_delete_submit, name="profile_delete_submit"),
 
     # Tasks routing
     path("tasks/", tasks, name="tasks"),

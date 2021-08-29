@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.urls import reverse
 from django.contrib import messages
 from django.db import IntegrityError
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
@@ -115,11 +115,18 @@ def sign_out(request):
     return HttpResponseRedirect(reverse("index"))
 
 @login_required(redirect_field_name="sign_in/")
-def profile(request):
+def profile(request, username):
     try:
-        user = Customer.objects.get(pk=request.user.pk)
+        user = Customer.objects.get(username=username)
+        profile = Customer.objects.get(pk=request.user.pk)
+        likes = Like.objects.filter(customer=user)
+        followers = Follower.objects.filter(customer=user)
+        like = Like.objects.filter(customer = user, profile=profile)
+        follower = Follower.objects.filter(customer = user, profile=profile)
     except Customer.DoesNotExist:
         user = None
+        like = None
+        follower = None
 
     total_calories = Food.objects.filter(customer=user).aggregate(Sum('calories'))['calories__sum'] or Decimal('0.00')
     total_fat = Food.objects.filter(customer=user).aggregate(Sum('fat'))['fat__sum'] or Decimal('0.00')
@@ -128,6 +135,10 @@ def profile(request):
 
     context = {
         "user": user,
+        "likes": likes,
+        "followers": followers,
+        "like": like,
+        "follower": follower,
         "total_calories": str(round(total_calories, 2)),
         "total_fat": str(round(total_fat, 2)),
         "total_protein": str(round(total_protein, 2)),
@@ -137,7 +148,41 @@ def profile(request):
     return render(request, "app/profile.html", context)
 
 @login_required(redirect_field_name="sign_in/")
-def profile_edit(request):
+def like_profile(request, username):
+    customer = Customer.objects.get(username=username)
+    profile = Customer.objects.get(pk=request.user.pk)
+    like = Like.objects.create(customer = customer, profile=profile)
+    messages.success(request, f"You liked {username}'s profile!")
+    return HttpResponseRedirect(reverse("profile", kwargs={ "username": username }))
+
+@login_required(redirect_field_name="sign_in/")
+def dislike_profile(request, username):
+    customer = Customer.objects.get(username=username)
+    profile = Customer.objects.get(pk=request.user.pk)
+    like = Like.objects.get(customer = customer, profile=profile)
+    like.delete()
+    messages.success(request, f"You disliked {username}'s profile!")
+    return HttpResponseRedirect(reverse("profile", kwargs={ "username": username }))
+
+@login_required(redirect_field_name="sign_in/")
+def follow_profile(request, username):
+    customer = Customer.objects.get(username=username)
+    profile = Customer.objects.get(pk=request.user.pk)
+    follower = Follower.objects.create(customer = customer, profile=profile)
+    messages.success(request, f"You followed {username}!")
+    return HttpResponseRedirect(reverse("profile", kwargs={ "username": username }))
+
+@login_required(redirect_field_name="sign_in/")
+def unfollow_profile(request, username):
+    customer = Customer.objects.get(username=username)
+    profile = Customer.objects.get(pk=request.user.pk)
+    follower = Follower.objects.get(customer = customer, profile=profile)
+    follower.delete()
+    messages.success(request, f"You unfollowed {username}!")
+    return HttpResponseRedirect(reverse("profile", kwargs={ "username": username }))
+
+@login_required(redirect_field_name="sign_in/")
+def profile_edit(request, username):
     try:
         user = Customer.objects.get(pk=request.user.pk)
     except Customer.DoesNotExist:
@@ -151,7 +196,7 @@ def profile_edit(request):
     return render(request, "app/profile_edit.html", context)
 
 @login_required(redirect_field_name="sign_in/")
-def profile_edit_submit(request):
+def profile_edit_submit(request, username):
     if request.method == "POST":
         try:
             user = Customer.objects.get(pk=request.user.pk)
@@ -244,11 +289,11 @@ def profile_edit_submit(request):
         return HttpResponseRedirect(reverse("index"))
 
 @login_required(redirect_field_name="sign_in/")
-def profile_delete(request):
+def profile_delete(request, username):
     return render(request, "app/profile_delete.html")
 
 @login_required(redirect_field_name="sign_in/")
-def profile_delete_submit(request):
+def profile_delete_submit(request, username):
     if request.method == "POST":
         try:
             user = Customer.objects.get(pk=request.user.pk)
