@@ -1,4 +1,4 @@
-{% extends "app/layout.html" %}
+{% extends "applications/layout.html" %}
 
 {% block title %} Healthy at Home | {{ user.username }} | EDIT {% endblock %}
 
@@ -6,7 +6,7 @@
 
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 
-{% include "app/profile_delete.html" %}
+{% include "applications/profile_delete.html" %}
 
 <form method="POST" action="{% url 'profile_edit_submit' username=request.user.username %}" enctype="multipart/form-data">
     {% csrf_token %}

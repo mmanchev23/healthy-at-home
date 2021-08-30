@@ -1,4 +1,4 @@
-{% extends "app/layout.html" %}
+{% extends "applications/layout.html" %}
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 
@@ -12,6 +12,7 @@
                     </div>
                     <div class="row text-center p-1">
                         <h1>{{ workout.title }}</h1>
+                        <h2>Creator: <a href="{% url 'profile' username=workout.user.username %}">{{ workout.user }}</a></h2>
                     </div>
                     <div class="row text-center p-1">
                         {% if workout.exercises %}
@@ -24,7 +25,7 @@
                                 <i class="fa fa-chevron-left" aria-hidden="true"></i>
                             </a>
                         </div>
-                        {% if workout.customer == request.user %}
+                        {% if workout.user == request.user %}
                             <div class="col">
                                 <button class="btn btn-success" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" data-toggle="modal" data-target="#editWorkoutModal">
                                     <i class="fa fa-pencil" aria-hidden="true"></i>

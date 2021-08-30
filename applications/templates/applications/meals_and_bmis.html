@@ -1,11 +1,9 @@
-{% extends "app/layout.html" %}
+{% extends "applications/layout.html" %}
 
 {% block body %}
-<div class="container">
+<div class="container mt-3">
     <div class="main-body">
         <div class="row gutters-sm">
-            
-            <!-- Meals Card -->
             <div class="col text-center">
                 <div class="card mb-3">
                     <div class="card-body">
@@ -14,13 +12,10 @@
                                 <h4 class="mb-0">Intake</h4>
                             </div>
                             <div class="col">
-
-                                <!-- Add Meal Button -->
                                 <a class="btn btn-warning" href="" style="width: 200px; margin: 1px;" data-toggle="modal" data-target="#createMeal">
                                     <i class="fa fa-cutlery" aria-hidden="true"></i> Add Meal
                                 </a>
 
-                                <!-- Add Meal Popup -->
                                 <div class="modal fade text-left" id="createMeal">
                                     <form action="{% url 'meal_create' %}" method="POST">
                                         {% csrf_token %}
@@ -67,11 +62,8 @@
                         </div>
                         <hr>
                         {% for meal in meals %}
-                            <!-- Meal Info -->
                             <div class="row p-2 meal-items">
                                 <div class="col-sm-3 meal">
-
-                                    <!-- Meal Name -->
                                     <div class="row">
                                         {% if meal.fat > 100.00 or meal.calories > 100.00 or meal.carbs > 100.00 or meal.protein > 100.00 %}
                                             <h6 class="mb-0" style="color: red;">
@@ -88,22 +80,85 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- On-hover Buttons for Edit and Delete -->
                                     <div class="row meal-buttons">
                                         <div class="col meal-edit-btn" style="text-align: right;">
-                                            <a class="meal-edit-a" href="" data-toggle="modal" data-target="#editMealModal">
+                                            <a class="meal-edit-a" href="" data-toggle="modal" data-target="#editMealModal{{ meal.id }}">
                                                 <i class="fa fa-pencil text-info btn" data-toggle="tooltip" data-placement="bottom" title="Edit meal"></i>
                                             </a>
+
+                                            <div class="modal fade text-left" id="editMealModal{{ meal.id }}">
+                                                <form action="{% url 'meal_edit' id=meal.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h2>{{ meal.name }}</h2>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="name" class="form-label">Name</label>
+                                                                    <input class="form-control" type="text" name="name" placeholder="Enter name" value="{{ meal.name }}" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="calories" class="form-label">Calories</label>
+                                                                    <input class="form-control" type="number" name="calories" placeholder="Enter amount of calories" value="{{ meal.calories }}" required min="0" step=".01">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="fat" class="form-label">Fat</label>
+                                                                    <input class="form-control" type="number" name="fat" placeholder="Enter amount of fat" value="{{ meal.fat }}" required min="0" step=".01">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="carbs" class="form-label">Carbs</label>
+                                                                    <input class="form-control" type="number" name="carbs" placeholder="Enter amount of carbs" value="{{ meal.carbs }}" required min="0" step=".01">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="protein" class="form-label">Protein</label>
+                                                                    <input class="form-control" type="number" name="protein" placeholder="Enter amount of protein" value="{{ meal.protein }}" required min="0" step=".01">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-success" type="submit" style="width: 100px;">
+                                                                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                                                </button>
+                                                                <button class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
+                                                                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
+
                                         <div class="col meal-delete-btn" style="text-align: left;">
-                                            <a class="meal-delete-a" href="" data-toggle="modal" data-target="#deleteMealModal">
+                                            <a class="meal-delete-a" href="" data-toggle="modal" data-target="#deleteMealModal{{ meal.id }}">
                                                 <i class="fa fa-trash-o text-danger btn" data-toggle="tooltip" data-placement="bottom" title="Delete meal"></i>
                                             </a>
+            
+                                            <div class="modal fade" id="deleteMealModal{{ meal.id }}">
+                                                <form action="{% url 'meal_delete' id=meal.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h2>Delete "{{ meal.name }}"?</h2>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-danger" type="submit" style="width: 100px;">
+                                                                    Delete
+                                                                </button>
+                                                                <button class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
+                                                                    Go back
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- Meal Stats -->
                                 <div class="col-sm-9 text-secondary">
                                     <div class="row">
                                         <div class="col">
@@ -141,84 +196,15 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Edit Meal Popup -->
-                            <div class="modal fade text-left" id="editMealModal">
-                                <form action="{% url 'meal_edit' id=meal.id %}" method="POST">
-                                    {% csrf_token %}
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h2>{{ meal.name }}</h2>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label for="name" class="form-label">Name</label>
-                                                    <input class="form-control" type="text" name="name" placeholder="Enter name" value="{{ meal.name }}" required>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="calories" class="form-label">Calories</label>
-                                                    <input class="form-control" type="number" name="calories" placeholder="Enter amount of calories" value="{{ meal.calories }}" required min="0" step=".01">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="fat" class="form-label">Fat</label>
-                                                    <input class="form-control" type="number" name="fat" placeholder="Enter amount of fat" value="{{ meal.fat }}" required min="0" step=".01">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="carbs" class="form-label">Carbs</label>
-                                                    <input class="form-control" type="number" name="carbs" placeholder="Enter amount of carbs" value="{{ meal.carbs }}" required min="0" step=".01">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="protein" class="form-label">Protein</label>
-                                                    <input class="form-control" type="number" name="protein" placeholder="Enter amount of protein" value="{{ meal.protein }}" required min="0" step=".01">
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-success" type="submit" style="width: 100px;">
-                                                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                                                </button>
-                                                <button class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
-                                                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-        
-                            <!-- Delete Meal Popup -->
-                            <div class="modal fade" id="deleteMealModal">
-                                <form action="{% url 'meal_delete' id=meal.id %}" method="POST">
-                                    {% csrf_token %}
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h2>Delete "{{ meal.name }}"?</h2>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-danger" type="submit" style="width: 100px;">
-                                                    Delete
-                                                </button>
-                                                <button class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
-                                                    Go back
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
                         {% empty %}
                             <h4 class="text-center">No meals yet...</h4>
                         {% endfor %}
-
-                        <!-- Summary for Intake -->
                         <hr>
                         <div class="row p-1">
                             <div class="col-sm-3">
                                 <h6 class="mb-0"><u>Summary</u></h6>
                             </div>
 
-                            <!-- Summary Stats -->
                             <div class="col-sm-9 text-secondary">
                                 <div class="row">
                                     <div class="col">
@@ -267,14 +253,12 @@
                                 <h4 class="mb-0">BMI</h4>
                             </div>
 
-                            <!-- Create BMI Button -->
                             <div class="col">
                                 <a class="btn btn-success" href="" style="width: 200px; margin: 1px;" data-toggle="modal" data-target="#createBMI">
                                     <i class="fa fa-calculator"></i> Calculate BMI
                                 </a>
                             </div>
 
-                            <!-- Create BMI Popup -->
                             <div class="modal fade text-left" id="createBMI">
                                 <form action="{% url 'bmi_create' %}" method="POST">
                                     {% csrf_token %}
@@ -308,10 +292,7 @@
                         </div>
                         <hr>
                         {% for bmi in bmis %}
-                            <!-- BMI Info -->
                             <div class="row p-2 bmi-items">
-
-                                <!-- BMI Title -->
                                 <div class="col-sm-3 bmi">
                                     <div class="row">
                                         {% if bmi.result > 30.0 %}
@@ -337,22 +318,72 @@
                                         {% endif %}
                                     </div>
 
-                                    <!-- On-hover Buttons for Edit and Delete -->
                                     <div class="row bmi-buttons">
                                         <div class="col bmi-edit-btn" style="text-align: right;">
-                                            <a class="bmi-edit-a" href="" data-toggle="modal" data-target="#editBMIModal">
+                                            <a class="bmi-edit-a" href="" data-toggle="modal" data-target="#editBMIModal{{ bmi.id }}">
                                                 <i class="fa fa-pencil text-info btn" data-toggle="tooltip" data-placement="bottom" title="Edit BMI"></i>
                                             </a>
+
+                                            <div class="modal fade text-left" id="editBMIModal{{ bmi.id }}">
+                                                <form action="{% url 'bmi_edit' id=bmi.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h2>BMI</h2>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="height" class="form-label">Height</label>
+                                                                    <input class="form-control" type="number" name="height" placeholder="Enter height" value="{{ bmi.height }}" required min="0" step=".01">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="weight" class="form-label">Weight</label>
+                                                                    <input class="form-control" type="number" name="weight" placeholder="Enter weight" value="{{ bmi.weight }}" required min="0" step=".01">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-success" type="submit" style="width: 100px;">
+                                                                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                                                </button>
+                                                                <button class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
+                                                                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                         <div class="col bmi-delete-btn" style="text-align: left;">
-                                            <a class="bmi-delete-a" href="" data-toggle="modal" data-target="#deleteBMIModal">
+                                            <a class="bmi-delete-a" href="" data-toggle="modal" data-target="#deleteBMIModal{{ bmi.id }}">
                                                 <i class="fa fa-trash-o text-danger btn" data-toggle="tooltip" data-placement="bottom" title="Delete BMI"></i>
                                             </a>
+            
+                                            <div class="modal fade" id="deleteBMIModal{{ bmi.id }}">
+                                                <form action="{% url 'bmi_delete' id=bmi.id %}" method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h2>Delete result?</h2>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-danger" type="submit" style="width: 100px;">
+                                                                    Delete
+                                                                </button>
+                                                                <button class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
+                                                                    Go back
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <!-- BMI Stats -->
                                 <div class="col-sm-9 text-secondary">
                                     <div class="row">
                                         <div class="col">
@@ -389,60 +420,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Edit BMI Popup -->
-                            <div class="modal fade text-left" id="editBMIModal">
-                                <form action="{% url 'bmi_edit' id=bmi.id %}" method="POST">
-                                    {% csrf_token %}
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h2>{{ bmi.result }}</h2>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="form-group">
-                                                    <label for="height" class="form-label">Height</label>
-                                                    <input class="form-control" type="number" name="height" placeholder="Enter height" value="{{ bmi.height }}" required min="0" step=".01">
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="weight" class="form-label">Weight</label>
-                                                    <input class="form-control" type="number" name="weight" placeholder="Enter weight" value="{{ bmi.weight }}" required min="0" step=".01">
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-success" type="submit" style="width: 100px;">
-                                                    <i class="fa fa-floppy-o" aria-hidden="true"></i>
-                                                </button>
-                                                <button class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
-                                                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-        
-                            <!-- Delete BMI Popup -->
-                            <div class="modal fade" id="deleteBMIModal">
-                                <form action="{% url 'bmi_delete' id=bmi.id %}" method="POST">
-                                    {% csrf_token %}
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h2>Delete "{{ bmi.result }}"?</h2>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-danger" type="submit" style="width: 100px;">
-                                                    Delete
-                                                </button>
-                                                <button class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
-                                                    Go back
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
                             </div>
                         {% empty %}
                             <h4 class="text-center">No calculations yet...</h4>

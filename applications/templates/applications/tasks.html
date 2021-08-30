@@ -1,0 +1,130 @@
+{% extends "applications/layout.html" %}
+
+{% block body %}
+    <div class="container m-5 p-2 rounded mx-auto bg-light shadow">
+        <!-- App title section -->
+        <div class="row m-1 p-4">
+            <div class="col">
+                <div class="text-center">
+                    {% if user.first_name and user.last_name %}
+                        <h1>Tasks - {{ user.first_name }} {{ user.last_name }}</h1>
+                    {% else %}
+                        <h1>Tasks - {{ user.username }}</h1>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- Create todo section -->
+        <form action="{% url 'task_create' %}" method="POST">
+            {% csrf_token %}
+            <div class="row m-1 p-3">
+                <div class="col col-11 mx-auto">
+                    <div class="row bg-white rounded shadow-sm p-2 add-todo-wrapper align-items-center justify-content-center">
+                        <div class="col">
+                            <input class="form-control form-control-lg border-0 add-todo-input bg-transparent rounded" type="text" name="title" placeholder="Add task ..." required>
+                        </div>
+                        <div class="col-auto px-0 mx-0 mr-2">
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <!-- Todo list section -->
+        <div class="row mx-1 px-5 pb-3 w-80">
+            <div class="col mx-auto">
+                <hr>
+                {% for task in tasks %}
+                    <div class="row px-3 align-items-center todo-item rounded">
+                        <div class="col px-1 m-1 d-flex align-items-center">
+                            <h4 {% if task.completed %}style="text-decoration: line-through;"{% endif %}>{{ task.title }}</h4>
+                        </div>
+                        <div class="col-auto m-1 p-0 px-3 d-none">
+                        </div>
+                        <div class="col-auto m-1 p-0 todo-actions">
+                            <div class="row text-center">
+                                <div class="col">
+                                    <a href="" data-toggle="modal" data-target="#editTaskModal{{ task.id }}">
+                                        <i class="fa fa-pencil text-info btn m-0 p-0" data-toggle="tooltip" data-placement="bottom" title="Edit todo"></i>
+                                    </a>
+
+                                    <div class="modal fade text-left" id="editTaskModal{{ task.id }}">
+                                        <form action="{% url 'task_edit' id=task.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h2>{{ task.title }}</h2>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <label for="title" class="form-label">Title</label>
+                                                            <input class="form-control" type="text" name="title" value="{{ task.title }}" placeholder="Enter title">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="description" class="form-label">Description</label>
+                                                            <textarea class="form-control" type="text" name="description" placeholder="Enter description">{{ task.description }}</textarea>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input  type="checkbox" name="completed" {% if task.completed %}checked{% endif %}>
+                                                            <label for="completed" class="form-label">Completed</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-success" type="submit" style="width: 100px;">
+                                                            <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                                        </button>
+                                                        <button class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
+                                                            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <a href="" data-toggle="modal" data-target="#deleteTaskModal{{ task.id }}">
+                                        <i class="fa fa-trash-o text-danger btn m-0 p-0" data-toggle="tooltip" data-placement="bottom" title="Delete todo"></i>
+                                    </a>
+
+                                    <div class="modal fade" id="deleteTaskModal{{ task.id }}">
+                                        <form action="{% url 'task_delete' id=task.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h2>Delete "{{ task.title }}"?</h2>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-danger" type="submit" style="width: 100px;">
+                                                            Delete
+                                                        </button>
+                                                        <button class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
+                                                            Go back
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row todo-created-info">
+                                <div class="col-auto d-flex align-items-center pr-2">
+                                    <i class="fa fa-info-circle my-2 px-2 text-black-50 btn" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Created date"></i>
+                                    <label class="date-label my-2 text-black-50">{{ task.created_at.date }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                {% empty %}
+                    <div class="text-center">
+                        <h1>No tasks yet...</h1>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

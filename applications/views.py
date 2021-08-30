@@ -4,18 +4,17 @@ from django.db.models import Q
 from django.urls import reverse
 from django.contrib import messages
 from django.db import IntegrityError
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 
 
-# Authentication Views
 def index(request):
-    return render(request, "app/index.html")
+    return render(request, "applications/index.html")
 
 def sign_up(request):
-    return render(request, "app/sign_up.html")
+    return render(request, "applications/sign_up.html")
 
 def sign_up_submit(request):
     if request.method == "POST":
@@ -38,58 +37,58 @@ def sign_up_submit(request):
 
         if not username:
             messages.error(request, "The 'Username' field can not be empty!")
-            return render(request, "app/sign_up.html")
+            return render(request, "applications/sign_up.html")
 
         if not email:
             messages.error(request, "The 'Email' field can not be empty!")
-            return render(request, "app/sign_up.html")
+            return render(request, "applications/sign_up.html")
 
         if not password:
             messages.error(request, "The 'Password' field can not be empty!")
-            return render(request, "app/sign_up.html")
+            return render(request, "applications/sign_up.html")
 
         if not confirm_password:
             messages.error(request, "The 'Confirm password' field can not be empty!")
-            return render(request, "app/sign_up.html")
+            return render(request, "applications/sign_up.html")
 
         if password != confirm_password:
             messages.error(request, "Passwords must match!")
-            return render(request, "app/sign_up.html")
+            return render(request, "applications/sign_up.html")
 
         if not has_atleast_eight_characters:
             messages.error(request, "The password can not contain less than 8 characters!")
-            return render(request, "app/sign_up.html", )
+            return render(request, "applications/sign_up.html", )
 
         if not has_atleast_one_digit:
             messages.error(request, "The password should contains atleast one digit!")
-            return render(request, "app/sign_up.html")
+            return render(request, "applications/sign_up.html")
 
         if not has_atleast_one_upper:
             messages.error(request, "The password should contains atleast one upper character!")
-            return render(request, "app/sign_up.html")
+            return render(request, "applications/sign_up.html")
 
         if not has_atleast_one_lower:
             messages.error(request, "The password should contains atleast one lower character!")
-            return render(request, "app/sign_up.html")
+            return render(request, "applications/sign_up.html")
 
         if not has_no_forbidden:
             messages.error(request, "The password should not contains '!', '$', '#' or '%'!")
-            return render(request, "app/sign_up.html")
+            return render(request, "applications/sign_up.html")
 
         try:
-            user = Customer.objects.create_user(username, email, password)
+            user = User.objects.create_user(username, email, password)
             user.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, "You have registered successfully!")
             return HttpResponseRedirect(reverse("index"))
         except IntegrityError:
             messages.error(request, "Username already taken.")
-            return render(request, "app/sign_up.html")
+            return render(request, "applications/sign_up.html")
     else:
-        return render(request, "app/sign_up.html")
+        return render(request, "applications/sign_up.html")
 
 def sign_in(request):
-    return render(request, "app/sign_in.html")
+    return render(request, "applications/sign_in.html")
 
 def sign_in_submit(request):
     if request.method == "POST":
@@ -104,9 +103,9 @@ def sign_in_submit(request):
             return HttpResponseRedirect(reverse("index"))
         except:
             messages.error(request, "Invalid username and/or password.")
-            return render(request, "app/sign_in.html")
+            return render(request, "applications/sign_in.html")
     else:
-        return render(request, "app/sign_in.html")
+        return render(request, "applications/sign_in.html")
 
 @login_required(redirect_field_name="sign_in/")
 def sign_out(request):
@@ -116,92 +115,90 @@ def sign_out(request):
 
 @login_required(redirect_field_name="sign_in/")
 def profile(request, username):
-    try:
-        user = Customer.objects.get(username=username)
-        profile = Customer.objects.get(pk=request.user.pk)
-        likes = Like.objects.filter(customer=user)
-        followers = Follower.objects.filter(customer=user)
-        like = Like.objects.filter(customer = user, profile=profile)
-        follower = Follower.objects.filter(customer = user, profile=profile)
-    except Customer.DoesNotExist:
-        user = None
-        like = None
-        follower = None
+    user = User.objects.get(username=username) or None
+    profile = User.objects.get(pk=request.user.pk) or None
 
-    total_calories = Food.objects.filter(customer=user).aggregate(Sum('calories'))['calories__sum'] or Decimal('0.00')
-    total_fat = Food.objects.filter(customer=user).aggregate(Sum('fat'))['fat__sum'] or Decimal('0.00')
-    total_protein = Food.objects.filter(customer=user).aggregate(Sum('protein'))['protein__sum'] or Decimal('0.00')
-    total_carbs = Food.objects.filter(customer=user).aggregate(Sum('carbs'))['carbs__sum'] or Decimal('0.00')
+    likes = ProfileLike.objects.filter(user=user) or None
+    like = ProfileLike.objects.filter(user=user, profile=profile) or None
+
+    followers = ProfileFollower.objects.filter(user=user) or None
+    follower = ProfileFollower.objects.filter(user=user, profile=profile) or None
+
+    followings = ProfileFollower.objects.filter(profile=user) or None
+
+    total_calories = Food.objects.filter(user=user).aggregate(Sum('calories'))['calories__sum'] or Decimal('0.00')
+    total_fat = Food.objects.filter(user=user).aggregate(Sum('fat'))['fat__sum'] or Decimal('0.00')
+    total_protein = Food.objects.filter(user=user).aggregate(Sum('protein'))['protein__sum'] or Decimal('0.00')
+    total_carbs = Food.objects.filter(user=user).aggregate(Sum('carbs'))['carbs__sum'] or Decimal('0.00')
 
     context = {
         "user": user,
+
         "likes": likes,
-        "followers": followers,
         "like": like,
+
+        "followers": followers,
         "follower": follower,
+
+        "followings": followings,
+
         "total_calories": str(round(total_calories, 2)),
         "total_fat": str(round(total_fat, 2)),
         "total_protein": str(round(total_protein, 2)),
         "total_carbs": str(round(total_carbs, 2)),
     }
 
-    return render(request, "app/profile.html", context)
+    return render(request, "applications/profile.html", context)
 
 @login_required(redirect_field_name="sign_in/")
 def like_profile(request, username):
-    customer = Customer.objects.get(username=username)
-    profile = Customer.objects.get(pk=request.user.pk)
-    like = Like.objects.create(customer = customer, profile=profile)
+    user = User.objects.get(username=username) or None
+    profile = User.objects.get(pk=request.user.pk) or None
+    like = ProfileLike.objects.create(user=user, profile=profile)
     messages.success(request, f"You liked {username}'s profile!")
     return HttpResponseRedirect(reverse("profile", kwargs={ "username": username }))
 
 @login_required(redirect_field_name="sign_in/")
 def dislike_profile(request, username):
-    customer = Customer.objects.get(username=username)
-    profile = Customer.objects.get(pk=request.user.pk)
-    like = Like.objects.get(customer = customer, profile=profile)
+    user = User.objects.get(username=username) or None
+    profile = User.objects.get(pk=request.user.pk) or None
+    like = ProfileLike.objects.get(user=user, profile=profile)
     like.delete()
     messages.success(request, f"You disliked {username}'s profile!")
     return HttpResponseRedirect(reverse("profile", kwargs={ "username": username }))
 
 @login_required(redirect_field_name="sign_in/")
 def follow_profile(request, username):
-    customer = Customer.objects.get(username=username)
-    profile = Customer.objects.get(pk=request.user.pk)
-    follower = Follower.objects.create(customer = customer, profile=profile)
+    user = User.objects.get(username=username) or None
+    profile = User.objects.get(pk=request.user.pk) or None
+    follower = ProfileFollower.objects.create(user=user, profile=profile)
     messages.success(request, f"You followed {username}!")
     return HttpResponseRedirect(reverse("profile", kwargs={ "username": username }))
 
 @login_required(redirect_field_name="sign_in/")
 def unfollow_profile(request, username):
-    customer = Customer.objects.get(username=username)
-    profile = Customer.objects.get(pk=request.user.pk)
-    follower = Follower.objects.get(customer = customer, profile=profile)
+    user = User.objects.get(username=username) or None
+    profile = User.objects.get(pk=request.user.pk) or None
+    follower = ProfileFollower.objects.get(user=user, profile=profile)
     follower.delete()
     messages.success(request, f"You unfollowed {username}!")
     return HttpResponseRedirect(reverse("profile", kwargs={ "username": username }))
 
 @login_required(redirect_field_name="sign_in/")
 def profile_edit(request, username):
-    try:
-        user = Customer.objects.get(pk=request.user.pk)
-    except Customer.DoesNotExist:
-        user = None
+    user = User.objects.get(pk=request.user.pk) or None
 
     context = {
-        "join_date": user.date_joined.date(),
         "user": user,
+        "join_date": user.date_joined.date(),
     }
 
-    return render(request, "app/profile_edit.html", context)
+    return render(request, "applications/profile_edit.html", context)
 
 @login_required(redirect_field_name="sign_in/")
 def profile_edit_submit(request, username):
     if request.method == "POST":
-        try:
-            user = Customer.objects.get(pk=request.user.pk)
-        except Customer.DoesNotExist:
-            user = None
+        user = User.objects.get(pk=request.user.pk) or None
 
         # Profile Credentials
         username = request.POST.get("username")
@@ -290,15 +287,12 @@ def profile_edit_submit(request, username):
 
 @login_required(redirect_field_name="sign_in/")
 def profile_delete(request, username):
-    return render(request, "app/profile_delete.html")
+    return render(request, "applications/profile_delete.html")
 
 @login_required(redirect_field_name="sign_in/")
 def profile_delete_submit(request, username):
     if request.method == "POST":
-        try:
-            user = Customer.objects.get(pk=request.user.pk)
-        except Customer.DoesNotExist:
-            user = None
+        user = User.objects.get(pk=request.user.pk) or None
 
         password = request.POST.get("password")
 
@@ -319,32 +313,33 @@ def profile_delete_submit(request, username):
 
 @login_required(redirect_field_name="sign_in/")
 def tasks(request):
-    user = Customer.objects.get(pk=request.user.pk)
-    tasks = Task.objects.filter(customer=user)
+    user = User.objects.get(pk=request.user.pk) or None
+    tasks = Task.objects.filter(user=user) or None
 
     context = {
         "user": user,
         "tasks": tasks,
     }
 
-    return render(request, "app/tasks.html", context)
+    return render(request, "applications/tasks.html", context)
 
 @login_required(redirect_field_name="sign_in/")
 def task_create(request):
     if request.method == "POST":
-        user = Customer.objects.get(pk=request.user.pk)
+        user = User.objects.get(pk=request.user.pk) or None
         title = request.POST.get("title")
-        task = Task.objects.create(customer=user, title=title)
+        task = Task.objects.create(user=user, title=title)
         messages.success(request, "Task created successfully!")
         return HttpResponseRedirect(reverse("tasks"))
     else:
-        return render(request, "app/tasks.html")
+        return render(request, "applications/tasks.html")
 
 @login_required(redirect_field_name="sign_in/")
 def task_edit(request, id):
     if request.method == "POST":
-        task = Task.objects.get(pk=id)
-        if task.customer == request.user:
+        task = Task.objects.get(pk=id) or None
+
+        if task.user == request.user:
             title = request.POST.get("title")
             description = request.POST.get("description")
             completed = request.POST.get("completed")
@@ -365,13 +360,14 @@ def task_edit(request, id):
             messages.error(request, "No such rights!")
             return HttpResponseRedirect(reverse("tasks"))
     else:
-        return render(request, "app/tasks.html")
+        return render(request, "applications/tasks.html")
 
 @login_required(redirect_field_name="sign_in/")
 def task_delete(request, id):
     if request.method == "POST":
-        task = Task.objects.get(pk=id)
-        if task.customer == request.user:
+        task = Task.objects.get(pk=id) or None
+
+        if task.user == request.user:
             task.delete()
             messages.success(request, "Task deleted successfully!")
             return HttpResponseRedirect(reverse("tasks"))
@@ -379,25 +375,24 @@ def task_delete(request, id):
             messages.error(request, "No such rights!")
             return HttpResponseRedirect(reverse("tasks"))
     else:
-        return render(request, "app/tasks.html")
+        return render(request, "applications/tasks.html")
 
 @login_required(redirect_field_name="sign_in/")
 def workouts(request):
-    user = Customer.objects.get(pk=request.user.pk)
-    workouts = Workout.objects.filter(Q(customer=user) | Q(public=True))
+    user = User.objects.get(pk=request.user.pk) or None
+    workouts = Workout.objects.filter(Q(user=user) | Q(public=True)) or None
 
     context = {
         "user": user,
         "workouts": workouts,
     }
 
-    return render(request, "app/workouts.html", context)
+    return render(request, "applications/workouts.html", context)
 
 @login_required(redirect_field_name="sign_in/")
 def workout_create(request):
     if request.method == "POST":
-        user = Customer.objects.get(pk=request.user.pk)
-
+        user = User.objects.get(pk=request.user.pk) or None
         title = request.POST.get("title")
 
         if "workout_image" in request.FILES:
@@ -430,7 +425,7 @@ def workout_create(request):
             public = False
         
         workout = Workout.objects.create(
-            customer=user,
+            user=user,
             title=title,
             workout_image=workout_image,
             video_url=video_url,
@@ -442,23 +437,24 @@ def workout_create(request):
         messages.success(request, "Workout created successfully!")
         return HttpResponseRedirect(reverse("workouts"))
     else:
-        return render(request, "app/workouts.html")
+        return render(request, "applications/workouts.html")
 
 @login_required(redirect_field_name="sign_in/")
 def workout(request, id):
-    workout = Workout.objects.get(pk=id)
+    workout = Workout.objects.get(pk=id) or None
 
     context = {
         "workout": workout,
     }
 
-    return render(request, "app/workout.html", context)
+    return render(request, "applications/workout.html", context)
 
 @login_required(redirect_field_name="sign_in/")
 def workout_edit(request, id):
     if request.method == "POST":
-        workout = Workout.objects.get(pk=id)
-        if workout.customer == request.user:
+        workout = Workout.objects.get(pk=id) or None
+
+        if workout.user == request.user:
             if "workout_image" in request.FILES:
                 workout_image = request.FILES["workout_image"]
             else:
@@ -489,13 +485,14 @@ def workout_edit(request, id):
             messages.error(request, "No such rights!")
             return HttpResponseRedirect(reverse("workouts"))
     else:
-        return render(request, "app/workouts.html")
+        return render(request, "applications/workouts.html")
 
 @login_required(redirect_field_name="sign_in/")
 def workout_delete(request, id):
     if request.method == "POST":
-        workout = Workout.objects.get(pk=id)
-        if workout.customer == request.user:
+        workout = Workout.objects.get(pk=id) or None
+
+        if workout.user == request.user:
             workout.delete()
             messages.success(request, "Workout deleted successfully!")
             return HttpResponseRedirect(reverse("workouts"))
@@ -503,13 +500,13 @@ def workout_delete(request, id):
             messages.error(request, "No such rights!")
             return HttpResponseRedirect(reverse("workouts"))
     else:
-        return render(request, "app/workouts.html")
+        return render(request, "applications/workouts.html")
 
 @login_required(redirect_field_name="sign_in/")
 def meals_and_bmis(request):
-    user = Customer.objects.get(pk=request.user.pk)
-    bmis = BMICalculator.objects.filter(customer=user)
-    meals = Food.objects.filter(customer=user)
+    user = User.objects.get(pk=request.user.pk) or None
+    bmis = BMICalculator.objects.filter(user=user)
+    meals = Food.objects.filter(user=user)
 
     average_height = Decimal('0.00')
     average_weight = Decimal('0.00')
@@ -529,10 +526,10 @@ def meals_and_bmis(request):
         average_weight = Decimal('0.00')
         average_result = Decimal('0.00')
 
-    total_calories = Food.objects.filter(customer=user).aggregate(Sum('calories'))['calories__sum'] or Decimal('0.00')
-    total_fat = Food.objects.filter(customer=user).aggregate(Sum('fat'))['fat__sum'] or Decimal('0.00')
-    total_protein = Food.objects.filter(customer=user).aggregate(Sum('protein'))['protein__sum'] or Decimal('0.00')
-    total_carbs = Food.objects.filter(customer=user).aggregate(Sum('carbs'))['carbs__sum'] or Decimal('0.00')
+    total_calories = Food.objects.filter(user=user).aggregate(Sum('calories'))['calories__sum'] or Decimal('0.00')
+    total_fat = Food.objects.filter(user=user).aggregate(Sum('fat'))['fat__sum'] or Decimal('0.00')
+    total_protein = Food.objects.filter(user=user).aggregate(Sum('protein'))['protein__sum'] or Decimal('0.00')
+    total_carbs = Food.objects.filter(user=user).aggregate(Sum('carbs'))['carbs__sum'] or Decimal('0.00')
 
     context = {
         "user": user,
@@ -547,28 +544,30 @@ def meals_and_bmis(request):
         "total_carbs": str(round(total_carbs, 2)),
     }
 
-    return render(request, "app/meals_and_bmis.html", context)
+    return render(request, "applications/meals_and_bmis.html", context)
 
 @login_required(redirect_field_name="sign_in/")
 def meal_create(request):
     if request.method == "POST":
-        user = Customer.objects.get(pk=request.user.pk)
+        user = User.objects.get(pk=request.user.pk) or None
+
         name = request.POST.get("name")
         calories = request.POST.get("calories")
         fat = request.POST.get("fat")
         carbs = request.POST.get("carbs")
         protein = request.POST.get("protein")
-        meal = Food.objects.create(customer=user, name=name, calories=calories, fat=fat, carbs=carbs, protein=protein)
+        meal = Food.objects.create(user=user, name=name, calories=calories, fat=fat, carbs=carbs, protein=protein)
         messages.success(request, "Meal created successfully!")
         return HttpResponseRedirect(reverse("meals_and_bmis"))
     else:
-        return render(request, "app/meals_and_bmis.html")
+        return render(request, "applications/meals_and_bmis.html")
 
 @login_required(redirect_field_name="sign_in/")
 def meal_edit(request, id):
     if request.method == "POST":
-        meal = Food.objects.get(pk=id)
-        if meal.customer == request.user:
+        meal = Food.objects.get(pk=id) or None
+
+        if meal.user == request.user:
             name = request.POST.get("name")
             calories = request.POST.get("calories")
             fat = request.POST.get("fat")
@@ -589,13 +588,14 @@ def meal_edit(request, id):
             messages.error(request, "No such rights!")
             return HttpResponseRedirect(reverse("meals_and_bmis"))
     else:
-        return render(request, "app/meals_and_bmis.html")
+        return render(request, "applications/meals_and_bmis.html")
 
 @login_required(redirect_field_name="sign_in/")
 def meal_delete(request, id):
     if request.method == "POST":
-        meal = Food.objects.get(pk=id)
-        if meal.customer == request.user:
+        meal = Food.objects.get(pk=id) or None
+
+        if meal.user == request.user:
             meal.delete()
             messages.success(request, "Meal deleted successfully!")
             return HttpResponseRedirect(reverse("meals_and_bmis"))
@@ -603,26 +603,28 @@ def meal_delete(request, id):
             messages.error(request, "No such rights!")
             return HttpResponseRedirect(reverse("meals_and_bmis"))
     else:
-        return render(request, "app/meals_and_bmis.html")
+        return render(request, "applications/meals_and_bmis.html")
 
 
 @login_required(redirect_field_name="sign_in/")
 def bmi_create(request):
     if request.method == "POST":
-        user = Customer.objects.get(pk=request.user.pk)
+        user = User.objects.get(pk=request.user.pk) or None
+
         height = request.POST.get("height")
         weight = request.POST.get("weight")
-        bmi = BMICalculator.objects.create(customer=user, height=Decimal(height), weight=Decimal(weight))
+        bmi = BMICalculator.objects.create(user=user, height=Decimal(height), weight=Decimal(weight))
         messages.success(request, "BMI created successfully!")
         return HttpResponseRedirect(reverse("meals_and_bmis"))
     else:
-        return render(request, "app/meals_and_bmis.html")
+        return render(request, "applications/meals_and_bmis.html")
 
 @login_required(redirect_field_name="sign_in/")
 def bmi_edit(request, id):
     if request.method == "POST":
-        bmi = BMICalculator.objects.get(pk=id)
-        if bmi.customer == request.user:
+        bmi = BMICalculator.objects.get(pk=id) or None
+
+        if bmi.user == request.user:
             height = request.POST.get("height")
             weight = request.POST.get("weight")
 
@@ -637,13 +639,14 @@ def bmi_edit(request, id):
             messages.error(request, "No such rights!")
             return HttpResponseRedirect(reverse("meals_and_bmis"))
     else:
-        return render(request, "app/meals_and_bmis.html")
+        return render(request, "applications/meals_and_bmis.html")
 
 @login_required(redirect_field_name="sign_in/")
 def bmi_delete(request, id):
     if request.method == "POST":
-        bmi = BMICalculator.objects.get(pk=id)
-        if bmi.customer == request.user:
+        bmi = BMICalculator.objects.get(pk=id) or None
+
+        if bmi.user == request.user:
             bmi.delete()
             messages.success(request, "BMI deleted successfully!")
             return HttpResponseRedirect(reverse("meals_and_bmis"))
@@ -651,4 +654,4 @@ def bmi_delete(request, id):
             messages.error(request, "No such rights!")
             return HttpResponseRedirect(reverse("meals_and_bmis"))
     else:
-        return render(request, "app/meals_and_bmis.html")
+        return render(request, "applications/meals_and_bmis.html")

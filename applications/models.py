@@ -7,7 +7,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator
 
 
-class Customer(AbstractUser):
+class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     profile_picture = models.ImageField(default="default_profile_picture.png")
     city = models.CharField(max_length=100, null=True, blank=True)
@@ -31,21 +31,25 @@ class Customer(AbstractUser):
             return ""
 
 
-class Like(models.Model):
+class ProfileLike(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    customer = models.ForeignKey(Customer, related_name='follows', on_delete=models.CASCADE)
-    profile = models.ForeignKey(Customer, related_name='been_followed', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='user_likes', on_delete=models.CASCADE)
+    profile = models.ForeignKey(User, related_name='profile_liked', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, editable=False)
 
 
-class Follower(models.Model):
+class ProfileFollower(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    customer = models.ForeignKey(Customer, related_name='likes', on_delete=models.CASCADE)
-    profile = models.ForeignKey(Customer, related_name='been_liked', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='user_following', on_delete=models.CASCADE)
+    profile = models.ForeignKey(User, related_name='profile_followed', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, editable=False)
 
 
 class Workout(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, null=False, blank=False)
     workout_image = models.ImageField(default="default_workout_image.png")
     video_url = models.CharField(max_length=200, default="https://www.youtube.com/embed/oAPCPjnU1wA")
@@ -73,8 +77,8 @@ class Workout(models.Model):
 
 
 class Task(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=100, null=False, blank=False)
     description = models.TextField(default="No description yet...")
     completed = models.BooleanField(default=False)
@@ -86,8 +90,8 @@ class Task(models.Model):
 
 
 class BMICalculator(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     height = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))], null=False, blank=False)
     weight = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))], null=False, blank=False)
     result = models.DecimalField(max_digits=10, decimal_places=2, editable=False, validators=[MinValueValidator(Decimal('0.00'))])
@@ -103,8 +107,8 @@ class BMICalculator(models.Model):
 
 
 class Food(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=False, blank=False)
     calories = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))], null=False, blank=False)
     fat = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(Decimal('0.00'))], null=False, blank=False)

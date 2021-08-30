@@ -1,7 +1,7 @@
-{% extends "app/layout.html" %}
+{% extends "applications/layout.html" %}
 
 {% block body %}
-  <div class="container">
+  <div class="container mt-3">
     <div class="main-body">
       <div class="row gutters-sm">
         <div class="col-md-4 mb-3">
@@ -20,8 +20,6 @@
                   <h5>
                     {% if user.is_superuser %}
                       <span class="badge rounded-pill badge-warning">Administrator</span>
-                    {% else %}
-                      <span class="badge rounded-pill badge-primary">Customer</span>
                     {% endif %}
                   </h5>
                   <p class="text-center">
@@ -29,7 +27,11 @@
                       <div class="col">
                         <div class="row">
                           <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Likes">
-                            {{ likes.count }} <i class="fa fa-heart text-danger" aria-hidden="true"></i>
+                            {% if not likes %}
+                              0 <i class="fa fa-heart text-danger" aria-hidden="true"></i>
+                            {% else %}
+                              {{ likes.count }} <i class="fa fa-heart text-danger" aria-hidden="true"></i>
+                            {% endif %}
                           </span>
                         </div>
                         <div class="row">
@@ -44,7 +46,7 @@
                               <div class="modal-body">
                                 {% for like in likes %}
                                   <div class="row">
-                                    <a href="{% url 'profile' username=like.profile.username %}"><h5 class=" text-center">{{ like.profile }}</h5></a>
+                                    <a href="{% url 'profile' username=like.profile.username %}"><h5 class=" text-center">{{ like.profile }} {% if like.profile == request.user %}(me){% endif %}</h5></a>
                                   </div>
                                 {% empty %}
                                   No likes yet...
@@ -60,7 +62,11 @@
                       <div class="col">
                         <div class="row">
                           <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Likes">
-                            {{ followers.count }} <i class="fa fa-users text-primary" aria-hidden="true"></i>
+                            {% if not followers %}
+                              0 <i class="fa fa-users text-primary" aria-hidden="true"></i>
+                            {% else %}
+                              {{ followers.count }} <i class="fa fa-users text-primary" aria-hidden="true"></i>
+                            {% endif %}
                           </span>
                         </div>
                         <div class="row">
@@ -75,10 +81,45 @@
                               <div class="modal-body">
                                 {% for follower in followers %}
                                   <div class="row">
-                                    <a href="{% url 'profile' username=follower.profile.username %}"><h5 class=" text-center">{{ follower.profile }}</h5></a>
+                                    <a href="{% url 'profile' username=follower.profile.username %}"><h5 class=" text-center">{{ follower.profile }} {% if follower.profile == request.user %}(me){% endif %}</h5></a>
                                   </div>
                                 {% empty %}
                                   No followers yet...
+                                {% endfor %}
+                              </div>
+                              <div class="modal-footer">
+                                <input class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col">
+                        <div class="row">
+                          <span data-bs-toggle="tooltip" data-bs-placement="bottom" title="Likes">
+                            {% if not followings %}
+                              0 <i class="fa fa-user-circle text-primary" aria-hidden="true"></i>
+                            {% else %}
+                              {{ followings.count }} <i class="fa fa-user-circle text-primary" aria-hidden="true"></i>
+                            {% endif %}
+                          </span>
+                        </div>
+                        <div class="row">
+                          <span><a href="" data-toggle="modal" data-target="#followingsModal">Following</a></span>
+                        </div>
+                        <div class="modal fade" id="followingsModal">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h2>People this user follows</h2>
+                              </div>
+                              <div class="modal-body">
+                                {% for following in followings %}
+                                  <div class="row">
+                                    <a href="{% url 'profile' username=following.user.username %}"><h5 class=" text-center">{{ following.user }} {% if following.user == request.user %}(me){% endif %}</h5></a>
+                                  </div>
+                                {% empty %}
+                                  No followings yet...
                                 {% endfor %}
                               </div>
                               <div class="modal-footer">
@@ -99,7 +140,7 @@
                     </a>
                   {% else %}
                     {% if like %}
-                      <a class="btn btn-warning" href="{% url 'dislike_profile' username=user.username %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Dislike" style="width: 120px; margin: 5px;">
+                      <a class="btn btn-danger" href="{% url 'dislike_profile' username=user.username %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Dislike" style="width: 120px; margin: 5px;">
                         <i class="fa fa-heart-o" aria-hidden="true"></i> Dislike
                       </a>
                     {% else %}
@@ -113,7 +154,7 @@
                         <i class="fa fa-user-times" aria-hidden="true"></i> Unfollow
                       </a>
                     {% else %}
-                      <a class="btn btn-info" href="{% url 'follow_profile' username=user.username %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Like" style="width: 120px; margin: 5px;">
+                      <a class="btn btn-primary" href="{% url 'follow_profile' username=user.username %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Like" style="width: 120px; margin: 5px;">
                         <i class="fa fa-user-plus" aria-hidden="true"></i> Follow
                       </a>
                     {% endif %}
@@ -130,7 +171,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-sm-5">
-                  <h6 class="mb-0"><i class="fa fa-id-card" aria-hidden="true"></i> Full Name</h6>
+                  <h6 class="mb-0 text-primary"><i class="fa fa-id-card text-primary" aria-hidden="true"></i> Full Name</h6>
                 </div>
                 <div class="col-sm-7 text-secondary">
                   {% if user.first_name and user.last_name %}
@@ -143,7 +184,7 @@
               <hr>
               <div class="row">
                 <div class="col-sm-5">
-                  <h6 class="mb-0"><i class="fa fa-user-circle" aria-hidden="true"></i> Username</h6>
+                  <h6 class="mb-0 text-primary"><i class="fa fa-user-circle text-primary" aria-hidden="true"></i> Username</h6>
                 </div>
                 <div class="col-sm-7 text-secondary">
                   {% if user.username %}
@@ -156,7 +197,7 @@
               <hr>
               <div class="row">
                 <div class="col-sm-5">
-                  <h6 class="mb-0"><i class="fa fa-envelope" aria-hidden="true"></i> Email</h6>
+                  <h6 class="mb-0 text-primary"><i class="fa fa-envelope text-primary" aria-hidden="true"></i> Email</h6>
                 </div>
                 <div class="col-sm-7 text-secondary">
                   {% if user.email %}
@@ -169,7 +210,7 @@
               <hr>
               <div class="row">
                 <div class="col-sm-5">
-                  <h6 class="mb-0"><i class="fa fa-map-marker" aria-hidden="true"></i> Address</h6>
+                  <h6 class="mb-0 text-primary"><i class="fa fa-map-marker text-primary" aria-hidden="true"></i> Address</h6>
                 </div>
                 <div class="col-sm-7 text-secondary">
                   {% if user.city and user.state and user.country %}
@@ -182,7 +223,7 @@
               <hr>
               <div class="row">
                 <div class="col-sm-5">
-                  <h6 class="mb-0"><i class="fa fa-phone" aria-hidden="true"></i> Phone</h6>
+                  <h6 class="mb-0 text-primary"><i class="fa fa-phone text-primary" aria-hidden="true"></i> Phone</h6>
                 </div>
                 <div class="col-sm-7 text-secondary">
                   {% if user.phone_number %}
@@ -195,7 +236,7 @@
               <hr>
               <div class="row">
                 <div class="col-sm-5">
-                  <h6 class="mb-0"><i class="fa fa-briefcase" aria-hidden="true"></i> Job</h6>
+                  <h6 class="mb-0 text-primary"><i class="fa fa-briefcase text-primary" aria-hidden="true"></i> Job</h6>
                 </div>
                 <div class="col-sm-7 text-secondary">
                   {% if user.job %}
@@ -208,7 +249,7 @@
               <hr>
               <div class="row">
                 <div class="col-sm-5">
-                  <h6 class="mb-0"><h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook mr-2 icon-inline text-primary"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg><a {% if user.facebook %}href="https://www.facebook.com/{{ user.facebook }}" target="_blank" {% endif %}>Facebook</a></h6></h6>
+                  <h6 class="mb-0 text-primary"><i class="fa fa-facebook text-primary" aria-hidden="true"></i> <a {% if user.facebook %}href="https://www.facebook.com/{{ user.facebook }}" target="_blank" {% endif %}>Facebook</a></h6>
                 </div>
                 <div class="col-sm-7 text-secondary">
                   {% if user.facebook %}
@@ -221,7 +262,7 @@
               <hr>
               <div class="row">
                 <div class="col-sm-5">
-                  <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram mr-2 icon-inline text-danger"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg><a {% if user.instagram %}href="https://www.instagram.com/{{ user.instagram }}" target="_blank" {% endif %}>Instagram</a></h6>
+                  <h6 class="mb-0 text-primary"><i class="fa fa-instagram text-danger" aria-hidden="true"></i> <a {% if user.instagram %}href="https://www.instagram.com/{{ user.instagram }}" target="_blank" {% endif %}>Instagram</a></h6>
                 </div>
                 <div class="col-sm-7 text-secondary">
                   {% if user.instagram %}
@@ -234,7 +275,7 @@
               <hr>
               <div class="row">
                 <div class="col-sm-5">
-                  <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter mr-2 icon-inline text-info"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg><a {% if user.twitter %}href="https://www.twitter.com/{{ user.twitter }}" target="_blank" {% endif %}>Twitter</a></h6>
+                  <h6 class="mb-0 text-primary"><i class="fa fa-twitter text-info" aria-hidden="true"></i> <a {% if user.twitter %}href="https://www.twitter.com/{{ user.twitter }}" target="_blank" {% endif %}>Twitter</a></h6>
                 </div>
                 <div class="col-sm-7 text-secondary">
                   {% if user.twitter %}

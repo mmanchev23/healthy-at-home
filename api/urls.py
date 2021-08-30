@@ -1,17 +1,16 @@
-from django.contrib import admin
-from django.urls import path, include
-from rest_framework import routers
 from . import views
-from django.conf.urls.static import static
 from django.conf import settings
-from rest_framework.documentation import include_docs_urls
-from rest_framework.schemas import get_schema_view
-from rest_framework.response import Response
-from rest_framework.reverse import reverse
-from rest_framework.views import exception_handler
-from rest_framework.exceptions import NotAuthenticated
-from rest_framework.response import Response
+from django.contrib import admin
 from django.conf.urls import url
+from rest_framework import routers
+from django.urls import path, include
+from rest_framework.reverse import reverse
+from django.conf.urls.static import static
+from rest_framework.response import Response
+from rest_framework.views import exception_handler
+from rest_framework.schemas import get_schema_view
+from rest_framework.exceptions import NotAuthenticated
+from rest_framework.documentation import include_docs_urls
 from django.contrib.sites.shortcuts import get_current_site
 
 def custom_exception_handler(exc, context):
@@ -35,11 +34,13 @@ class APIRoot(routers.APIRootView):
             return Response({
                 f"Logged in as {request.user.username}": {
                     "home page": f"{request.scheme}://{request.get_host()}/",
-                    f"{request.user.username}": f"{request.build_absolute_uri()}credentials/",
-                    "food": f"{request.build_absolute_uri()}food/",
+                    f"{request.user.username}": f"{request.build_absolute_uri()}user/",
+                    "likes": f"{request.build_absolute_uri()}likes/",
+                    "followers": f"{request.build_absolute_uri()}followers/",
                     "workouts": f"{request.build_absolute_uri()}workouts/",
                     "tasks": f"{request.build_absolute_uri()}tasks/",
                     "bmi": f"{request.build_absolute_uri()}bmi/",
+                    "food": f"{request.build_absolute_uri()}food/",
                     "documentation": f"{request.build_absolute_uri()}docs/",
                     "schema": f"{request.build_absolute_uri()}schema/",
                     "logout": f"{request.build_absolute_uri()}auth/logout/",
@@ -56,11 +57,13 @@ API_DESCRIPTION = 'API for Healthy at Home!'
 schema_view = get_schema_view(title=API_TITLE)
 
 router = Healthy_at_Home_Router()
-router.register(r'credentials', views.CustomerView, 'customer')
-router.register(r'food', views.FoodView, 'food')
+router.register(r'user', views.UserView, 'user')
+router.register(r'likes', views.ProfileLikeView, 'likes')
+router.register(r'followers', views.ProfileFollowerView, 'followers')
 router.register(r'workouts', views.WorkoutView, 'workout')
 router.register(r'tasks', views.TaskView, 'task')
 router.register(r'bmi', views.BMICalculatorView, 'bmi')
+router.register(r'food', views.FoodView, 'food')
 
 urlpatterns = [
     path('', include(router.urls)),

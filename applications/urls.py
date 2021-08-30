@@ -47,24 +47,24 @@ urlpatterns = [
     # Tasks routing
     path("tasks/", tasks, name="tasks"),
     path("task/create/", task_create, name="task_create"),
-    path("task/<id>/edit/", task_edit, name="task_edit"),
-    path("task/<id>/delete/", task_delete, name="task_delete"),
+    path("task/<uuid:id>/edit/", task_edit, name="task_edit"),
+    path("task/<uuid:id>/delete/", task_delete, name="task_delete"),
 
     # Workouts routing
     path("workouts/", workouts, name="workouts"),
     path("workout/create/", workout_create, name="workout_create"),
-    path("workout/<id>/", workout, name="workout"),
-    path("workout/<id>/edit/", workout_edit, name="workout_edit"),
-    path("workout/<id>/delete/", workout_delete, name="workout_delete"),
+    path("workout/<uuid:id>/", workout, name="workout"),
+    path("workout/<uuid:id>/edit/", workout_edit, name="workout_edit"),
+    path("workout/<uuid:id>/delete/", workout_delete, name="workout_delete"),
 
     # Meals routing
     path("meals-and-bmis/", meals_and_bmis, name="meals_and_bmis"),
     path("meal/create/", meal_create, name="meal_create"),
-    path("meal/<id>/edit/", meal_edit, name="meal_edit"),
-    path("meal/<id>/delete/", meal_delete, name="meal_delete"),
+    path("meal/<uuid:id>/edit/", meal_edit, name="meal_edit"),
+    path("meal/<uuid:id>/delete/", meal_delete, name="meal_delete"),
     path("bmi/create/", bmi_create, name="bmi_create"),
-    path("bmi/<id>/edit/", bmi_edit, name="bmi_edit"),
-    path("bmi/<id>/delete/", bmi_delete, name="bmi_delete"),
+    path("bmi/<uuid:id>/edit/", bmi_edit, name="bmi_edit"),
+    path("bmi/<uuid:id>/delete/", bmi_delete, name="bmi_delete"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

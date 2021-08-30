@@ -1,6 +1,6 @@
 import os
-from pathlib import Path
 import django_on_heroku
+from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -10,7 +10,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'healthy-at-home-django.herokuapp.com']
 
-AUTH_USER_MODEL = 'app.Customer'
+AUTH_USER_MODEL = 'applications.User'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -20,25 +20,31 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Django-Allauth
     'django.contrib.sites',
 
-    # Locals
-    'app',
+    # Local applications
+    'applications',
     'api',
 
-    # Third-party libraries
+    # Django-SSL-Server
     'sslserver',
 
+    # Social-Django
     'social_django',
 
+    # Django-CORS-Headers
     'corsheaders',
 
+    # Django-REST-Framework
     'rest_framework',
     'rest_framework.authtoken',
 
+    # Django-REST-Auth
     'rest_auth', 
     'rest_auth.registration',
 
+    # Django-Allauth
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -48,8 +54,10 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
 
+    # CORS Middleware
     'corsheaders.middleware.CorsMiddleware',
 
+    # Social-Django Middleware
     'social_django.middleware.SocialAuthExceptionMiddleware',
 
     'django.middleware.common.CommonMiddleware',
@@ -102,18 +110,11 @@ LOGIN_REDIRECT_URL = 'index'
 LOGOUT_URL = 'sign_out'
 LOGOUT_REDIRECT_URL = 'sign_in'
 
-
 SOCIAL_AUTH_FACEBOOK_KEY = "2953203704901659"
 SOCIAL_AUTH_FACEBOOK_SECRET = "56439a1f4e2116d94eaa4b39e2e4cd89"
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "668234914218-3q6ijd77l5ptajudm496nalk9r3ktkla.apps.googleusercontent.com"
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "OV1d_lahKmZ7qSkqedXkLDqb"
-SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
-    ('name', 'name'),
-    ('email', 'email'),
-    ('picture', 'picture'),
-    ('link', 'profile_url'),
-]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -127,9 +128,9 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'api.urls.custom_exception_handler'
 }
 
-ROOT_URLCONF = 'project.urls'
+ROOT_URLCONF = 'healthy-at-home.urls'
 
-WSGI_APPLICATION = 'project.wsgi.application'
+WSGI_APPLICATION = 'healthy-at-home.wsgi.application'
 
 DATABASES = {
     'default': {
