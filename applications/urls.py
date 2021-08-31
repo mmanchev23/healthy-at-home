@@ -67,4 +67,5 @@ urlpatterns = [
     path("bmi/<uuid:id>/delete/", bmi_delete, name="bmi_delete"),
 ]
 
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
