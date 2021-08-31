@@ -56,6 +56,8 @@ urlpatterns = [
     path("workout/<uuid:id>/", workout, name="workout"),
     path("workout/<uuid:id>/edit/", workout_edit, name="workout_edit"),
     path("workout/<uuid:id>/delete/", workout_delete, name="workout_delete"),
+    path("workout/<uuid:id>/like/", like_workout, name="like_workout"),
+    path("workout/<uuid:id>/dislike/", dislike_workout, name="dislike_workout"),
 
     # Meals routing
     path("meals-and-bmis/", meals_and_bmis, name="meals_and_bmis"),

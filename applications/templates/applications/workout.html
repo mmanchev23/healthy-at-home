@@ -8,33 +8,85 @@
             <div class="card">
                 <div class="card-body">
                     <div class="row p-1">
-                        <iframe src="{{ workout.video_url }}" frameborder="0" width="100%" height="100%"></iframe>
+                        <iframe src="{{ workout.video_url }}" frameborder="0" width="100%"></iframe>
                     </div>
-                    <div class="row text-center p-1">
-                        <h1>{{ workout.title }}</h1>
-                        <h2>Creator: <a href="{% url 'profile' username=workout.user.username %}">{{ workout.user }}</a></h2>
-                    </div>
-                    <div class="row text-center p-1">
-                        {% if workout.exercises %}
-                            <h3>{{ workout.exercises }}</h3>
-                        {% endif %}
-                    </div>
+                    <hr>
                     <div class="row text-center p-1">
                         <div class="col">
-                            <a class="btn btn-primary" href="{% url 'workouts' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page">
-                                <i class="fa fa-chevron-left" aria-hidden="true"></i>
-                            </a>
+                            <h1>{{ workout.title }}</h1>
+                            <h2>Creator: <a href="{% url 'profile' username=workout.user.username %}">{{ workout.user }}</a></h2>
+                            {% if likes %}
+                                <h3>
+                                    {{ likes.count }} <i class="fa fa-heart text-danger" aria-hidden="true"></i>
+                                    <br>
+                                    <a href="" data-toggle="modal" data-target="#likesModal">Likes</a>
+                                </h3>
+                            {% else %}
+                                <h3>
+                                    0 <i class="fa fa-heart text-danger" aria-hidden="true"></i>
+                                    <br>
+                                    <a href="" data-toggle="modal" data-target="#likesModal">Likes</a>
+                                </h3>
+                            {% endif %}
+                            <div class="modal fade" id="likesModal">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h2>People liked this workout</h2>
+                                    </div>
+                                    <div class="modal-body">
+                                      {% for like in likes %}
+                                        <div class="row">
+                                          <a href="{% url 'profile' username=like.user.username %}"><h5 class=" text-center">{{ like.user }} {% if like.user == request.user %}(me){% endif %}</h5></a>
+                                        </div>
+                                      {% empty %}
+                                        No likes yet...
+                                      {% endfor %}
+                                    </div>
+                                    <div class="modal-footer">
+                                      <input class="btn btn-primary" type="submit" data-dismiss="modal" value="Close" style="width: 100px;">
+                                  </div>
+                                  </div>
+                                </div>
+                            </div>
                         </div>
+                        <div class="col">
+                            <h3>{{ workout.exercises }}</h3>
+                        </div>
+                    </div>
+                    <div class="row">
                         {% if workout.user == request.user %}
-                            <div class="col">
-                                <button class="btn btn-success" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" data-toggle="modal" data-target="#editWorkoutModal">
-                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                            <div class="col text-center">
+                                <a class="btn btn-primary" href="{% url 'workouts' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" style="width: 120px; margin: 5px;">
+                                    <i class="fa fa-chevron-left" aria-hidden="true"></i> Back
+                                </a>
+                            </div>
+                            <div class="col text-center">
+                                <button class="btn btn-success" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit Workout" data-toggle="modal" data-target="#editWorkoutModal" style="width: 120px; margin: 5px;">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i> Edit
                                 </button>
                             </div>
-                            <div class="col">
-                                <button class="btn btn-danger" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" data-toggle="modal" data-target="#deleteWorkoutModal">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                            <div class="col text-center">
+                                <button class="btn btn-danger" href="" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete Workout" data-toggle="modal" data-target="#deleteWorkoutModal" style="width: 120px; margin: 5px;">
+                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete
                                 </button>
+                            </div>
+                        {% else %}
+                            <div class="col text-center">
+                                <a class="btn btn-primary" href="{% url 'workouts' %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Back to Home Page" style="width: 120px; margin: 5px;">
+                                    <i class="fa fa-chevron-left" aria-hidden="true"></i> Back
+                                </a>
+                            </div>
+                            <div class="col text-center">
+                                {% if not like %}
+                                    <a class="btn btn-danger" href="{% url 'like_workout' id=workout.id %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Like" style="width: 120px; margin: 5px;">
+                                        <i class="fa fa-heart" aria-hidden="true"></i> Like
+                                    </a>
+                                {% else %}
+                                    <a class="btn btn-danger" href="{% url 'dislike_workout' id=workout.id %}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Dislike" style="width: 120px; margin: 5px;">
+                                        <i class="fa fa-heart-o" aria-hidden="true"></i> Dislike
+                                    </a>
+                                {% endif %}
                             </div>
                         {% endif %}
                     </div>

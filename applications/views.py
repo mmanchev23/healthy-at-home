@@ -79,7 +79,7 @@ def sign_up_submit(request):
             user = User.objects.create_user(username, email, password)
             user.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            messages.success(request, "You have registered successfully!")
+            messages.success(request, "You have signed up successfully!")
             return HttpResponseRedirect(reverse("index"))
         except IntegrityError:
             messages.error(request, "Username already taken.")
@@ -99,7 +99,7 @@ def sign_in_submit(request):
             user = authenticate(username=username, password=password)
             login(request, user)
 
-            messages.success(request, "You have logged in successfully!")
+            messages.success(request, "You have signed in successfully!")
             return HttpResponseRedirect(reverse("index"))
         except:
             messages.error(request, "Invalid username and/or password.")
@@ -110,7 +110,7 @@ def sign_in_submit(request):
 @login_required(redirect_field_name="sign_in/")
 def sign_out(request):
     logout(request)
-    messages.success(request, "You have logged out successfully!")
+    messages.success(request, "You have signed out successfully!")
     return HttpResponseRedirect(reverse("index"))
 
 @login_required(redirect_field_name="sign_in/")
@@ -441,10 +441,15 @@ def workout_create(request):
 
 @login_required(redirect_field_name="sign_in/")
 def workout(request, id):
+    user = User.objects.get(pk=request.user.pk) or None
     workout = Workout.objects.get(pk=id) or None
+    likes = WorkoutLike.objects.filter(workout=workout) or None
+    like = WorkoutLike.objects.filter(user=user, workout=workout) or None
 
     context = {
         "workout": workout,
+        "likes": likes,
+        "like": like,
     }
 
     return render(request, "applications/workout.html", context)
@@ -501,6 +506,23 @@ def workout_delete(request, id):
             return HttpResponseRedirect(reverse("workouts"))
     else:
         return render(request, "applications/workouts.html")
+
+@login_required(redirect_field_name="sign_in/")
+def like_workout(request, id):
+    user = User.objects.get(pk=request.user.pk) or None
+    workout = Workout.objects.get(id=id) or None
+    like = WorkoutLike.objects.create(user=user, workout=workout)
+    messages.success(request, f"You liked {workout.title}!")
+    return HttpResponseRedirect(reverse("workout", kwargs={ "id": workout.id }))
+
+@login_required(redirect_field_name="sign_in/")
+def dislike_workout(request, id):
+    user = User.objects.get(pk=request.user.pk) or None
+    workout = Workout.objects.get(id=id) or None
+    like = WorkoutLike.objects.get(user=user, workout=workout)
+    like.delete()
+    messages.success(request, f"You disliked {workout.title}!")
+    return HttpResponseRedirect(reverse("workout", kwargs={ "id": workout.id }))
 
 @login_required(redirect_field_name="sign_in/")
 def meals_and_bmis(request):

@@ -13,6 +13,9 @@ class ProfileFollowerAdmin(admin.ModelAdmin):
 class WorkoutAdmin(admin.ModelAdmin):
     list_display = ("title", "user")
 
+class WorkoutLikeAdmin(admin.ModelAdmin):
+    list_display = ("user", "workout")
+
 class TaskAdmin(admin.ModelAdmin):
     list_display = ("title", "user")
 
@@ -26,6 +29,7 @@ admin.site.register(User)
 admin.site.register(ProfileLike, ProfileLikeAdmin)
 admin.site.register(ProfileFollower, ProfileFollowerAdmin)
 admin.site.register(Workout, WorkoutAdmin)
+admin.site.register(WorkoutLike, WorkoutLikeAdmin)
 admin.site.register(Task, TaskAdmin)
 admin.site.register(BMICalculator, BMICalculatorAdmin)
 admin.site.register(Food, FoodAdmin)
