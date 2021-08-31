@@ -8,7 +8,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
-      <div class="collapse navbar-collapse m-2" id="navbarNavDropdown">
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
         {% if user.is_authenticated %}
           <ul class="navbar-nav">
             <li class="nav-item dropdown">
@@ -53,10 +53,10 @@
             </li>
           </ul>
         {% endif %}
-        <form class="d-flex ml-auto">
+        <!-- <form class="d-flex ml-auto">
           <input class="form-control me-2" type="search" placeholder="Not working..." aria-label="Search">
           <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        </form> -->
       </div>
     </div>
 </nav>
