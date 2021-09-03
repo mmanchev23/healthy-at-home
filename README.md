@@ -8,7 +8,7 @@
 ### **Technologies**
 <ul>
     <li>
-        Frontend - HTML 5, CSS 3, Bootstrap, Javascript, React, React Router, Redux, NPM, Babel and Node.js
+        Frontend - HTML 5, CSS 3, Bootstrap, Javascript
         <br>
         <img alt="HTML5" src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white"/>
         <img alt="CSS3" src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white"/>
