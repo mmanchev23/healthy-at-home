@@ -1,0 +1,35 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    min-height: 100%;
+}
+
+body {
+    background: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url("../images/homepage.84f6bf083840.jpg") fixed;
+    background-repeat: no-repeat;
+    background-size: cover;  
+}
+
+#profile-picture {
+    width: 25px;
+    height: auto;
+    border-radius: 50%;
+}
+
+#logo {
+    font-family: URW Chancery L, cursive;
+    padding: 3px; 
+    font-size: x-large;
+}
+
+#navbarDropdownMenuLink {
+    font-size: large;
+}
+
+.dropdown-item {
+    font-size: large;
+}
