@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "078cf6e47634903d7bcfc372e8b0ce265cab73a5d7c4ffdab059206efbca85e8"
+            "sha256": "c30c01e39dec19078e9eb4e18220a505e6b7644a83d0823ca5cdf2b0c9511678"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -471,11 +471,11 @@
         },
         "sqlparse": {
             "hashes": [
-                "sha256:017cde379adbd6a1f15a61873f43e8274179378e95ef3fede90b5aa64d304ed0",
-                "sha256:0f91fd2e829c44362cbcfab3e9ae12e22badaa8a29ad5ff599f9ec109f0454e8"
+                "sha256:0c00730c74263a94e5a9919ade150dfc3b19c574389985446148402998287dae",
+                "sha256:48719e356bb8b42991bdbb1e8b83223757b93789c00910a616a071910ca4a64d"
             ],
             "index": "pypi",
-            "version": "==0.4.1"
+            "version": "==0.4.2"
         },
         "uritemplate": {
             "hashes": [
