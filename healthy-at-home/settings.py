@@ -8,7 +8,7 @@ SECRET_KEY = 'django-insecure-nn24$&0v-08i++cu7(i_fzro&*vel^5zp(5vyfc!z6)oqn6srj
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'healthy-at-home-django.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'healthy-at-home-project.herokuapp.com']
 
 AUTH_USER_MODEL = 'applications.User'
 
