@@ -20,7 +20,7 @@ django-cors-headers==3.8.0
 django-on-heroku==1.1.2
 django-rest-auth==0.9.5
 django-sslserver==0.22
-django==4.1.9
+django==4.1.10
 djangorestframework==3.12.4
 gunicorn==20.1.0
 idna==3.2
