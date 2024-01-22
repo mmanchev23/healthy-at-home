@@ -28,7 +28,7 @@ itypes==1.2.0
 jinja2==3.0.1
 markupsafe==2.0.1
 oauthlib==3.2.2
-pillow==10.0.1
+pillow==10.2.0
 psycopg2-binary==2.9.1
 pycparser==2.20
 pyjwt[crypto]==2.1.0
