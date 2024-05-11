@@ -1,0 +1,36 @@
+name: Server CI
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    name: Test Server Application
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [ 3.12.3 ]
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          cache: "pip"
+          python-version: "3.12"
+      
+      - name: Install dependencies
+        run: |
+          cd server/
+          pip install -r requirements.txt
+
+      - name: Run Tests
+        env: 
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: |
+          cd server/
+          python manage.py test

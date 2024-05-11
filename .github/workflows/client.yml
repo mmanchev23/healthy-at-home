@@ -1,0 +1,52 @@
+name: Client CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    name: Test Client Application
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        node-version: [ 20.12.2 ]
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20.12.2"
+
+      - name: Navigate to directory and install pnpm
+        run: |
+          cd client/
+          npm install -g npm@latest pnpm@latest
+
+      - id: cache-pnpm
+        uses: actions/cache@v2
+        with:
+          path: client/node_modules
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('client/**/pnpm-lock.yaml') }}
+
+      - name: Install dependencies
+        if: steps.cache-pnpm.outputs.cache-hit != 'true'
+        run: |
+          cd client/
+          pnpm install
+
+      - name: Lint Project
+        run: |
+          cd client/
+          pnpm run lint
+
+      - name: Build Project
+        run: |
+          cd client/
+          pnpm run build
